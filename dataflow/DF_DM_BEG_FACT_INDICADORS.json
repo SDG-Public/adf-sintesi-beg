@@ -1,0 +1,28 @@
+{
+	"name": "DF_DM_BEG_FACT_INDICADORS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactIndicadors"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactIndicadors"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tVALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tPERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactIndicadors\nODSFactIndicadors sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as double,\n\t\tDATA_PERIODE as date,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactIndicadors"
+		}
+	}
+}

@@ -1,0 +1,53 @@
+{
+	"name": "STG_BEG_FACT_TRANSACCIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Grup estadístic",
+				"type": "nvarchar"
+			},
+			{
+				"name": "préstecs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "retorns",
+				"type": "nvarchar"
+			},
+			{
+				"name": "renovacions",
+				"type": "nvarchar"
+			},
+			{
+				"name": "reserves",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Hl/RECLL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TOTAL #",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERCENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_FACT_TRANSACCIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

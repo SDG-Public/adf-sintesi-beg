@@ -1,0 +1,28 @@
+{
+	"name": "DF_DM_BEG_DIM_AUTOPRESTECS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_DIM_AUTOPRESTECS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimAutoprestecs"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_AUTOPRESTECS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimAutoprestecs"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tDESC_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimAutoprestecs\nODSDimAutoprestecs sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimAutoprestecs"
+		}
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"name": "AzureBlobStorage1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "blob-beg-connection"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IntegrationRuntimeTimeToLive",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

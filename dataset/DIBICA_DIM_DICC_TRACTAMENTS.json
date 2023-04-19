@@ -1,0 +1,63 @@
+{
+	"name": "DIBICA_DIM_DICC_TRACTAMENTS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_DIBICA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DIBICA"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "id_tractament",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "desc_tractament",
+				"type": "varchar"
+			},
+			{
+				"name": "data_alta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_alta",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_modif",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_modif",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_baixa",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_baixa",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DICC_TRACTAMENTS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

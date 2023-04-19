@@ -1,0 +1,79 @@
+{
+	"name": "PL_BEG_FACT_DM",
+	"properties": {
+		"activities": [
+			{
+				"name": "DM_BEG_FACT_INDICADORS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_BEG_FACT_INDICADOR",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "UPDATE_ULTIM_MES_CARREGAT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DM_BEG_FACT_INDICADORS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[UPDATE_ULTIM_MES_CARREGAT]",
+					"storedProcedureParameters": {
+						"datacarrega": {
+							"value": {
+								"value": "@pipeline().parameters.Data_Carrega",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string",
+				"defaultValue": "202109"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX FITXERS/DM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

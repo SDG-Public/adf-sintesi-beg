@@ -1,0 +1,46 @@
+{
+	"name": "PL_TERRITORIAL_MENSUAL",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_BEG_TERRITORIAL_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TERRITORIAL_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_BEG_TERRITORIAL_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_TERRITORIAL_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TERRITORIAL_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "TERRITORIAL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

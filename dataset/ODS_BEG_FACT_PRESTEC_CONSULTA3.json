@@ -1,0 +1,34 @@
+{
+	"name": "ODS_BEG_FACT_PRESTEC_CONSULTA3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_biblioteca",
+				"type": "nvarchar"
+			},
+			{
+				"name": "codi_indicador",
+				"type": "nvarchar"
+			},
+			{
+				"name": "valor",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS",
+			"table": "ODS_BEG_FACT_PRESTEC_CONSULTA3"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

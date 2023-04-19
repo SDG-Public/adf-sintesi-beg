@@ -1,0 +1,210 @@
+{
+	"name": "DF_FACT_PRESTECS_ANUALS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_PRESTECS_ANUALS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSConsulta2"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "Bibliotecas"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DimIndicadors"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_FACT_PRESTECS_ANUALS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactPrestecsAnuals"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join"
+				},
+				{
+					"name": "Select"
+				},
+				{
+					"name": "NullsEnCero"
+				},
+				{
+					"name": "AlterRow1"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "FiltroPrestecAnual"
+				},
+				{
+					"name": "Datas"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     Data_Carrega as string",
+				"}",
+				"source(output(",
+				"          id_biblioteca as string,",
+				"          codi_indicador as string,",
+				"          valor as integer,",
+				"          data_periode as date,",
+				"          data_insercio as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSConsulta2",
+				"source(output(",
+				"          ID_BIBLIOTECA as integer,",
+				"          ID_AGENCY as string,",
+				"          ID_USUARI as integer,",
+				"          CODI_BIBLIOTECA as string,",
+				"          ID_TIPUS as integer,",
+				"          ID_MODUL as integer,",
+				"          CODI_NIDEN as string,",
+				"          ID_ESTAT as integer,",
+				"          DESC_BIBLIOTECA as string,",
+				"          DATA_ALTA_BIBLIO as timestamp,",
+				"          DATA_BAIXA_BIBLIO as timestamp,",
+				"          ID_TIPUS_VIA as integer,",
+				"          DESC_VIA as string,",
+				"          NUM_VIA as string,",
+				"          INE_MUNICIPI as string,",
+				"          ID_DISTRICTE as integer,",
+				"          CP as string,",
+				"          UTMX as double,",
+				"          UTMY as double,",
+				"          NUM_LONGITUD as double,",
+				"          NUM_LATITUD as double,",
+				"          NUM_TELEFON as string,",
+				"          NUM_EXTENSIO as string,",
+				"          NUM_FAX as string,",
+				"          DESC_EMAIL as string,",
+				"          DESC_WEB as string,",
+				"          FLAG_BEG as boolean,",
+				"          FLAG_SLPC as boolean,",
+				"          ID_MAPA as integer,",
+				"          ID_CATEGORIA as integer,",
+				"          ID_TITULARITAT as integer,",
+				"          ID_FORMA_ACCES as integer,",
+				"          ES_CATALEG_COLECTIU_CCLP as boolean,",
+				"          WEB_CATALEG_COLECTIU_CCLP as string,",
+				"          ES_CATALEG_COLECTIU_DIP_BCN as boolean,",
+				"          WEB_CATALEG_COLECTIU_DIP_BCN as string,",
+				"          ES_CATALEG_COLECTIU_CCUC as boolean,",
+				"          WEB_CATALEG_COLECTIU_CCUC as string,",
+				"          ES_CATALEG_COLECTIU_BEG as boolean,",
+				"          WEB_CATALEG_COLECTIU_BEG as string,",
+				"          ES_CATALEG_COLECTIU_ALTRES as boolean,",
+				"          WEB_CATALEG_COLECTIU_ALTRES as string,",
+				"          ID_DIRECTOR_TRACTAMENT as integer,",
+				"          DESC_DIRECTOR_NOMB as string,",
+				"          DESC_DIRECTOR_PRIMER_COGNOM as string,",
+				"          DESC_DIRECTOR_SEGON_COGNOM as string,",
+				"          FLAG_ADAPTADA as boolean,",
+				"          DESC_OBSERVACIONS as string,",
+				"          OBS_ITINERARIS as string,",
+				"          DATA_ALTA as timestamp,",
+				"          ID_USUARI_ALTA as integer,",
+				"          DATA_MODIF as timestamp,",
+				"          ID_USUARI_MODIF as integer,",
+				"          DATA_BAIXA as timestamp,",
+				"          ID_USUARI_BAIXA as integer,",
+				"          ID_ADSCRIPCIO as integer,",
+				"          ID_CATEGORIA_ESP as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Bibliotecas",
+				"source(output(",
+				"          ID_INDICADOR as string,",
+				"          CODI_INDICADOR as string,",
+				"          DESC_INDICADOR as string,",
+				"          DESC_COMO_CALCULAR as string,",
+				"          FLAG_FITXER as string,",
+				"          FLAG_PRESTECS as string,",
+				"          FLAG_DATAENTRY as string,",
+				"          FLAG_NO_PERIODICS as string,",
+				"          FILA_LEVEL_1 as string,",
+				"          FILA_LEVEL_2 as string,",
+				"          FILA_LEVEL_3 as string,",
+				"          FILA_LEVEL_4 as string,",
+				"          FILA_LEVEL_5 as string,",
+				"          COLUMNA_LEVEL_1 as string,",
+				"          COLUMNA_LEVEL_2 as string,",
+				"          ID_SECCIO as string,",
+				"          IND_ORDRE as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimIndicadors",
+				"ODSConsulta2, join1 join(ODSConsulta2@id_biblioteca == ID_AGENCY",
+				"     && ODSConsulta2@codi_indicador == DimIndicadors@CODI_INDICADOR,",
+				"     joinType:'right',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> Join",
+				"Join select(mapColumn(",
+				"          ID_AGENCY,",
+				"          CODI_BIBLIOTECA,",
+				"          CODI_INDICADOR = DimIndicadors@CODI_INDICADOR,",
+				"          IND_VALOR = valor,",
+				"          DATA_PERIODE = data_periode,",
+				"          DATA_INSERCIO = data_insercio",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Select",
+				"Datas derive(IND_VALOR = iifNull(IND_VALOR,0)) ~> NullsEnCero",
+				"NullsEnCero alterRow(upsertIf(true())) ~> AlterRow1",
+				"Bibliotecas, FiltroPrestecAnual join(FLAG_PRESTECS == '1' && CODI_BIBLIOTECA == CODI_BIBLIOTECA,",
+				"     joinType:'cross',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"DimIndicadors filter(in(['IND_7_21','IND_7_22','IND_7_23','IND_7_24','IND_7_25','IND_7_26'],CODI_INDICADOR)) ~> FiltroPrestecAnual",
+				"Select derive(DATA_PERIODE = toDate(concat(toString(toInteger(substring($Data_Carrega,0,4))-1),'12','01'),'yyyyMMdd'),",
+				"          DATA_INSERCIO = currentDate()) ~> Datas",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_AGENCY as string,",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as integer,",
+				"          DATA_PERIODE as date,",
+				"          DATA_INSERCIO as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['CODI_BIBLIOTECA','CODI_INDICADOR','DATA_PERIODE'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMFactPrestecsAnuals"
+			]
+		}
+	}
+}

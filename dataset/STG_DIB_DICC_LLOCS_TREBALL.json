@@ -1,0 +1,20 @@
+{
+	"name": "STG_DIB_DICC_LLOCS_TREBALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "DIB_STG",
+			"table": "STG_DIB_DIM_DICC_LLOCS_TREBALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

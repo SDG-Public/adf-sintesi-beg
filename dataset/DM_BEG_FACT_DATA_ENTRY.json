@@ -1,0 +1,849 @@
+{
+	"name": "DM_BEG_FACT_DATA_ENTRY",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			},
+			{
+				"name": "IND_1_4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_1111",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_1113",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_1122",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_113",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_114",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_115",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_121",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_122",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_123",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_2111",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_2113",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_2122",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_213",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_214",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_215",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_221",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_222",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_223",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_4111",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_4113",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_4122",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_413",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_414",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_415",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_421",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_422",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_423",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_5111",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_5113",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_5122",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_513",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_514",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_515",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_521",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_522",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_523",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_71",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_72",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_73",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_2_74",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_111",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_112",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_122",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_123",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_21",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_22",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_31",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_4_32",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_41",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_42",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_6",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_7",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_8",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_9",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_6_4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_1311",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_1312",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_132",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_1411",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_1412",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_142",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_1511",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_1512",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_152",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_2311",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_2312",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_232",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_2411",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_2412",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_242",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_2511",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_2512",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_252",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_311",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_312",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_313",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_321",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_322",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_8_323",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_011",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_012",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_013",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_015",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_016",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_020",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_0223",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_0231",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_0232",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_0233",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_02411",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_02412",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_02413",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_02421",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_02422",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_02423",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_025",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_9_026",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_11",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_13",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_14",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_15",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_1613",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_1614",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_1615",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_162",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_17",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_18",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_21",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_24",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_25",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_2612",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_2613",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_2614",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_2615",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_262",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_27",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_10_28",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_11",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_12",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_13",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_14",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_15",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_51",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_52",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_53",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_54",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_11_55",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_51",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_52",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_53",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_54",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_61",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_62",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_63",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_64",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_7",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_16_8",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_17_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_17_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_17_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_19_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_19_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_19_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_19_4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_19_5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_20_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_20_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_20_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_20_4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_20_5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_21_1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_21_2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_21_3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_21_4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_5_10",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_DM",
+			"table": "DM_BEG_FACT_DATA_ENTRY"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

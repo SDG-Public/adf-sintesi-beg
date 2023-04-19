@@ -1,0 +1,89 @@
+{
+	"name": "DM_BEG_DIM_INDICADORS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COMO_CALCULAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_FITXER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_PRESTECS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_DATAENTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_NO_PERIODICS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FILA_LEVEL_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FILA_LEVEL_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FILA_LEVEL_3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FILA_LEVEL_4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FILA_LEVEL_5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COLUMNA_LEVEL_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COLUMNA_LEVEL_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_SECCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_ORDRE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_DM",
+			"table": "DM_BEG_DIM_INDICADORS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

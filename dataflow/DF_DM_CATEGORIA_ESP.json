@@ -1,0 +1,70 @@
+{
+	"name": "DF_DM_CATEGORIA_ESP",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_DIB_DIM_CATEGORIA_ESP",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimCategoriaEsp"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_DIB_DIM_CATEGORIA_ESP",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCategoriaEsp"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id_categoria_esp as integer,",
+				"          desc_categoria_esp as string,",
+				"          data_alta as timestamp,",
+				"          id_usuari_alta as integer,",
+				"          data_modif as timestamp,",
+				"          id_usuari_modif as integer,",
+				"          data_baixa as timestamp,",
+				"          id_usuari_baixa as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimCategoriaEsp",
+				"STGDimCategoriaEsp select(mapColumn(",
+				"          ID_CATEGORIA_ESP = id_categoria_esp,",
+				"          DESC_CATEGORIA_ESP = desc_categoria_esp,",
+				"          DATA_ALTA = data_alta,",
+				"          ID_USUARI_ALTA = id_usuari_alta,",
+				"          DATA_MODIF = data_modif,",
+				"          ID_USUARI_MODIF = id_usuari_modif,",
+				"          DATA_BAIXA = data_baixa,",
+				"          ID_USUARI_BAIXA = id_usuari_baixa",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombrarCampos",
+				"RenombrarCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMDimCategoriaEsp"
+			]
+		}
+	}
+}

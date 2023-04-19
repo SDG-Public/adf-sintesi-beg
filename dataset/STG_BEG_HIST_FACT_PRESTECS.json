@@ -1,0 +1,157 @@
+{
+	"name": "STG_BEG_HIST_FACT_PRESTECS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LOCATION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_I_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_OUT_DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_OUT_LOC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_PAT_AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_HOME_LIBR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_P_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_RECORD_PATRON",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_RECORD_ITEM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DE_BARRES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_CALL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_RECORD_BIBLIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LANG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_MAT_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BIB_LVL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COUNTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_008",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_020",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_022",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_CLASIF_CDU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_AUTHOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PUB_INFO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_IUSE3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INTL_USE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_IN_LOC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PCODE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PCODE3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PCODE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ADREÇA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PCODE4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_HIST_FACT_PRESTECS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

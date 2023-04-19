@@ -1,0 +1,33 @@
+{
+	"name": "TERRITORIAL_AMBIT_TERRITORIAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_TERRITORIAL",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "TERRITORIAL"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "IDAmbit",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Ambit",
+				"type": "varchar"
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "AMBIT_TERRITORIAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

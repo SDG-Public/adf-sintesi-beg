@@ -1,0 +1,49 @@
+{
+	"name": "PL_BEG_CREA_DATA_ENTRY",
+	"properties": {
+		"activities": [
+			{
+				"name": "CARREGA_NO_PERIODICS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_CARREGA_NO_PERIODICS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string",
+				"defaultValue": "202112"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX DATA ENTRY"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

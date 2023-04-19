@@ -1,0 +1,184 @@
+{
+	"name": "DM_BEG_DIM_DIBICA_HORARIS_HIVERN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_HORARI_HIVERN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_BIBLIOTECA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NUM_DL_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DL_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DL_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DL_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DT_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DT_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DT_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DT_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DC_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DC_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DC_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DC_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DJ_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DJ_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DJ_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DJ_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DV_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DV_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DV_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DV_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DS_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DS_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DS_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DS_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DG_MATI_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DG_MATI_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DG_TARDA_INI",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_DG_TARDA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_RESUM",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_OBSERVACIONS",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_USUARI_ALTA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MODIF",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_USUARI_MODIF",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_USUARI_BAIXA",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DIB_DM",
+			"table": "DM_DIB_DIM_HORARIS_HIVERN"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

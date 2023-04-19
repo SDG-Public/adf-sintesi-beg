@@ -1,0 +1,36 @@
+{
+	"name": "TXT_PRESTEC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SFTP_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"NombreArchivo": {
+				"type": "string",
+				"defaultValue": "2022_01_01.txt"
+			}
+		},
+		"folder": {
+			"name": "FITXERS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"fileName": {
+					"value": "@dataset().NombreArchivo",
+					"type": "Expression"
+				},
+				"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,57 @@
+{
+	"name": "DF_CARREGA_PROCEDENCIA",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+						"type": "DatasetReference"
+					},
+					"name": "Procedencia"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS3_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS3FactIndicadorsSink"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as integer,",
+				"          DATA_INSERCIO as date,",
+				"          DATA_PERIODE as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Procedencia",
+				"Procedencia sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as integer,",
+				"          DATA_INSERCIO as date,",
+				"          DATA_PERIODE as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODS3FactIndicadorsSink"
+			]
+		}
+	}
+}

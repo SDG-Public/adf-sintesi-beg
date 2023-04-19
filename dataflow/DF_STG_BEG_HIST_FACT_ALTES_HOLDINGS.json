@@ -1,0 +1,35 @@
+{
+	"name": "DF_STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_ALTES_HOLDINGS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactAltesHoldings"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+						"type": "DatasetReference"
+					},
+					"name": "HistFactAltesHoldings"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesHoldings\nSTGFactAltesHoldings derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_SENSE_INFORMAR = {-  Sense informar},\n\t\tNUM_DESCONEGUT = {0  Desconegut},\n\t\tNUM_ALTRES = {1  Altres},\n\t\tNUM_CESSADA = {2  Cessada},\n\t\tNUM_ES_REP = {4  Es rep},\n\t\tNUM_NO_ES_REP = {5  No es rep},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactAltesHoldings"
+		}
+	}
+}

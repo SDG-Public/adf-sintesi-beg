@@ -1,0 +1,75 @@
+{
+	"name": "DM_BEG_FACT_INDICADORS_INTER_INTRA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_INTER_INTRA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR_BIB",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "IND_VALOR_DIS",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "IND_VALOR_MUN",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "IND_VALOR_COM",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "IND_VALOR_AMB",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "IND_VALOR_NAN",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "DESC_TRAM_POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_CARREGA",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_DM",
+			"table": "DM_BEG_FACT_INDICADORS_INTER_INTRA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

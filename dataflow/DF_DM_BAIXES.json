@@ -1,0 +1,65 @@
+{
+	"name": "DF_DM_BAIXES",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactIndicadors"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactIndicadors"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AlterRow"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_AGENCY as string,",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as integer,",
+				"          DATA_INSERCIO as date,",
+				"          DATA_PERIODE as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSFactIndicadors",
+				"ODSFactIndicadors alterRow(upsertIf(1==1)) ~> AlterRow",
+				"AlterRow sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_AGENCY as string,",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as double,",
+				"          DATA_PERIODE as date,",
+				"          DATA_INSERCIO as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['CODI_BIBLIOTECA','CODI_INDICADOR','DATA_PERIODE'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMFactIndicadors"
+			]
+		}
+	}
+}

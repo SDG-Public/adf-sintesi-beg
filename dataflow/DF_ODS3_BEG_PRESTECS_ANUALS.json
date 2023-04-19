@@ -1,0 +1,75 @@
+{
+	"name": "DF_ODS3_BEG_PRESTECS_ANUALS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactIndicadors"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS3_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS3FactIndicadors"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_PRESTECS_ANUAL",
+						"type": "DatasetReference"
+					},
+					"name": "PrestecsAnual"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarFechaAny"
+				},
+				{
+					"name": "FiltrarIndicadors"
+				},
+				{
+					"name": "Suma"
+				},
+				{
+					"name": "Select"
+				},
+				{
+					"name": "Pivot"
+				},
+				{
+					"name": "CrearIndicadores"
+				},
+				{
+					"name": "IndTotal"
+				},
+				{
+					"name": "Unpivot"
+				},
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "SelectIndicadores"
+				},
+				{
+					"name": "FiltrarIndicadorsODS3"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Union"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactIndicadors\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS3FactIndicadors\nDMFactIndicadors filter(year(toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) == year(DATA_PERIODE)) ~> FiltrarFechaAny\nFiltrarFechaAny filter(CODI_INDICADOR == 'IND_7_11' || CODI_INDICADOR == 'IND_7_12' || CODI_INDICADOR == 'IND_7_13' || CODI_INDICADOR == 'IND_7_14' || CODI_INDICADOR == 'IND_7_15' || CODI_INDICADOR == 'IND_7_16') ~> FiltrarIndicadors\nUnion aggregate(groupBy(CODI_BIBLIOTECA,\n\t\tCODI_INDICADOR),\n\tIND_VALOR = sum(IND_VALOR)) ~> Suma\nFiltrarIndicadors select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nSuma pivot(groupBy(CODI_BIBLIOTECA),\n\tpivotBy(CODI_INDICADOR),\n\t{} = sum(IND_VALOR),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot\nPivot derive(IND_7_21 = iif(isNull(toInteger(byName('IND_7_11'))), 0, toInteger(byName('IND_7_11'))),\n\t\tIND_7_22 = iif(isNull(toInteger(byName('IND_7_12'))), 0, toInteger(byName('IND_7_12'))),\n\t\tIND_7_23 = iif(isNull(toInteger(byName('IND_7_13'))), 0, toInteger(byName('IND_7_13'))),\n\t\tIND_7_24 = iif(isNull(toInteger(byName('IND_7_14'))), 0, toInteger(byName('IND_7_14'))),\n\t\tIND_7_25 = iif(isNull(toInteger(byName('IND_7_15'))), 0, toInteger(byName('IND_7_15'))),\n\t\tIND_7_26 = iif(isNull(toInteger(byName('IND_7_16'))), 0, toInteger(byName('IND_7_16')))) ~> CrearIndicadores\nSelectIndicadores derive(IND_7_2 = IND_7_21+IND_7_22+IND_7_23+IND_7_24+IND_7_25+IND_7_26) ~> IndTotal\nIndTotal unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat(concat(substring($Data_Carrega,0,4),'12'),'01'),'yyyyMMdd')) ~> Datas\nCrearIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_7_21,\n\t\tIND_7_22,\n\t\tIND_7_23,\n\t\tIND_7_24,\n\t\tIND_7_25,\n\t\tIND_7_26\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectIndicadores\nODS3FactIndicadors filter(CODI_INDICADOR == 'IND_7_11' || CODI_INDICADOR == 'IND_7_12' || CODI_INDICADOR == 'IND_7_13' || CODI_INDICADOR == 'IND_7_14' || CODI_INDICADOR == 'IND_7_15' || CODI_INDICADOR == 'IND_7_16') ~> FiltrarIndicadorsODS3\nFiltrarIndicadorsODS3 select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect, Select2 union(byName: true)~> Union\nDatas sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PrestecsAnual"
+		}
+	}
+}

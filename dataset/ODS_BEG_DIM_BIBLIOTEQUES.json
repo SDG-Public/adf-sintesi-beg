@@ -1,0 +1,161 @@
+{
+	"name": "ODS_BEG_DIM_BIBLIOTEQUES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_NIDEN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CATEGORIA_ESPECIALITZADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TERMINAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADAPTADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FORMA_ACCESS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITULARITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADREÇA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "C.P.",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ÀMBIT TERRITORIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SSTT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTMX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTMY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MÒDUL_TERRITORIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELÈFON",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EXT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FAX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WEB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADREÇA_ELCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADREÇA_ELECT_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TRACTAMENT_DIRECT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_DIRECT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIMER_COGNOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SEGON_COGNOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GRUP",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS",
+			"table": "ODS_BEG_DIM_BIBLIOTEQUES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

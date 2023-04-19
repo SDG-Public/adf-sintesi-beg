@@ -1,0 +1,10 @@
+{
+	"name": "AzureSqlDatabase55",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/083bb4ff-85bb-4801-bea6-6cb11178ebe4/resourceGroups/iaz-pre-rg/providers/Microsoft.Sql/servers/clt-db-pre",
+		"groupId": "sqlServer",
+		"fqdns": [
+			"clt-db-pre.database.windows.net"
+		]
+	}
+}

@@ -1,0 +1,68 @@
+{
+	"name": "DF_DM_BEG_COMARCA",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_DIM_TERRITORIAL_COMARCA",
+						"type": "DatasetReference"
+					},
+					"name": "STGComarca"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TERRITORIAL_COMARCA",
+						"type": "DatasetReference"
+					},
+					"name": "DMComarca"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          INE_Comarca as string,",
+				"          IDAmbit as string,",
+				"          Nom_Comarca as string,",
+				"          Nom_Comarca_cat as string,",
+				"          cod_sstt as integer,",
+				"          Data_baixa as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGComarca",
+				"STGComarca sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          INE_COMARCA as string,",
+				"          ID_AMBIT_TERRITORIAL as string,",
+				"          DESC_COMARCA as string,",
+				"          DESC_COMARCA_CAT as string,",
+				"          CODI_SSTT as integer,",
+				"          DATA_BAIXA as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          INE_COMARCA = INE_Comarca,",
+				"          ID_AMBIT_TERRITORIAL = IDAmbit,",
+				"          DESC_COMARCA = Nom_Comarca,",
+				"          DESC_COMARCA_CAT = Nom_Comarca_cat,",
+				"          CODI_SSTT = cod_sstt,",
+				"          DATA_BAIXA = Data_baixa",
+				"     )) ~> DMComarca"
+			]
+		}
+	}
+}

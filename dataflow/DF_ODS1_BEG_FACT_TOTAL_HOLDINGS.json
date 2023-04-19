@@ -1,0 +1,57 @@
+{
+	"name": "DF_ODS1_BEG_FACT_TOTAL_HOLDINGS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_TOTAL_HOLDINGS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactTotalHoldings"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_LOCATIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimLocations"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_HOLDINGS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactTotalHoldings"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CalcularIndicadores"
+				},
+				{
+					"name": "Unpivot"
+				},
+				{
+					"name": "DataInsercio"
+				},
+				{
+					"name": "Join"
+				},
+				{
+					"name": "Select"
+				},
+				{
+					"name": "BorrarColumnas"
+				},
+				{
+					"name": "SumaIndicadoresMismaBiblio"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalHoldings\nsource(output(\n\t\tID_LOCATION as string,\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimLocations\nJoin derive(IND_14_11 = toInteger(replace(trim({-  Sense informar}),'.','')),\n\t\tIND_14_12 = toInteger(replace(trim({0  Desconegut}),'.','')),\n\t\tIND_14_13 = toInteger(replace(trim({1  Altres}),'.','')),\n\t\tIND_14_14 = toInteger(replace(trim({2  Cessada}),'.','')),\n\t\tIND_14_15 = toInteger(replace(trim({4  Es rep}),'.','')),\n\t\tIND_14_16 = toInteger(replace(trim({5  No es rep}),'.',''))) ~> CalcularIndicadores\nSumaIndicadoresMismaBiblio unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tVALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nSTGFactTotalHoldings, DMDimLocations join(Codi == ID_LOCATION,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nDataInsercio select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR = VALOR,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nCalcularIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_14_11,\n\t\tIND_14_12,\n\t\tIND_14_13,\n\t\tIND_14_14,\n\t\tIND_14_15,\n\t\tIND_14_16\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> BorrarColumnas\nBorrarColumnas aggregate(groupBy(CODI_BIBLIOTECA),\n\tIND_14_11 = toInteger(sum(IND_14_11)),\n\t\tIND_14_12 = toInteger(sum(IND_14_12)),\n\t\tIND_14_13 = toInteger(sum(IND_14_13)),\n\t\tIND_14_14 = toInteger(sum(IND_14_14)),\n\t\tIND_14_15 = toInteger(sum(IND_14_15)),\n\t\tIND_14_16 = toInteger(sum(IND_14_16))) ~> SumaIndicadoresMismaBiblio\nSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactTotalHoldings"
+		}
+	}
+}

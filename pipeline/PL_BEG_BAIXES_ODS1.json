@@ -1,0 +1,225 @@
+{
+	"name": "PL_BEG_BAIXES_ODS1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ODS1_BEG_TOTAL_EXEMPLARS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_EXEMPLARS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TOTAL_BIBLIOGRAFICS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_TOTAL_EXEMPLARS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TOTAL_USUARIS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_USUARIS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_ALTES_EXEMPLARS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_TOTAL_USUARIS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_EXEMPLARS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_ALTES_BIBLIOGRAFICS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_BIBLIOGRAFICS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_ALTES_USUARIS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_ALTES_BIBLIOGRAFICS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_USUARIS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX BAIXES/ODS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

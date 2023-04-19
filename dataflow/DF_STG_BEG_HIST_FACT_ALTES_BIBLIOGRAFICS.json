@@ -1,0 +1,35 @@
+{
+	"name": "DF_STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_ALTES_BIBLIOGRAFICS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactAltesBibliografics"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+						"type": "DatasetReference"
+					},
+					"name": "HistFactAltesBibliografics"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "RenombraCampos"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{a  Llibre} as string,\n\t\t{b  Revista} as string,\n\t\t{c  Partitura impr.} as string,\n\t\t{d  Partitura manus.} as string,\n\t\t{e  Mapa imprès} as string,\n\t\t{f  Mapa manuscrit} as string,\n\t\t{g  Vídeo DVD} as string,\n\t\t{i  Sonor no musical} as string,\n\t\t{j  Sonor musical} as string,\n\t\t{k  Gràfic} as string,\n\t\t{l  Article} as string,\n\t\t{m  Fitxer informàtic} as string,\n\t\t{n  Tesi} as string,\n\t\t{o  Equip} as string,\n\t\t{p  Material d'arxiu} as string,\n\t\t{r  Objecte} as string,\n\t\t{t  Manuscrit} as string,\n\t\t{u  Base de dades} as string,\n\t\t{v  Revista en línia} as string,\n\t\t{z  Llibre en línia} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesBibliografics\nSTGFactAltesBibliografics derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_LLIBRE = {a  Llibre},\n\t\tNUM_REVISTA = {b  Revista},\n\t\tNUM_PARTITURA_IMPR = {c  Partitura impr.},\n\t\tNUM_PARTITURA_MANUS = {d  Partitura manus.},\n\t\tNUM_MAPA_IMPRES = {e  Mapa imprès},\n\t\tNUM_MAPA_MANUS = {f  Mapa manuscrit},\n\t\tNUM_VIDEO_DVD = {g  Vídeo DVD},\n\t\tNUM_SONOR_NO_MUSICAL = {i  Sonor no musical},\n\t\tNUM_SONOR_MUSICAL = {j  Sonor musical},\n\t\tNUM_GRAFIC = {k  Gràfic},\n\t\tNUM_ARTICLE = {l  Article},\n\t\tNUM_FITXER_INFORMATIC = {m  Fitxer informàtic},\n\t\tNUM_TESI = {n  Tesi},\n\t\tNUM_EQUIP = {o  Equip},\n\t\tNUM_MATERIAL_DARXIU = {p  Material d'arxiu},\n\t\tNUM_OBJECTE = {r  Objecte},\n\t\tNUM_MANUSCRIT = {t  Manuscrit},\n\t\tNUM_BASE_DE_DADES = {u  Base de dades},\n\t\tNUM_REVISTA_EN_LINEA = {v  Revista en línia},\n\t\tNUM_LLIBRE_EN_LINEA = {z  Llibre en línia},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactAltesBibliografics"
+		}
+	}
+}

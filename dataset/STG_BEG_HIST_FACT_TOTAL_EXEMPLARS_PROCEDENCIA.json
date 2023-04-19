@@ -1,0 +1,137 @@
+{
+	"name": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Significat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "0  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "1  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "2  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "3  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "4  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "5  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "6  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "7  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "8  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "9  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "10  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "11  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "12  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "13  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "14  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "15  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "16  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "17  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "18  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "19  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "20  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "21  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "22  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "23  -",
+				"type": "nvarchar"
+			},
+			{
+				"name": "totals",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

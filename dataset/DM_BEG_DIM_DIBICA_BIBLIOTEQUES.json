@@ -1,0 +1,276 @@
+{
+	"name": "DM_BEG_DIM_DIBICA_BIBLIOTEQUES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_BIBLIOTECA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_USUARI",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "char"
+			},
+			{
+				"name": "ID_TIPUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_MODUL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CODI_NIDEN",
+				"type": "char"
+			},
+			{
+				"name": "ID_ESTAT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_BIBLIOTECA",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA_ALTA_BIBLIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DATA_BAIXA_BIBLIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_TIPUS_VIA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_VIA",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_VIA",
+				"type": "varchar"
+			},
+			{
+				"name": "INE_MUNICIPI",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_DISTRICTE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CP",
+				"type": "varchar"
+			},
+			{
+				"name": "UTMX",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "UTMY",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_LONGITUD",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_LATITUD",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_TELEFON",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_EXTENSIO",
+				"type": "varchar"
+			},
+			{
+				"name": "NUM_FAX",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_EMAIL",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_WEB",
+				"type": "varchar"
+			},
+			{
+				"name": "FLAG_BEG",
+				"type": "bit"
+			},
+			{
+				"name": "FLAG_SLPC",
+				"type": "bit"
+			},
+			{
+				"name": "ID_MAPA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_CATEGORIA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_TITULARITAT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FORMA_ACCES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ES_CATALEG_COLECTIU_CCLP",
+				"type": "bit"
+			},
+			{
+				"name": "WEB_CATALEG_COLECTIU_CCLP",
+				"type": "varchar"
+			},
+			{
+				"name": "ES_CATALEG_COLECTIU_DIP_BCN",
+				"type": "bit"
+			},
+			{
+				"name": "WEB_CATALEG_COLECTIU_DIP_BCN",
+				"type": "varchar"
+			},
+			{
+				"name": "ES_CATALEG_COLECTIU_CCUC",
+				"type": "bit"
+			},
+			{
+				"name": "WEB_CATALEG_COLECTIU_CCUC",
+				"type": "varchar"
+			},
+			{
+				"name": "ES_CATALEG_COLECTIU_BEG",
+				"type": "bit"
+			},
+			{
+				"name": "WEB_CATALEG_COLECTIU_BEG",
+				"type": "varchar"
+			},
+			{
+				"name": "ES_CATALEG_COLECTIU_ALTRES",
+				"type": "bit"
+			},
+			{
+				"name": "WEB_CATALEG_COLECTIU_ALTRES",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_DIRECTOR_TRACTAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_DIRECTOR_NOMB",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_DIRECTOR_PRIMER_COGNOM",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_DIRECTOR_SEGON_COGNOM",
+				"type": "varchar"
+			},
+			{
+				"name": "FLAG_ADAPTADA",
+				"type": "bit"
+			},
+			{
+				"name": "DESC_OBSERVACIONS",
+				"type": "varchar"
+			},
+			{
+				"name": "OBS_ITINERARIS",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_USUARI_ALTA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MODIF",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_USUARI_MODIF",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_USUARI_BAIXA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_ADSCRIPCIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_CATEGORIA_ESP",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DIB_DM",
+			"table": "DM_DIB_DIM_BIBLIOTEQUES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

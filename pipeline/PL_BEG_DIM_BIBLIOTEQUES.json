@@ -1,0 +1,37 @@
+{
+	"name": "PL_BEG_DIM_BIBLIOTEQUES",
+	"properties": {
+		"activities": [
+			{
+				"name": "DIBICA_A_BIBLIOTEQUES_BEG",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DIBICA_A_BIBLIOTEQUES_BEG",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "SINTESI BEG/FLUX BIBLIOTEQUES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

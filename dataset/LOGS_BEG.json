@@ -1,0 +1,39 @@
+{
+	"name": "LOGS_BEG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TAULA",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA_CARREGA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "LOGS_BEG"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

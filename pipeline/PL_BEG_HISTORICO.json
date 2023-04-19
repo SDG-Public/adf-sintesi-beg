@@ -1,0 +1,272 @@
+{
+	"name": "PL_BEG_HISTORICO",
+	"properties": {
+		"activities": [
+			{
+				"name": "BUCLE",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "IGUALA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@variables('V_UNTIL')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CHECK_FIN_BUCLE",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "IF_BAIXES",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_UNTIL",
+								"value": {
+									"value": "@bool(lessOrEquals(pipeline().parameters.P_FIN, variables('V_F_FIN')))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "CHECK_FIN_BUCLE",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_F_FIN",
+								"value": {
+									"value": "@if(equals(substring(variables('V_F_FIN_2'),4,2),'12'),concat(string(add(int(substring(variables('V_F_FIN_2'),0,4)),1)),'01') , string(add(int(variables('V_F_FIN_2')),1)))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_F_FIN_2",
+								"value": {
+									"value": "@variables('V_F_FIN')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "PL_BEG_FACT",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "SET_MAX_DATA_BAIXES",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "PL_BEG_FACT",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"Data_Carrega": {
+										"value": "@variables('V_F_FIN')",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "IF_BAIXES",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "PL_BEG_FACT",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@lessOrEquals(int(variables('V_F_FIN')),int(concat(substring(variables('MAX_DATA_BAIXES'),0,4),substring(variables('MAX_DATA_BAIXES'),5,2))))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "PL_BEG_BAIXES_HISTORICO",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "PL_BEG_BAIXES_HISTORICO",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true,
+											"parameters": {
+												"P_INI": {
+													"value": "@variables('V_F_FIN')",
+													"type": "Expression"
+												},
+												"P_FIN": {
+													"value": "@if(equals(substring(variables('V_F_FIN'),4,2),'12'),concat(string(add(int(substring(variables('V_F_FIN'),0,4)),1)),'01') , string(add(int(variables('V_F_FIN')),1)))",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "GET_MAX_DATA_BAIXES",
+							"type": "Lookup",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "select MAX(DATA_PERIODE) AS MAX_DATA_BAIXES FROM [BEG_DM].[DM_BEG_FACT_INDICADORS]\nWHERE CODI_INDICADOR = 'IND_3_10011';",
+										"type": "Expression"
+									},
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"dataset": {
+									"referenceName": "DM_BEG_FACT_INDICADORS",
+									"type": "DatasetReference"
+								},
+								"firstRowOnly": true
+							}
+						},
+						{
+							"name": "SET_MAX_DATA_BAIXES",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "GET_MAX_DATA_BAIXES",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "MAX_DATA_BAIXES",
+								"value": {
+									"value": "@substring(string(activity('GET_MAX_DATA_BAIXES').output.firstRow.MAX_DATA_BAIXES),0,10)",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
+			},
+			{
+				"name": "FIJAR_INICIO",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_F_FIN",
+					"value": {
+						"value": "@pipeline().parameters.P_INI",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "IGUALA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "FIJAR_INICIO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_F_FIN_2",
+					"value": {
+						"value": "@variables('V_F_FIN')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"P_INI": {
+				"type": "string",
+				"defaultValue": "202101"
+			},
+			"P_FIN": {
+				"type": "string",
+				"defaultValue": "202112"
+			}
+		},
+		"variables": {
+			"V_UNTIL": {
+				"type": "Boolean",
+				"defaultValue": false
+			},
+			"V_F_FIN": {
+				"type": "String"
+			},
+			"V_F_FIN_2": {
+				"type": "String"
+			},
+			"MAX_DATA_BAIXES": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX FITXERS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

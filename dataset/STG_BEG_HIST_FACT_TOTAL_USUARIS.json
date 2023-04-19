@@ -1,0 +1,20 @@
+{
+	"name": "STG_BEG_HIST_FACT_TOTAL_USUARIS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_HIST_FACT_TOTAL_USUARIS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

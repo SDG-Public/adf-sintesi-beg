@@ -1,0 +1,242 @@
+{
+	"name": "PL_BEG_FACT_STG_PRESTECS",
+	"properties": {
+		"activities": [
+			{
+				"name": "TRUNCATE_STG_PRESTEC",
+				"description": "Trunca la tabla STG_BEG_FACT_PRESTECS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[TRUNCATE_TABLE]",
+					"storedProcedureParameters": {
+						"vSchemaName": {
+							"value": "BEG_STG",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_BEG_FACT_PRESTECS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Get_FITCHEROS_A_CARGAR",
+				"description": "Cogemos el nombre de todos los archivos que hay que cargar para poder iterar en ellos a posterior.",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE_STG_PRESTEC",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "META_BEG_FICHEROS_A_CARGAR",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "SftpReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false,
+						"disableChunking": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach",
+				"description": "Para cara fichero, hacemos el copy data correspondiente en la tabla STG_BEG_FACT_PRESTECS",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter_FITCHEROS_A_CARGAR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter_FITCHEROS_A_CARGAR').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "BEG_STG_FACT_PRESTEC",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "SftpReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false,
+										"disableChunking": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink"
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "AzureBlobStorage1",
+										"type": "LinkedServiceReference"
+									}
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "TXT_PRESTEC",
+									"type": "DatasetReference",
+									"parameters": {
+										"NombreArchivo": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "STG_BEG_FACT_PRESTECS",
+									"type": "DatasetReference"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Set_FITCHEROS_A_CARGAR",
+				"description": "Metemos lo obtenido en la variable V_FICHEROS_A_CARGAR",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get_FITCHEROS_A_CARGAR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_FICHEROS_A_CARGAR",
+					"value": {
+						"value": "@activity('Get_FITCHEROS_A_CARGAR').output.childItems",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Filter_FITCHEROS_A_CARGAR",
+				"description": "Filtramos por los ficheros que queremos.",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Set_FITCHEROS_A_CARGAR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('V_FICHEROS_A_CARGAR')",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@and(contains( item().name, \n    concat(substring(pipeline().parameters.Data_Carrega,0,4),\n            '_',\n            substring(pipeline().parameters.Data_Carrega,4,2),\n            '_'\n     )\n )\n,\n    equals(length( item().name), 14)\n)",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string",
+				"defaultValue": "202112"
+			}
+		},
+		"variables": {
+			"V_Until": {
+				"type": "Boolean",
+				"defaultValue": true
+			},
+			"V_Año": {
+				"type": "String"
+			},
+			"V_Mes": {
+				"type": "String"
+			},
+			"V_Dia": {
+				"type": "String",
+				"defaultValue": "01"
+			},
+			"V_CountDia": {
+				"type": "String",
+				"defaultValue": "01"
+			},
+			"V_FICHEROS_A_CARGAR": {
+				"type": "Array"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX FITXERS/STG"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

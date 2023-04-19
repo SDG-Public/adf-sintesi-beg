@@ -1,0 +1,9 @@
+{
+	"name": "df-clt-pre",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "563c75f5-b604-45a2-a677-237c3e1d9674",
+		"tenantId": "3b9427dc-d30e-43bc-8c06-ff7253676fec"
+	}
+}

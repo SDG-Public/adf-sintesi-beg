@@ -1,0 +1,57 @@
+{
+	"name": "STG_BEG_FACT_ALTES_HOLDINGS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Significat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "-  Sense informar",
+				"type": "nvarchar"
+			},
+			{
+				"name": "0  Desconegut",
+				"type": "nvarchar"
+			},
+			{
+				"name": "1  Altres",
+				"type": "nvarchar"
+			},
+			{
+				"name": "2  Cessada",
+				"type": "nvarchar"
+			},
+			{
+				"name": "4  Es rep",
+				"type": "nvarchar"
+			},
+			{
+				"name": "5  No es rep",
+				"type": "nvarchar"
+			},
+			{
+				"name": "  Totals  ",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_FACT_ALTES_HOLDINGS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,20 @@
+{
+	"name": "DM_DIB_DIM_CATEGORIA_ESP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "DIB_DM",
+			"table": "DM_DIB_DIM_CATEGORIA_ESP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

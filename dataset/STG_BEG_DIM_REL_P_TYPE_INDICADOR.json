@@ -1,0 +1,37 @@
+{
+	"name": "STG_BEG_DIM_REL_P_TYPE_INDICADOR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DESC_CONSULTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "P_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_INDICADOR",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_DIM_REL_P_TYPE_INDICADOR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

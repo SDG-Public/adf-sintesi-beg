@@ -1,0 +1,41 @@
+{
+	"name": "STG_BEG_DIM_TERRITORIAL_PROVINCIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "INE_Provincia",
+				"type": "varchar"
+			},
+			{
+				"name": "INE_Comunitat_Autonoma",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Provincia",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Provincia_cat",
+				"type": "varchar"
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "TER_STG",
+			"table": "STG_TER_DIM_PROVINCIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

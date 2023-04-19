@@ -1,0 +1,38 @@
+{
+	"name": "CSV_ALTES_EXEMPLARS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SFTP_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Año": {
+				"type": "string"
+			},
+			"Mes": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "FITXERS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"fileName": {
+					"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Altes_Exemplars.csv'\n)",
+					"type": "Expression"
+				},
+				"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

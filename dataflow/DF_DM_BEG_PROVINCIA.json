@@ -1,0 +1,65 @@
+{
+	"name": "DF_DM_BEG_PROVINCIA",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_DIM_TERRITORIAL_PROVINCIA",
+						"type": "DatasetReference"
+					},
+					"name": "STGProvincia"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TERRITORIAL_PROVINCIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMProvincia"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          INE_Provincia as string,",
+				"          INE_Comunitat_Autonoma as string,",
+				"          Nom_Provincia as string,",
+				"          Nom_Provincia_cat as string,",
+				"          Data_baixa as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGProvincia",
+				"STGProvincia sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          INE_PROVINCIA as string,",
+				"          INE_COMUNITAT_AUTONOMA as string,",
+				"          DESC_PROVINCIA as string,",
+				"          DESC_PROVINCIA_CAT as string,",
+				"          DATA_BAIXA as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          INE_PROVINCIA = INE_Provincia,",
+				"          INE_COMUNITAT_AUTONOMA = INE_Comunitat_Autonoma,",
+				"          DESC_PROVINCIA = Nom_Provincia,",
+				"          DESC_PROVINCIA_CAT = Nom_Provincia_cat,",
+				"          DATA_BAIXA = Data_baixa",
+				"     )) ~> DMProvincia"
+			]
+		}
+	}
+}

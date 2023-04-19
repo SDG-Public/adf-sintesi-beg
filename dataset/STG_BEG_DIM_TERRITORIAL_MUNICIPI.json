@@ -1,0 +1,85 @@
+{
+	"name": "STG_BEG_DIM_TERRITORIAL_MUNICIPI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "INE_Municipi",
+				"type": "varchar"
+			},
+			{
+				"name": "INE_Comarca",
+				"type": "varchar"
+			},
+			{
+				"name": "INE_Provincia",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Municipi",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Municipi_cat",
+				"type": "varchar"
+			},
+			{
+				"name": "CP",
+				"type": "varchar"
+			},
+			{
+				"name": "Altitud",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Superficie",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 2
+			},
+			{
+				"name": "Cap_Pais",
+				"type": "bit"
+			},
+			{
+				"name": "Cap_Comunitat_Autonoma",
+				"type": "bit"
+			},
+			{
+				"name": "Cap_Provincia",
+				"type": "bit"
+			},
+			{
+				"name": "Cap_Comarca",
+				"type": "bit"
+			},
+			{
+				"name": "IDAmbit",
+				"type": "varchar"
+			},
+			{
+				"name": "cod_sstt",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "TER_STG",
+			"table": "STG_TER_DIM_MUNICIPI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

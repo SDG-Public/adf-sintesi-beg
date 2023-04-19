@@ -1,0 +1,25 @@
+{
+	"name": "XLSX_BEG_DIM_REL_P_TYPE_INDICADOR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "FITXERS"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "BEG_DIM_REL_P_TYPE_INDICADOR.xlsx",
+				"container": "cltsintesibeg"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

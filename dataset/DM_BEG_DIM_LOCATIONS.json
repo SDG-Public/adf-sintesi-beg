@@ -1,0 +1,29 @@
+{
+	"name": "DM_BEG_DIM_LOCATIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_LOCATION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_DM",
+			"table": "DM_BEG_DIM_LOCATIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

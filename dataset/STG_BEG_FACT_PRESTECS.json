@@ -1,0 +1,149 @@
+{
+	"name": "STG_BEG_FACT_PRESTECS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LOCATION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "I TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OUT DATE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OUT LOC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PAT AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HOME LIBR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "P TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RECORD #(Patron)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RECORD #(Item)",
+				"type": "nvarchar"
+			},
+			{
+				"name": " DE BARRES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CALL #",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RECORD #(BIBLIO)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LANG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MAT TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BIB LVL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COUNTRY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "008 Data 1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "020",
+				"type": "nvarchar"
+			},
+			{
+				"name": "022",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CLASIF CDU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AUTHOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB INFO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IUSE3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INTL USE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IN LOC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PCODE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PCODE3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PCODE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADREÇA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PCODE4",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_FACT_PRESTECS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

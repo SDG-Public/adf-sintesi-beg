@@ -1,0 +1,67 @@
+{
+	"name": "DF_ODS1_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactAltesBibliografics"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_LOCATIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DimLocations"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "DimBiblioteques"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_BIBLIOGRAFICS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactTotalBibliografics"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CalcularIndicadores"
+				},
+				{
+					"name": "CambiarNombre"
+				},
+				{
+					"name": "Unpivot"
+				},
+				{
+					"name": "DataInsercio"
+				},
+				{
+					"name": "Select"
+				},
+				{
+					"name": "QuitarNulos"
+				},
+				{
+					"name": "Join"
+				},
+				{
+					"name": "join1"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Bad Code} as string,\n\t\t{a  Llibre} as string,\n\t\t{b  Revista} as string,\n\t\t{c  Partitura impr.} as string,\n\t\t{d  Partitura manus.} as string,\n\t\t{e  Mapa imprès} as string,\n\t\t{f  Mapa manuscrit} as string,\n\t\t{g  Vídeo DVD} as string,\n\t\t{i  Sonor no musical} as string,\n\t\t{j  Sonor musical} as string,\n\t\t{k  Gràfic} as string,\n\t\t{l  Article} as string,\n\t\t{m  Fitxer informàtic} as string,\n\t\t{n  Tesi} as string,\n\t\t{o  Equip} as string,\n\t\t{p  Material d'arxiu} as string,\n\t\t{r  Objecte} as string,\n\t\t{t  Manuscrit} as string,\n\t\t{u  Base de dades} as string,\n\t\t{v  Revista en línia} as string,\n\t\t{z  Llibre en línia} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesBibliografics\nsource(output(\n\t\tID_LOCATION as string,\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimLocations\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nQuitarNulos derive(IND_3_81 = toInteger(toInteger(replace(trim({a  Llibre}),'.',''))+toInteger(replace(trim({z  Llibre en línia}),'.',''))),\n\t\tIND_3_82 = toInteger(toInteger(replace(trim({i  Sonor no musical}),'.',''))+toInteger(replace(trim({j  Sonor musical}),'.',''))),\n\t\tIND_3_83 = toInteger(replace(trim({g  Vídeo DVD}),'.','')),\n\t\tIND_3_84 = toInteger(replace(trim({m  Fitxer informàtic}),'.','')),\n\t\tIND_3_85 = toInteger(replace(trim({b  Revista}),'.',''))+toInteger(replace(trim({v  Revista en línia}),'.','')),\n\t\tIND_3_86 = toInteger(replace(trim({c  Partitura impr.}),'.',''))+toInteger(replace(trim({d  Partitura manus.}),'.','')),\n\t\tIND_3_87 = toInteger(replace(trim({e  Mapa imprès}),'.',''))+toInteger(replace(trim({f  Mapa manuscrit}),'.','')),\n\t\tIND_3_89 = toInteger(replace(trim({o  Equip}),'.','')),\n\t\tIND_3_810 = toInteger(replace(trim({p  Material darxiu}),'.','')),\n\t\tIND_3_8011 = toInteger(replace(trim({r  Objecte}),'.',''))+toInteger(replace(trim({k  Gràfic}),'.','')),\n\t\tIND_3_8012 = toInteger(replace(trim({t  Manuscrit}),'.','')),\n\t\tIND_3_8013 = toInteger(replace(trim({l  Article}),'.','')),\n\t\tIND_3_8014 = toInteger(replace(trim({n  Tesi}),'.','')),\n\t\tIND_3_8015 = toInteger(replace(trim({u  Base de dades}),'.',''))) ~> CalcularIndicadores\njoin1 select(mapColumn(\n\t\tSignificat,\n\t\t{a  Llibre},\n\t\t{b  Revista},\n\t\t{c  Partitura impr.},\n\t\t{d  Partitura manus.},\n\t\t{e  Mapa imprès},\n\t\t{f  Mapa manuscrit},\n\t\t{g  Vídeo DVD},\n\t\t{i  Sonor no musical},\n\t\t{j  Sonor musical},\n\t\t{k  Gràfic},\n\t\t{l  Article},\n\t\t{m  Fitxer informàtic},\n\t\t{n  Tesi},\n\t\t{o  Equip},\n\t\t{p  Material darxiu} = {p  Material d'arxiu},\n\t\t{r  Objecte},\n\t\t{t  Manuscrit},\n\t\t{u  Base de dades},\n\t\t{v  Revista en línia},\n\t\t{z  Llibre en línia},\n\t\tCODI_BIBLIOTECA = DimBiblioteques@CODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CambiarNombre\nSelect unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nCalcularIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_3_81,\n\t\tIND_3_82,\n\t\tIND_3_83,\n\t\tIND_3_84,\n\t\tIND_3_85,\n\t\tIND_3_86,\n\t\tIND_3_87,\n\t\tIND_3_89,\n\t\tIND_3_810,\n\t\tIND_3_8011,\n\t\tIND_3_8012,\n\t\tIND_3_8013,\n\t\tIND_3_8014,\n\t\tIND_3_8015\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nCambiarNombre derive({a  Llibre} = iif(isNull({a  Llibre}), toString(0), {a  Llibre}),\n\t\t{b  Revista} = iif(isNull({b  Revista}), toString(0), {b  Revista}),\n\t\t{c  Partitura impr.} = iif(isNull({c  Partitura impr.}), toString(0), {c  Partitura impr.}),\n\t\t{d  Partitura manus.} = iif(isNull({d  Partitura manus.}), toString(0), {d  Partitura manus.}),\n\t\t{e  Mapa imprès} = iif(isNull({e  Mapa imprès}), toString(0), {e  Mapa imprès}),\n\t\t{f  Mapa manuscrit} = iif(isNull({f  Mapa manuscrit}), toString(0), {f  Mapa manuscrit}),\n\t\t{g  Vídeo, DVD} = iif(isNull({g  Vídeo DVD}), toString(0), {g  Vídeo DVD}),\n\t\t{i  Sonor no musical} = iif(isNull({i  Sonor no musical}), toString(0), {i  Sonor no musical}),\n\t\t{j  Sonor musical} = iif(isNull({j  Sonor musical}), toString(0), {j  Sonor musical}),\n\t\t{k  Gràfic} = iif(isNull({k  Gràfic}), toString(0), {k  Gràfic}),\n\t\t{l  Article} = iif(isNull({l  Article}), toString(0), {l  Article}),\n\t\t{m  Fitxer informàtic} = iif(isNull({m  Fitxer informàtic}), toString(0), {m  Fitxer informàtic}),\n\t\t{n  Tesi, TFC, etc.} = iif(isNull({n  Tesi}), toString(0), {n  Tesi}),\n\t\t{o  Equip} = iif(isNull({o  Equip}), toString(0), {o  Equip}),\n\t\t{p  Material darxiu} = iif(isNull({p  Material darxiu}), toString(0), {p  Material darxiu}),\n\t\t{r  Objecte} = iif(isNull({r  Objecte}), toString(0), {r  Objecte}),\n\t\t{t  Manuscrit} = iif(isNull({t  Manuscrit}), toString(0), {t  Manuscrit}),\n\t\t{u  Base de dades} = iif(isNull({u  Base de dades}), toString(0), {u  Base de dades}),\n\t\t{v  Revista en línia} = iif(isNull({v  Revista en línia}), toString(0), {v  Revista en línia}),\n\t\t{z  Llibre en línia} = iif(isNull({z  Llibre en línia}), toString(0), {z  Llibre en línia})) ~> QuitarNulos\nSTGFactAltesBibliografics, DimLocations join(Codi == ID_LOCATION,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nJoin, DimBiblioteques join(DimLocations@CODI_BIBLIOTECA == DimBiblioteques@CODI_BIBLIOTECA,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join1\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactTotalBibliografics"
+		}
+	}
+}

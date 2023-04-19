@@ -1,0 +1,35 @@
+{
+	"name": "DF_STG_BEG_HIST_FACT_TRANSACCIONS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_TRANSACCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactTransaccions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_HIST_FACT_TRANSACCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGHistTransaccions"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "RenombraCampos"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\t{Grup estadístic} as string,\n\t\t{préstecs} as string,\n\t\tretorns as string,\n\t\trenovacions as string,\n\t\treserves as string,\n\t\t{Hl/RECLL} as string,\n\t\t{TOTAL #} as string,\n\t\tPERCENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTransaccions\nSTGFactTransaccions derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_TERMINAL = {Grup estadístic},\n\t\tNUM_PRESTECS = {préstecs},\n\t\tNUM_RETORNS = retorns,\n\t\tNUM_RENOVACIONS = renovacions,\n\t\tNUM_RESERVES = reserves,\n\t\tNUM_HI_RECLL = {Hl/RECLL},\n\t\tNUM_TOTAL = {TOTAL #},\n\t\tNUM_PERCENT = PERCENT,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> STGHistTransaccions"
+		}
+	}
+}

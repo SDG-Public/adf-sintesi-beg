@@ -1,0 +1,91 @@
+{
+	"name": "DM_BEG_DIM_TIME",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_ES_LABORABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANY",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NUM_SEMESTRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_TRIMESTRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANY_TRIMESTRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_MES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MES_NN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANY_MES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DIA_DD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DIA_SEMANA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MES_CAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DIA_CAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_SEMANA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_DM",
+			"table": "DM_BEG_DIM_TIME"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

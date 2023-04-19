@@ -1,0 +1,59 @@
+{
+	"name": "DF_DM_BEG_AMBIT_TERRITORIAL",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_DIM_TERRITORIAL_AMBIT_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "STGAmbitTerritorial"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TERRITORIAL_AMBIT_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMAmbitTerritorial"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          IDAmbit as string,",
+				"          Nom_Ambit as string,",
+				"          Data_baixa as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGAmbitTerritorial",
+				"STGAmbitTerritorial sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_AMBIT_TERRITORIAL as string,",
+				"          DESC_AMBIT_TERRITORIAL as string,",
+				"          DATA_BAIXA as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          ID_AMBIT_TERRITORIAL = IDAmbit,",
+				"          DESC_AMBIT_TERRITORIAL = Nom_Ambit,",
+				"          DATA_BAIXA = Data_baixa",
+				"     )) ~> DMAmbitTerritorial"
+			]
+		}
+	}
+}

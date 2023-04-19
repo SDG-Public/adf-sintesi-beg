@@ -1,0 +1,107 @@
+{
+	"name": "PL_BEG_FACT_ODS5",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_ODS_BEG_FACT_INDICADORS",
+				"description": "",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "HORES_DOBERTURA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS_BEG_FACT_INDICADORS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "HORES_DOBERTURA",
+				"description": "Calcula el IND_1_3",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select b.CODI_BIBLIOTECA,'IND_1_3' as CODI_INDICADOR,\n(coalesce(datediff(MINUTE,cast(dl_mati_ini as time),cast(isnull(dl_mati_fi,dl_tarda_fi) as time)),0)\n+ coalesce(datediff(MINUTE,cast(dl_tarda_ini as time),cast(dl_tarda_fi as time)),0)\n \n+ coalesce(datediff(MINUTE,cast(dt_mati_ini as time),cast(isnull(dt_mati_fi,dt_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dt_tarda_ini as time),cast(dt_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dc_mati_ini as time),cast(isnull(dc_mati_fi,dc_tarda_fi) as time)),0)\n+ coalesce(datediff(MINUTE,cast(dc_tarda_ini as time),cast(dc_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dj_mati_ini as time),cast(isnull(dj_mati_fi,dj_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dj_tarda_ini as time),cast(dj_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dv_mati_ini as time),cast(isnull(dv_mati_fi,dv_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dv_tarda_ini as time),cast(dv_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(ds_mati_ini as time),cast(isnull(ds_mati_fi,ds_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(ds_tarda_ini as time),cast(ds_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dg_mati_ini as time),cast(isnull(dg_mati_fi,dg_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dg_tarda_ini as time),cast(dg_tarda_fi as time)),0))\n\n/60.0\n as IND_VALOR\nfrom [DIB_STG].[STG_DIB_DIM_HORARIS_HIVERN] h\njoin [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] b on h.id_biblioteca=b.id_biblioteca\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [BEG_ODS].[ODS_BEG_HORES_DOBERTURA]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DM_BEG_DIM_DIBICA_HORARIS_HIVERN",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_HORES_DOBERTURA",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string",
+				"defaultValue": "202112"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX FITXERS/ODS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,64 @@
+{
+	"name": "DF_ODS3_BEG_FACT_INDICADORS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS2_BEG_FACT_INDICADORS_BASE",
+						"type": "DatasetReference"
+					},
+					"name": "ODS2FactIndicadors"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "DimBiblioteques"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimIndicadors"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS3_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS3FactIndicadors"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectInd"
+				},
+				{
+					"name": "CrossJoin"
+				},
+				{
+					"name": "SoloCodiBiblioteca"
+				},
+				{
+					"name": "Join"
+				},
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "Select"
+				},
+				{
+					"name": "FilterIndFitxer"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS2FactIndicadors\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nsource(output(\n\t\tID_INDICADOR as string,\n\t\tCODI_INDICADOR as string,\n\t\tDESC_INDICADOR as string,\n\t\tDESC_COMO_CALCULAR as string,\n\t\tFLAG_FITXER as string,\n\t\tFLAG_PRESTECS as string,\n\t\tFLAG_DATAENTRY as string,\n\t\tFLAG_NO_PERIODICS as string,\n\t\tFILA_LEVEL_1 as string,\n\t\tFILA_LEVEL_2 as string,\n\t\tFILA_LEVEL_3 as string,\n\t\tFILA_LEVEL_4 as string,\n\t\tFILA_LEVEL_5 as string,\n\t\tCOLUMNA_LEVEL_1 as string,\n\t\tCOLUMNA_LEVEL_2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimIndicadors\nDMDimIndicadors select(mapColumn(\n\t\tCODI_INDICADOR,\n\t\tFLAG_FITXER\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectInd\nFilterIndFitxer, SoloCodiBiblioteca join(FLAG_FITXER == '1' && CODI_BIBLIOTECA == CODI_BIBLIOTECA,\n\tjoinType:'cross',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> CrossJoin\nDimBiblioteques select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tID_AGENCY\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SoloCodiBiblioteca\nODS2FactIndicadors, CrossJoin join(ODS2FactIndicadors@CODI_BIBLIOTECA == SoloCodiBiblioteca@CODI_BIBLIOTECA\n\t&& ODS2FactIndicadors@CODI_INDICADOR == SelectInd@CODI_INDICADOR,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nJoin derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tCODI_BIBLIOTECA = SoloCodiBiblioteca@CODI_BIBLIOTECA,\n\t\tCODI_INDICADOR = SelectInd@CODI_INDICADOR,\n\t\tIND_VALOR,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nSelectInd filter(FLAG_FITXER == '1') ~> FilterIndFitxer\nSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS3FactIndicadors"
+		}
+	}
+}

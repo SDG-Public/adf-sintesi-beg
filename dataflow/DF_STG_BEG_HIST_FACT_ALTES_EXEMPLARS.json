@@ -1,0 +1,35 @@
+{
+	"name": "DF_STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_ALTES_EXEMPLARS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactAltesExemplars"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+						"type": "DatasetReference"
+					},
+					"name": "HISTAltesExemplars"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{4  Llibre prestable } as string,\n\t\t{14  Revista prestable} as string,\n\t\t{24  Sonor prestable} as string,\n\t\t{34  Vídeo prestable} as string,\n\t\t{44  Electrònic prestable} as string,\n\t\t{54  Gràfic prestable} as string,\n\t\t{64  Mapa prestable} as string,\n\t\t{74  Partitura prestable} as string,\n\t\t{84  Altre material prestable} as string,\n\t\t{99  Temari oposicions} as string,\n\t\t{100  Llibre no prestable} as string,\n\t\t{110  Revista no prestable} as string,\n\t\t{120  Sonor no prestable} as string,\n\t\t{130  Vídeo no prestable} as string,\n\t\t{140  Electrònic no prestable} as string,\n\t\t{150  Gràfic no prestable} as string,\n\t\t{160  Mapa no prestable} as string,\n\t\t{170  Partitura no prestable} as string,\n\t\t{173  Manuscrit no prestable} as string,\n\t\t{175  Microforma no prestable} as string,\n\t\t{180  Altre material no prestable} as string,\n\t\t{190  Analítica no prestable} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesExemplars\nSTGFactAltesExemplars derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tID_AGENCY = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_LLIBRE_PRESTABLE = {4  Llibre prestable },\n\t\tNUM_REVISTA_PRESTABLE = {14  Revista prestable},\n\t\tNUM_SONOR_PRESTABLE = {24  Sonor prestable},\n\t\tNUM_VIDEO_PRESTABLE = {34  Vídeo prestable},\n\t\tNUM_ELECTRONIC_PRESTABLE = {44  Electrònic prestable},\n\t\tNUM_GRAFIC_PRESTABLE = {54  Gràfic prestable},\n\t\tNUM_MAPA_PRESTABLE = {64  Mapa prestable},\n\t\tNUM_PARTITURA_PRESTABLE = {74  Partitura prestable},\n\t\tNUM_ALTRE_MATERIAL_PRESTABLE = {84  Altre material prestable},\n\t\tNUM_TEMARI_OPOSICIONS = {99  Temari oposicions},\n\t\tNUM_LLIBRE_NO_PRESTALBE = {100  Llibre no prestable},\n\t\tNUM_REVISTA_NO_PRESTABLE = {110  Revista no prestable},\n\t\tNUM_SONOR_NO_PRESTABLE = {120  Sonor no prestable},\n\t\tNUM_VIDEO_NO_PRESTABLE = {130  Vídeo no prestable},\n\t\tNUM_ELECTRONIC_NO_PRESTABLE = {140  Electrònic no prestable},\n\t\tNUM_GRAFIC_NO_PRESTABLE = {150  Gràfic no prestable},\n\t\tNUM_MAPA_NO_PRESTABLE = {160  Mapa no prestable},\n\t\tNUM_PARTITURA_NO_PRESTABLE = {170  Partitura no prestable},\n\t\tNUM_MANUSCRIT_NO_PRESTABLE = {173  Manuscrit no prestable},\n\t\tNUM_MICROFORMA_NO_PRESTABLE = {175  Microforma no prestable},\n\t\tNUM_ALTRE_MATERIAL_NO_PRESTABLE = {180  Altre material no prestable},\n\t\tNUM_ANALITICA_NO_PRESTABLE = {190  Analítica no prestable},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HISTAltesExemplars"
+		}
+	}
+}

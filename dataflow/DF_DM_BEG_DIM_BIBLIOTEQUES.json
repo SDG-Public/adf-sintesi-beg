@@ -1,0 +1,28 @@
+{
+	"name": "DF_DM_BEG_DIM_BIBLIOTEQUES",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimBiblioteques"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimBiblioteques"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_NIDEN as string,\n\t\tESTAT as string,\n\t\tTIPUS as string,\n\t\tCATEGORIA_ESPECIALITZADA as string,\n\t\tDESC_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string,\n\t\tDATA_ALTA as string,\n\t\tDATA_BAIXA as string,\n\t\tADAPTADA as string,\n\t\tFORMA_ACCESS as string,\n\t\tTITULARITAT as string,\n\t\t{ADREÇA} as string,\n\t\tMUNICIPI as string,\n\t\t{C.P.} as string,\n\t\tCOMARCA as string,\n\t\t{ÀMBIT TERRITORIAL} as string,\n\t\tSSTT as string,\n\t\tPROVINCIA as string,\n\t\tUTMX as string,\n\t\tUTMY as string,\n\t\t{MÒDUL_TERRITORIAL} as string,\n\t\t{TELÈFON} as string,\n\t\tEXT as string,\n\t\tFAX as string,\n\t\tWEB as string,\n\t\t{ADREÇA_ELCT} as string,\n\t\t{ADREÇA_ELECT_2} as string,\n\t\tTRACTAMENT_DIRECT as string,\n\t\tNOM_DIRECT as string,\n\t\tPRIMER_COGNOM as string,\n\t\tSEGON_COGNOM as string,\n\t\tOBSERVACIONS as string,\n\t\tGRUP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimBiblioteques\nODSDimBiblioteques sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as string,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimBiblioteques"
+		}
+	}
+}

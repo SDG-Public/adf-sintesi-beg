@@ -1,0 +1,41 @@
+{
+	"name": "TERRITORIAL_PROVINCIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_TERRITORIAL",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "TERRITORIAL"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "INE_Provincia",
+				"type": "varchar"
+			},
+			{
+				"name": "INE_Comunitat_Autonoma",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Provincia",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Provincia_cat",
+				"type": "varchar"
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "PROVINCIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,95 @@
+{
+	"name": "DF_DM_BEG_MUNICIPI",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_DIM_TERRITORIAL_MUNICIPI",
+						"type": "DatasetReference"
+					},
+					"name": "STGMunicipi"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TERRITORIAL_MUNICIPI",
+						"type": "DatasetReference"
+					},
+					"name": "DMMunicipi"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          INE_Municipi as string,",
+				"          INE_Comarca as string,",
+				"          INE_Provincia as string,",
+				"          Nom_Municipi as string,",
+				"          Nom_Municipi_cat as string,",
+				"          CP as string,",
+				"          Altitud as integer,",
+				"          Superficie as decimal(6,2),",
+				"          Cap_Pais as boolean,",
+				"          Cap_Comunitat_Autonoma as boolean,",
+				"          Cap_Provincia as boolean,",
+				"          Cap_Comarca as boolean,",
+				"          IDAmbit as string,",
+				"          cod_sstt as integer,",
+				"          Data_baixa as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGMunicipi",
+				"STGMunicipi sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          INE_MUNICIPI as string,",
+				"          INE_COMARCA as string,",
+				"          INE_PROVINCIA as string,",
+				"          DESC_MUNICIPI as string,",
+				"          DESC_MUNICIPI_CAT as string,",
+				"          CP as string,",
+				"          NUM_ALTITUD as integer,",
+				"          NUM_SUPERFICIE as decimal(6,2),",
+				"          FLAG_CAPITAL_PAIS as boolean,",
+				"          FLAG_CAPITAL_COMUNIDAD_AUTONOMA as boolean,",
+				"          FLAG_CAPITAL_PROVINCIA as boolean,",
+				"          FLAG_CAPITAL_COMARCA as boolean,",
+				"          ID_AMBIT_TERRITORIAL as string,",
+				"          CODI_SSTT as integer,",
+				"          DATA_BAIXA as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          INE_MUNICIPI = INE_Municipi,",
+				"          INE_COMARCA = INE_Comarca,",
+				"          INE_PROVINCIA = INE_Provincia,",
+				"          DESC_MUNICIPI = Nom_Municipi,",
+				"          DESC_MUNICIPI_CAT = Nom_Municipi_cat,",
+				"          CP,",
+				"          NUM_ALTITUD = Altitud,",
+				"          NUM_SUPERFICIE = Superficie,",
+				"          FLAG_CAPITAL_PAIS = Cap_Pais,",
+				"          FLAG_CAPITAL_COMUNIDAD_AUTONOMA = Cap_Comunitat_Autonoma,",
+				"          FLAG_CAPITAL_PROVINCIA = Cap_Provincia,",
+				"          FLAG_CAPITAL_COMARCA = Cap_Comarca,",
+				"          ID_AMBIT_TERRITORIAL = IDAmbit,",
+				"          CODI_SSTT = cod_sstt,",
+				"          DATA_BAIXA = Data_baixa",
+				"     )) ~> DMMunicipi"
+			]
+		}
+	}
+}

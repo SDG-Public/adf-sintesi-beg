@@ -1,0 +1,35 @@
+{
+	"name": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_TOTAL_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactTotalUsuaris"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_HIST_FACT_TOTAL_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "HistFactTotalUsuaris"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{10  General intern} as string,\n\t\t{11  Bad Code} as string,\n\t\t{20  General extern} as string,\n\t\t{25  BEG} as string,\n\t\t{30  Personal de la biblioteca} as string,\n\t\t{110  Institució interna} as string,\n\t\t{120  Institució externa} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalUsuaris\nSTGFactTotalUsuaris derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_GENERAL_INTERN = {10  General intern},\n\t\tNUM_BAD_CODE = {11  Bad Code},\n\t\tNUM_GENERAL_EXTERN = {20  General extern},\n\t\tNUM_BEG = {25  BEG},\n\t\tNUM_PERSONAL_DE_LA_BIBLIOTECA = {30  Personal de la biblioteca},\n\t\tNUM_INSTITUCIO_INTERNA = {110  Institució interna},\n\t\tNUM_INSTITUCIO_EXTERNA = {120  Institució externa},\n\t\tNUM_TOTALS = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactTotalUsuaris"
+		}
+	}
+}

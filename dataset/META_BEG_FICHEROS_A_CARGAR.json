@@ -1,0 +1,21 @@
+{
+	"name": "META_BEG_FICHEROS_A_CARGAR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SFTP_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "FITXERS"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,154 @@
+{
+	"name": "PL_BEG_SEMESTRAL",
+	"properties": {
+		"activities": [
+			{
+				"name": "SET_V_INI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LeerMesDeCargaIni",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_INI",
+					"value": {
+						"value": "@string(activity('LeerMesDeCargaIni').output.firstRow.DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_HISTORICO",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SET_V_FIN",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_HISTORICO",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_INI": {
+							"value": "@variables('V_INI')",
+							"type": "Expression"
+						},
+						"P_FIN": {
+							"value": "@variables('V_FIN')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "LeerMesDeCargaIni",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-7,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-7,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TIME",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "SET_V_FIN",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LeerMesDeCargaFin",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_FIN",
+					"value": {
+						"value": "@string(activity('LeerMesDeCargaFin').output.firstRow.DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "LeerMesDeCargaFin",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SET_V_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-2,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-2,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TIME",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"variables": {
+			"V_INI": {
+				"type": "String"
+			},
+			"V_FIN": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX BAIXES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:29Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

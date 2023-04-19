@@ -1,0 +1,1543 @@
+{
+	"name": "PL_BEG_DM_INTRA",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_BEG_DM_INTER_IND_10_3",
+				"description": "IND_10_3: Assistents a activitats per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_10_3\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_10_2"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_11_61",
+				"description": "IND_11_61: Despeses [de funcionament] per habitant",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": {
+								"value": "'@{'IND_11_61'}'",
+								"type": "Expression"
+							},
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": {
+								"value": "['IND_11']",
+								"type": "Expression"
+							},
+							"P_IND_ORIGEN_DENOMINADOR": {
+								"value": "['IND_6_4']",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_11_62",
+				"description": "IND_11_62: Despeses [de funcionament] per visita",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": {
+								"value": "'@{'IND_11_62'}'",
+								"type": "Expression"
+							},
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": {
+								"value": "['IND_11']",
+								"type": "Expression"
+							},
+							"P_IND_ORIGEN_DENOMINADOR": {
+								"value": "['IND_9_1']",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_11_63",
+				"description": "IND_11_63: Despeses [de funcionament] per dia de servei",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": {
+								"value": "'@{'IND_11_63'}'",
+								"type": "Expression"
+							},
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": {
+								"value": "['IND_11']",
+								"type": "Expression"
+							},
+							"P_IND_ORIGEN_DENOMINADOR": {
+								"value": "['IND_1_4']",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_11_64",
+				"description": "IND_11_64: Despeses [de funcionament] per préstec",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": {
+								"value": "'@{'IND_11_64'}'",
+								"type": "Expression"
+							},
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": {
+								"value": "['IND_11']",
+								"type": "Expression"
+							},
+							"P_IND_ORIGEN_DENOMINADOR": {
+								"value": "['IND_7_4']",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_11_65",
+				"description": "IND_11_65: Despeses [de funcionament] per m2",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": {
+								"value": "'@{'IND_11_65'}'",
+								"type": "Expression"
+							},
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": {
+								"value": "['IND_11']",
+								"type": "Expression"
+							},
+							"P_IND_ORIGEN_DENOMINADOR": {
+								"value": "['IND_5_2']",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_5_10",
+				"description": "IND_5_10: Superfície útil (m2) per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_5_10\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_5_2"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_5_011",
+				"description": "IND_5_011: Llocs de consulta per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_5_011\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_5_3"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_5_012",
+				"description": "IND_5_012: Ordinadors d us públic (exclusiu) per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_5_012\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_5_42"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_2_7",
+				"description": "IND_2_7: Jornades per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_2_7\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_2_6"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_8_4",
+				"description": "IND_8_4: Documents rebuts per préstec interbibliotecari per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_8_4\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_8_2"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_4_4",
+				"description": "IND_4_4: Publ. periòdiques (títols) per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_4_4\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_4_1"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_9_027",
+				"description": "IND_9_027: Visites per habitant",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_027\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_1"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_9_028",
+				"description": "IND_9_028: Visites per dia de servei",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_028\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_1"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_1_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_9_030",
+				"description": "IND_9_030: Visites en línia per habitant",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_029\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_2"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_9_031",
+				"description": "IND_9_031: Usuaris d´internet i ofimàtica (sessions) per habitant",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_031\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_0223"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_9_032",
+				"description": "IND_9_032: Usuaris d´internet i ofimàtica (sessions) per dia de servei",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_032\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_0223"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_1_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_9_033",
+				"description": "IND_9_033: Usuaris d´internet i ofimàtica (sessions) per visita",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_033\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_0223"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_9_2"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_6_5",
+				"description": "IND_6_5: % de carnets sobre població total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_6_5\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_6_1"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_41",
+				"description": "IND_12_41: Documents per habitant",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_41\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_3_8"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_42",
+				"description": "IND_12_42: % materials electrònics (no e-books) sobre fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_42\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_117",
+								"IND_12_127"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_3_8"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_43",
+				"description": "IND_12_43: % manuscrits sobre fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_43\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_124"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_3_8"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_44",
+				"description": "IND_12_44: % cartogràfics sobre fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_44\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_118",
+								"IND_12_128"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_3_8"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_45",
+				"description": "IND_12_45: % gràfics sobre fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_45\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_119",
+								"IND_12_129"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_3_8"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_46",
+				"description": "IND_12_46: % música impresa sobre fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_46\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_1110",
+								"IND_12_1210"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_3_8"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_47",
+				"description": "IND_12_47: % microformes sobre fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_47\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_12011"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_3_8"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_48",
+				"description": "IND_12_48: Altes de fons per 1.000 habitants",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_48\"",
+							"P_CIEN_MIL": "1000",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_2"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_49",
+				"description": "IND_12_49: % d´altes sobre el fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_49\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_2"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_12_1"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_12_410",
+				"description": "IND_12_410: % de baixes sobre el fons total",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_12_410\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_12_3"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_12_1"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_INTRA_ANY_ANT",
+				"description": "En este en concreto se calculan los indicadores IND_12_4011, IND_12_4012 y IND_6_6",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA_ANY_ANT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_CIEN_MIL": "100"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_INTRA_IND_9_029",
+				"description": "IND_9_029: Visites al dia per m2",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA_IND_9_029",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_9_029\"",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_9_1"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_1_4"
+							],
+							"P_IND_ORIGEN_DENOMINADOR2": [
+								"IND_5_2"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_7_61",
+				"description": "IND_7_61: Préstecs per habitant\nNO ESTA VALIDADO. CLIENTE NO LOS QUIERE.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_7_61\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_7_4"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_7_62",
+				"description": "IND_7_62: % de péstecs en relació amb el fons prestable total\nNO ESTA VALIDADO. CLIENTE NO LOS QUIERE.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_7_62\"",
+							"P_CIEN_MIL": "100",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_7_4"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_12_11"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_BEG_DM_INTER_IND_7_63",
+				"description": "IND_7_63: Usuaris actius de préstec per habitant\nNO ESTA VALIDADO. CLIENTE NO LOS QUIERE.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BEG_DM_INTER_INTRA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"P_FLAG_INTER": "0",
+							"P_NOM_IND_CALC": "\"IND_7_63\"",
+							"P_CIEN_MIL": "1",
+							"P_IND_ORIGEN_NUMERADOR": [
+								"IND_7_1"
+							],
+							"P_IND_ORIGEN_DENOMINADOR": [
+								"IND_6_4"
+							]
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "int",
+				"defaultValue": 20220301
+			},
+			"P_DATA_FI": {
+				"type": "int",
+				"defaultValue": 20220331
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX INTER INTRA"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

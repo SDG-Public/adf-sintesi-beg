@@ -1,0 +1,46 @@
+{
+	"name": "STG_BEG_DIM_TERRITORIAL_COMARCA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "INE_Comarca",
+				"type": "varchar"
+			},
+			{
+				"name": "IDAmbit",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Comarca",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Comarca_cat",
+				"type": "varchar"
+			},
+			{
+				"name": "cod_sstt",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "TER_STG",
+			"table": "STG_TER_DIM_COMARCA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

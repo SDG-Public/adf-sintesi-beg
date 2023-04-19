@@ -1,0 +1,138 @@
+{
+	"name": "PL_BEG_MENSUAL",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_BEG_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@variables('V_DATA_CARREGA')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SET_V_DATA_CARREGA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "LeerMesACargar",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,1,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,1,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TIME",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "SET_V_DATA_CARREGA",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LeerMesACargar",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_CARREGA",
+					"value": {
+						"value": "@string(activity('LeerMesACargar').output.firstRow.DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_CREA_DATA_ENTRY",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_FACT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_CREA_DATA_ENTRY",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@variables('V_DATA_CARREGA')",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"variables": {
+			"V_DATA_CARREGA": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX FITXERS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

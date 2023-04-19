@@ -1,0 +1,188 @@
+{
+	"name": "PL_BEG_BAIXES",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_BEG_BAIXES_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@pipeline().parameters.Data_Carrega",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_STG_HIST",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_BAIXES_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_STG_HIST",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@pipeline().parameters.Data_Carrega",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_ODS1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_BAIXES_STG_HIST",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_ODS1",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@pipeline().parameters.Data_Carrega",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_ODS2",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_BAIXES_ODS1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_ODS2",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_ODS3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_BAIXES_ODS2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_ODS3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@pipeline().parameters.Data_Carrega",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_ODS4",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_BAIXES_ODS3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_ODS4",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@pipeline().parameters.Data_Carrega",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_BEG_BAIXES_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BEG_BAIXES_ODS4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BEG_BAIXES_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Data_Carrega": {
+							"value": "@pipeline().parameters.Data_Carrega",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string",
+				"defaultValue": "202107"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX BAIXES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

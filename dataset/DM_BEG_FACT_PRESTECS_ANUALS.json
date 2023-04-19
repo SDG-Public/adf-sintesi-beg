@@ -1,0 +1,46 @@
+{
+	"name": "DM_BEG_FACT_PRESTECS_ANUALS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_DM",
+			"table": "DM_BEG_FACT_PRESTECS_ANUALS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

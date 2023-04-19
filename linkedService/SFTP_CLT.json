@@ -1,0 +1,27 @@
+{
+	"name": "SFTP_CLT",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Sftp",
+		"typeProperties": {
+			"host": "10.51.192.54",
+			"port": "22",
+			"skipHostKeyValidation": true,
+			"authenticationType": "Basic",
+			"userName": "Pclt_oec",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sftp-beg-connection"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

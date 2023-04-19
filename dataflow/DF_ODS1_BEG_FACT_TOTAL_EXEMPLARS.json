@@ -1,0 +1,54 @@
+{
+	"name": "DF_ODS1_BEG_FACT_TOTAL_EXEMPLARS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactTotalExemplars"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "DimBiblioteques"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactTotalExemplars"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CrearIndicadores"
+				},
+				{
+					"name": "Unpivot"
+				},
+				{
+					"name": "DataInsercio"
+				},
+				{
+					"name": "EliminarColumnas"
+				},
+				{
+					"name": "SelectAgency"
+				},
+				{
+					"name": "Join"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{4  Llibre prestable } as string,\n\t\t{14  Revista prestable} as string,\n\t\t{24  Sonor prestable} as string,\n\t\t{34  Vídeo prestable} as string,\n\t\t{44  Electrònic prestable} as string,\n\t\t{54  Gràfic prestable} as string,\n\t\t{64  Mapa prestable} as string,\n\t\t{74  Partitura prestable} as string,\n\t\t{84  Altre material prestable} as string,\n\t\t{99  Temari oposicions} as string,\n\t\t{100  Llibre no prestable} as string,\n\t\t{110  Revista no prestable} as string,\n\t\t{120  Sonor no prestable} as string,\n\t\t{130  Vídeo no prestable} as string,\n\t\t{140  Electrònic no prestable} as string,\n\t\t{150  Gràfic no prestable} as string,\n\t\t{160  Mapa no prestable} as string,\n\t\t{170  Partitura no prestable} as string,\n\t\t{173  Manuscrit no prestable} as string,\n\t\t{175  Microforma no prestable} as string,\n\t\t{180  Altre material no prestable} as string,\n\t\t{190  Analítica no prestable} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalExemplars\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as string,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nJoin derive(IND_12_122 = toInteger(replace(trim({110  Revista no prestable}),'.','')),\n\t\tIND_12_123 = toInteger(replace(trim({100  Llibre no prestable}),'.','')),\n\t\tIND_12_124 = toInteger(replace(trim({173  Manuscrit no prestable}),'.','')),\n\t\tIND_12_125 = toInteger(replace(trim({120  Sonor no prestable}),'.','')),\n\t\tIND_12_126 = toInteger(replace(trim({130  Vídeo no prestable}),'.','')),\n\t\tIND_12_127 = toInteger(replace(trim({140  Electrònic no prestable}),'.','')),\n\t\tIND_12_128 = toInteger(replace(trim({160  Mapa no prestable}),'.','')),\n\t\tIND_12_129 = toInteger(replace(trim({150  Gràfic no prestable}),'.','')),\n\t\tIND_12_1210 = toInteger(replace(trim({170  Partitura no prestable}),'.','')),\n\t\tIND_12_12011 = toInteger(replace(trim({175  Microforma no prestable}),'.','')),\n\t\tIND_12_12012 = toInteger(replace(trim({180  Altre material no prestable}),'.','')),\n\t\tIND_12_112 = toInteger(replace(trim({14  Revista prestable}),'.','')),\n\t\tIND_12_113 = toInteger(replace(trim({4  Llibre prestable }),'.','')),\n\t\tIND_12_115 = toInteger(replace(trim({24  Sonor prestable}),'.','')),\n\t\tIND_12_116 = toInteger(replace(trim({34  Vídeo prestable}),'.','')),\n\t\tIND_12_117 = toInteger(replace(trim({44  Electrònic prestable}),'.','')),\n\t\tIND_12_118 = toInteger(replace(trim({64  Mapa prestable}),'.','')),\n\t\tIND_12_119 = toInteger(replace(trim({54  Gràfic prestable}),'.','')),\n\t\tIND_12_1110 = toInteger(replace(trim({74  Partitura prestable}),'.','')),\n\t\tIND_12_11012 = toInteger(replace(trim({84  Altre material prestable}),'.','')) + toInteger(replace(trim({99  Temari oposicions}),'.',''))) ~> CrearIndicadores\nEliminarColumnas unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nCrearIndicadores select(mapColumn(\n\t\tIND_12_122,\n\t\tIND_12_123,\n\t\tIND_12_124,\n\t\tIND_12_125,\n\t\tIND_12_126,\n\t\tIND_12_127,\n\t\tIND_12_128,\n\t\tIND_12_129,\n\t\tIND_12_1210,\n\t\tIND_12_12011,\n\t\tIND_12_12012,\n\t\tIND_12_112,\n\t\tIND_12_113,\n\t\tIND_12_115,\n\t\tIND_12_116,\n\t\tIND_12_117,\n\t\tIND_12_118,\n\t\tIND_12_119,\n\t\tIND_12_1110,\n\t\tIND_12_11012,\n\t\tCODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EliminarColumnas\nDimBiblioteques select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tID_AGENCY\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectAgency\nSTGFactTotalExemplars, SelectAgency join(Codi == ID_AGENCY,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactTotalExemplars"
+		}
+	}
+}

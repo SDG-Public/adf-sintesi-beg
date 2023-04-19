@@ -1,0 +1,324 @@
+{
+	"name": "DIBICA_DIM_BIBLIOTEQUES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_DIBICA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DIBICA"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "id_biblioteca",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_usuari",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "codi",
+				"type": "char"
+			},
+			{
+				"name": "id_tipus",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_modul",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "niden",
+				"type": "char"
+			},
+			{
+				"name": "id_estat",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "denominacio",
+				"type": "varchar"
+			},
+			{
+				"name": "data_alta_biblio",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "data_baixa_biblio",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_tipus_via",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "nom_via",
+				"type": "varchar"
+			},
+			{
+				"name": "numero_via",
+				"type": "varchar"
+			},
+			{
+				"name": "ine_municipi",
+				"type": "varchar"
+			},
+			{
+				"name": "id_districte",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "cp",
+				"type": "varchar"
+			},
+			{
+				"name": "utmx",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "utmy",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "longitud",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "latitud",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "telefon",
+				"type": "varchar"
+			},
+			{
+				"name": "extensio",
+				"type": "varchar"
+			},
+			{
+				"name": "fax",
+				"type": "varchar"
+			},
+			{
+				"name": "email",
+				"type": "varchar"
+			},
+			{
+				"name": "web",
+				"type": "varchar"
+			},
+			{
+				"name": "beg",
+				"type": "bit"
+			},
+			{
+				"name": "slpc",
+				"type": "bit"
+			},
+			{
+				"name": "id_mapa",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_categoria",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_titularitat",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "finan_adm_central",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_generalitat",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_diputacio",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_con_comarcal",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_ajuntament",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_universitat",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_privada",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "finan_altres",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 2
+			},
+			{
+				"name": "id_forma_acces",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "es_cataleg_colectiu_cclp",
+				"type": "bit"
+			},
+			{
+				"name": "web_cataleg_colectiu_cclp",
+				"type": "varchar"
+			},
+			{
+				"name": "es_cataleg_colectiu_dip_bcn",
+				"type": "bit"
+			},
+			{
+				"name": "web_cataleg_colectiu_dip_bcn",
+				"type": "varchar"
+			},
+			{
+				"name": "es_cataleg_colectiu_ccuc",
+				"type": "bit"
+			},
+			{
+				"name": "web_cataleg_colectiu_ccuc",
+				"type": "varchar"
+			},
+			{
+				"name": "es_cataleg_colectiu_beg",
+				"type": "bit"
+			},
+			{
+				"name": "web_cataleg_colectiu_beg",
+				"type": "varchar"
+			},
+			{
+				"name": "es_cataleg_colectiu_altres",
+				"type": "bit"
+			},
+			{
+				"name": "web_cataleg_colectiu_altres",
+				"type": "varchar"
+			},
+			{
+				"name": "id_director_tractament",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "director_nom",
+				"type": "varchar"
+			},
+			{
+				"name": "director_primer_cognom",
+				"type": "varchar"
+			},
+			{
+				"name": "director_segon_cognom",
+				"type": "varchar"
+			},
+			{
+				"name": "adaptada",
+				"type": "bit"
+			},
+			{
+				"name": "observacions",
+				"type": "varchar"
+			},
+			{
+				"name": "obs_itineraris",
+				"type": "varchar"
+			},
+			{
+				"name": "data_alta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_alta",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_modif",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_modif",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_baixa",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_baixa",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_adscripcio",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_categoria_esp",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "BIBLIOTEQUES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

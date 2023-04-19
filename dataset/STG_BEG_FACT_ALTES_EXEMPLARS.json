@@ -1,0 +1,121 @@
+{
+	"name": "STG_BEG_FACT_ALTES_EXEMPLARS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Significat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "4  Llibre prestable ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "14  Revista prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "24  Sonor prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "34  Vídeo prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "44  Electrònic prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "54  Gràfic prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "64  Mapa prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "74  Partitura prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "84  Altre material prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "99  Temari oposicions",
+				"type": "nvarchar"
+			},
+			{
+				"name": "100  Llibre no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "110  Revista no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "120  Sonor no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "130  Vídeo no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "140  Electrònic no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "150  Gràfic no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "160  Mapa no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "170  Partitura no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "173  Manuscrit no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "175  Microforma no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "180  Altre material no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "190  Analítica no prestable",
+				"type": "nvarchar"
+			},
+			{
+				"name": "  Totals  ",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_FACT_ALTES_EXEMPLARS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

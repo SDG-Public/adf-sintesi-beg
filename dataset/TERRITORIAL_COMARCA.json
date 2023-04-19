@@ -1,0 +1,46 @@
+{
+	"name": "TERRITORIAL_COMARCA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_TERRITORIAL",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "TERRITORIAL"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "INE_Comarca",
+				"type": "varchar"
+			},
+			{
+				"name": "IDAmbit",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Comarca",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Comarca_cat",
+				"type": "varchar"
+			},
+			{
+				"name": "cod_sstt",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "COMARCA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

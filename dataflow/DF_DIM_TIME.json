@@ -1,0 +1,87 @@
+{
+	"name": "DF_DIM_TIME",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CSV_TIME",
+						"type": "DatasetReference"
+					},
+					"name": "CSVTime"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_TIME",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTime"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CambiarTipo"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          DATA as string,",
+				"          FLAG_ES_LABORABLE as string,",
+				"          DATA_ANY as string,",
+				"          NUM_SEMESTRE as string,",
+				"          NUM_TRIMESTRE as string,",
+				"          DATA_ANY_TRIMESTRE as string,",
+				"          DATA_MES as string,",
+				"          DATA_MES_NN as string,",
+				"          DATA_ANY_MES as string,",
+				"          NUM_DIA as string,",
+				"          NUM_DIA_DD as string,",
+				"          NUM_DIA_SEMANA as string,",
+				"          DESC_MES as string,",
+				"          DESC_MES_CAT as string,",
+				"          DESC_DIA as string,",
+				"          DESC_DIA_CAT as string,",
+				"          NUM_SEMANA as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CSVTime",
+				"CSVTime derive(DATA_ANY = toInteger(DATA_ANY),",
+				"          DATA_MES = toInteger(DATA_MES)) ~> CambiarTipo",
+				"CambiarTipo sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          DATA as string,",
+				"          FLAG_ES_LABORABLE as string,",
+				"          DATA_ANY as integer,",
+				"          NUM_SEMESTRE as string,",
+				"          NUM_TRIMESTRE as string,",
+				"          DATA_ANY_TRIMESTRE as string,",
+				"          DATA_MES as integer,",
+				"          DATA_MES_NN as string,",
+				"          DATA_ANY_MES as string,",
+				"          NUM_DIA as string,",
+				"          NUM_DIA_DD as string,",
+				"          NUM_DIA_SEMANA as string,",
+				"          DESC_MES as string,",
+				"          DESC_MES_CAT as string,",
+				"          DESC_DIA as string,",
+				"          DESC_DIA_CAT as string,",
+				"          NUM_SEMANA as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMDimTime"
+			]
+		}
+	}
+}

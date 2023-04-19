@@ -1,0 +1,42 @@
+{
+	"name": "ODS1_BEG_FACT_INDICADORS_ALTES_EXEMPLARS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS1",
+			"table": "ODS1_BEG_FACT_INDICADORS_ALTES_EXEMPLARS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

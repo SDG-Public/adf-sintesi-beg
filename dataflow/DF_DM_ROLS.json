@@ -1,0 +1,53 @@
+{
+	"name": "DF_DM_ROLS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_DIB_DIM_ROLS",
+						"type": "DatasetReference"
+					},
+					"name": "STGRols"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_DIB_DIM_ROLS",
+						"type": "DatasetReference"
+					},
+					"name": "DMRols"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltroRol"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          idRol as integer,",
+				"          DESC_ROL as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGRols",
+				"STGRols filter(in([1,4,5],idRol)) ~> FiltroRol",
+				"FiltroRol sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMRols"
+			]
+		}
+	}
+}

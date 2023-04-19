@@ -1,0 +1,61 @@
+{
+	"name": "STG_BEG_FACT_ALTES_USUARIS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Significat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "10  General intern",
+				"type": "nvarchar"
+			},
+			{
+				"name": "11  Bad Code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "20  General extern",
+				"type": "nvarchar"
+			},
+			{
+				"name": "25  BEG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "30  Personal de la biblioteca",
+				"type": "nvarchar"
+			},
+			{
+				"name": "110  Institució interna",
+				"type": "nvarchar"
+			},
+			{
+				"name": "120  Institució externa",
+				"type": "nvarchar"
+			},
+			{
+				"name": "  Totals  ",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_FACT_ALTES_USUARIS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

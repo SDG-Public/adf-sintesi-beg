@@ -1,0 +1,22 @@
+{
+	"name": "DB_CLT",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "bbdd-beg-connection"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IntegrationRuntimeAzure",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

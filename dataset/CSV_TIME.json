@@ -1,0 +1,96 @@
+{
+	"name": "CSV_TIME",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "FITXERS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "BEG_DIM_TIME.csv",
+				"container": "cltsintesibeg"
+			},
+			"columnDelimiter": "|",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "DATA",
+				"type": "String"
+			},
+			{
+				"name": "FLAG_ES_LABORABLE",
+				"type": "String"
+			},
+			{
+				"name": "DATA_ANY",
+				"type": "String"
+			},
+			{
+				"name": "NUM_SEMESTRE",
+				"type": "String"
+			},
+			{
+				"name": "NUM_TRIMESTRE",
+				"type": "String"
+			},
+			{
+				"name": "DATA_ANY_TRIMESTRE",
+				"type": "String"
+			},
+			{
+				"name": "DATA_MES",
+				"type": "String"
+			},
+			{
+				"name": "DATA_MES_NN",
+				"type": "String"
+			},
+			{
+				"name": "DATA_ANY_MES",
+				"type": "String"
+			},
+			{
+				"name": "NUM_DIA",
+				"type": "String"
+			},
+			{
+				"name": "NUM_DIA_DD",
+				"type": "String"
+			},
+			{
+				"name": "NUM_DIA_SEMANA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_MES",
+				"type": "String"
+			},
+			{
+				"name": "DESC_MES_CAT",
+				"type": "String"
+			},
+			{
+				"name": "DESC_DIA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_DIA_CAT",
+				"type": "String"
+			},
+			{
+				"name": "NUM_SEMANA",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

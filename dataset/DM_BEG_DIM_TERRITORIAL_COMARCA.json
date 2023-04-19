@@ -1,0 +1,46 @@
+{
+	"name": "DM_BEG_DIM_TERRITORIAL_COMARCA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "INE_COMARCA",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_AMBIT_TERRITORIAL",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMARCA",
+				"type": "varchar"
+			},
+			{
+				"name": "DESC_COMARCA_CAT",
+				"type": "varchar"
+			},
+			{
+				"name": "CODI_SSTT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "TER_DM",
+			"table": "DM_TER_DIM_COMARCA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

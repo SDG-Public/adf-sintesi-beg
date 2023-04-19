@@ -1,0 +1,941 @@
+{
+	"name": "PL_BEG_FACT_ODS1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ODS1_BEG_ALTES_EXEMPLARS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_EXEMPLARS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TOTAL_EXEMPLARS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_ALTES_EXEMPLARS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_EXEMPLARS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_ALTES_BIBLIOGRAFICS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_BIBLIOGRAFICS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TOTAL_BIBLIOGRAFICS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_ALTES_BIBLIOGRAFICS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_ALTES_USUARIS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_USUARIS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TOTAL_USUARIS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_ALTES_USUARIS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_USUARIS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TOTAL_HOLDINGS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TOTAL_HOLDINGS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_ALTES_HOLDINGS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS1_BEG_TOTAL_HOLDINGS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_ALTES_HOLDINGS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS1_BEG_TRANSACCIONS",
+				"description": "Calcular indicadores base",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS1_BEG_FACT_TRANSACCIONS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT  biblios.ID_AGENCY as id_biblioteca,\n\t[BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador,\n\tcount(*) as valor\nFROM (\nselect DISTINCT [OUT LOC], taula.[RECORD #(PATRON)], taula.[P TYPE] \n\t\tfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\t ) taula_aux\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR] \n\t\tON taula_aux.[P TYPE] = [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].[P_TYPE] and [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].DESC_CONSULTA = 'BEG_CONSULTA_01'\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_TERMINALS] term\n\t\tON taula_aux.[OUT LOC] = term.ID_TERMINAL\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] biblios  \n\t\tON biblios.CODI_BIBLIOTECA = term.CODI_BIBLIOTECA\ngroup by biblios.ID_AGENCY, [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA1]",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA1",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA3",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT biblios.ID_AGENCY as id_biblioteca,\n\t[BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR] \n\t\tON taula.[P TYPE] = [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].P_TYPE and [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].DESC_CONSULTA = 'BEG_CONSULTA_03'\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_TERMINALS] term\n\t\tON taula.[OUT LOC] = term.ID_TERMINAL\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] biblios  \n\t\tON biblios.CODI_BIBLIOTECA = term.CODI_BIBLIOTECA\ngroup by biblios.ID_AGENCY, [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA3]",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA3",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA4",
+				"description": "",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select biblios.ID_AGENCY as id_biblioteca,\n\t[BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR] \n\t\tON taula.[I TYPE] = [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].P_TYPE and [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].DESC_CONSULTA = 'BEG_CONSULTA_04'\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_TERMINALS] term\n\t\tON taula.[OUT LOC] = term.ID_TERMINAL\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] biblios  \n\t\tON biblios.CODI_BIBLIOTECA = term.CODI_BIBLIOTECA\ngroup by biblios.ID_AGENCY, [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA4]",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA4",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA5",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select biblios.ID_AGENCY as id_biblioteca,\n\t[BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR] \n\t\tON taula.[I TYPE] = [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].p_type and [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].desc_consulta = 'BEG_CONSULTA_05'\n\tINNER JOIN (SELECT * FROM [BEG_DM].[DM_BEG_DIM_TERMINALS]\n\t\tWHERE FLAG_AUTOPRESTEC = 1) term\n\t\t\tON taula.[OUT LOC] = term.ID_TERMINAL\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] biblios  \n\t\tON biblios.CODI_BIBLIOTECA = term.CODI_BIBLIOTECA\ngroup by biblios.ID_AGENCY, [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA5]",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA5",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DF_ODS_BEG_FACT_INDICADORS_PRESTECS",
+				"description": "Juntar todos los indicadores base de prestecs",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA5",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA4",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSUTLA7",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA9",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA8",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA10",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS_BEG_FACT_INDICADORS_PRESTECS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSUTLA7",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select biblios.ID_AGENCY as id_biblioteca,\n\t'IND_8_1311' as codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\tINNER JOIN (select ID_AGENCY, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc\ninner join [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] bib\n\ton bib.CODI_BIBLIOTECA = loc.CODI_BIBLIOTECA) biblios  ON biblios.ID_AGENCY = taula.AGENCY \n\tinner join (select ID_TERMINAL, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_TERMINALS] ter\ninner join [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc2 on ter.CODI_BIBLIOTECA = loc2.CODI_BIBLIOTECA) biblios2 on biblios2.ID_TERMINAL = taula.[OUT LOC] \nwhere biblios.ID_LOCATION <> biblios2.ID_LOCATION \n\tand\tbiblios2.ID_LOCATION = taula.LOCATION \n\tand biblios.ID_LOCATION <> taula.LOCATION\ngroup by biblios.ID_AGENCY",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA7]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA7",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA8",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select biblios.ID_AGENCY as id_biblioteca,\n\t'IND_8_1312' as codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\tINNER JOIN (select ID_AGENCY, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc\ninner join [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] bib\n\ton bib.CODI_BIBLIOTECA = loc.CODI_BIBLIOTECA) biblios  ON biblios.ID_AGENCY = taula.AGENCY \n\tinner join (select ID_TERMINAL, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_TERMINALS] ter\ninner join [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc2 on ter.CODI_BIBLIOTECA = loc2.CODI_BIBLIOTECA) biblios2 on biblios2.ID_TERMINAL = taula.[OUT LOC]\nwhere biblios.ID_LOCATION <> biblios2.ID_LOCATION \n\tand\tbiblios2.ID_LOCATION <> taula.LOCATION \n\tand biblios.ID_LOCATION = taula.location\ngroup by biblios.ID_AGENCY",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA8]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA8",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA9",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select biblios2.ID_AGENCY as id_biblioteca,\n\t'IND_8_2311' as codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\tINNER JOIN (select ID_AGENCY, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc\ninner join [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] bib\n\ton bib.CODI_BIBLIOTECA = loc.CODI_BIBLIOTECA) biblios  ON biblios.ID_AGENCY = taula.AGENCY \n\tinner join (select ID_AGENCY, ID_TERMINAL, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_TERMINALS] ter\ninner join [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc2 on ter.CODI_BIBLIOTECA = loc2.CODI_BIBLIOTECA\nINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] b ON b.CODI_BIBLIOTECA = ter.CODI_BIBLIOTECA\n\t) biblios2 on biblios2.ID_TERMINAL = taula.[OUT LOC]\nwhere biblios.ID_LOCATION <> biblios2.ID_LOCATION\n\tand\tbiblios2.ID_LOCATION = taula.LOCATION\n\tand biblios.ID_LOCATION <> taula.location\ngroup by biblios2.ID_AGENCY\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA9]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA9",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA10",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select biblios2.ID_AGENCY as id_biblioteca,\n\t'IND_8_2312' as codi_indicador,\n\tcount(*) as valor\nfrom [BEG_STG].[STG_BEG_FACT_PRESTECS] taula \n\tINNER JOIN (select ID_AGENCY, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc\ninner join [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] bib\n\ton bib.CODI_BIBLIOTECA = loc.CODI_BIBLIOTECA) biblios  ON biblios.ID_AGENCY = taula.AGENCY \n\tinner join (select ID_AGENCY, ID_TERMINAL, ID_LOCATION from [BEG_DM].[DM_BEG_DIM_TERMINALS] ter\ninner join [BEG_DM].[DM_BEG_DIM_LOCATIONS] loc2 on ter.CODI_BIBLIOTECA = loc2.CODI_BIBLIOTECA\nINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] b ON b.CODI_BIBLIOTECA = ter.CODI_BIBLIOTECA\n\t) biblios2 on biblios2.ID_TERMINAL = taula.[OUT LOC]\nwhere biblios.ID_LOCATION <> biblios2.ID_LOCATION \n\tand\tbiblios2.ID_LOCATION <> taula.LOCATION \n\tand biblios.ID_LOCATION = taula.location\ngroup by biblios2.ID_AGENCY",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [BEG_ODS].[ODS_BEG_FACT_PRESTEC_CONSULTA10]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA10",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "CARREGA_PROCEDENCIA",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(substring(pipeline().parameters.Data_Carrega,4,2),'12')",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "ODS_PROCEDENCIA",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "1.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_ODS1_BEG_FACT_PROCEDENCIA",
+									"type": "DataFlowReference",
+									"parameters": {
+										"Data_Carrega": {
+											"value": "'@{pipeline().parameters.Data_Carrega}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"integrationRuntime": {
+									"referenceName": "IntegrationRuntimeAzure",
+									"type": "IntegrationRuntimeReference"
+								},
+								"traceLevel": "Fine"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "ODS_BEG_FACT_PRESTEC_CONSULTA2",
+				"description": "Calcula mediante la query los prestamos anuales por biblioteca",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DF_ODS_BEG_FACT_INDICADORS_PRESTECS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('SELECT  biblios.ID_AGENCY as id_biblioteca,\n\t[BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador,\n\tcount(*) as valor, \n\tCONVERT(date, ''',string(add(int(substring(pipeline().parameters.Data_Carrega,0,4)),-1)),''' + ''12'' + ''01'') as data_periode,\n\tconvert(date,getdate()) as data_insercio\nFROM (\nselect DISTINCT ID_OUT_LOC, taula.[CODI_RECORD_PATRON], taula.[NUM_P_TYPE] \n\t\tfrom [BEG_STG].[STG_BEG_HIST_FACT_PRESTECS] taula \n\t\twhere YEAR(DATA_PERIODE) = ',string(add(int(substring(pipeline().parameters.Data_Carrega,0,4)),-1)),'\n\t ) taula_aux\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR] \n\t\tON taula_aux.[NUM_P_TYPE] = [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].[P_TYPE] and [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].DESC_CONSULTA = ''BEG_CONSULTA_02''\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_TERMINALS] term\n\t\tON taula_aux.[ID_OUT_LOC] = term.ID_TERMINAL\n\tINNER JOIN [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] biblios  \n\t\tON biblios.CODI_BIBLIOTECA = term.CODI_BIBLIOTECA\ngroup by biblios.ID_AGENCY, [BEG_DM].[DM_BEG_DIM_REL_P_TYPE_INDICADOR].codi_indicador')",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [BEG_ODS].[ODS_BEG_PRESTECS_ANUALS]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "STG_BEG_FACT_PRESTECS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_BEG_PRESTECS_ANUALS",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "FACT_PRESTECS_ANUALS",
+				"description": "Mete en la tabla DM_PRESTECS_ANUALS la información de la ODS con ceros en los indicadores que no se hayan calculado.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "ODS_BEG_FACT_PRESTEC_CONSULTA2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_FACT_PRESTECS_ANUALS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string",
+				"defaultValue": "202109"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX FITXERS/ODS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

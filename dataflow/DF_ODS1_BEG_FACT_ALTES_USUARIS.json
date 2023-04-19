@@ -1,0 +1,64 @@
+{
+	"name": "DF_ODS1_BEG_FACT_ALTES_USUARIS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_FACT_ALTES_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactAltesUsuaris"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_LOCATIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DimLocations"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimBiblioteques"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactAltesUsuaris"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CrearIndicadores"
+				},
+				{
+					"name": "EliminarColumnas"
+				},
+				{
+					"name": "Unpivot"
+				},
+				{
+					"name": "DataInsercio"
+				},
+				{
+					"name": "Join"
+				},
+				{
+					"name": "ConvierteNullEnCero"
+				},
+				{
+					"name": "join1"
+				}
+			],
+			"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{10  General intern} as string,\n\t\t{11  Bad Code} as string,\n\t\t{20  General extern} as string,\n\t\t{25  BEG} as string,\n\t\t{30  Personal de la biblioteca} as string,\n\t\t{110  Institució interna} as string,\n\t\t{120  Institució externa} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesUsuaris\nsource(output(\n\t\tID_LOCATION as string,\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimLocations\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimBiblioteques\njoin1 derive(IND_6_21 = toInteger(replace(trim({10  General intern}),'.','')),\n\t\tIND_6_22 = toInteger(replace(trim({20  General extern}),'.','')),\n\t\tIND_6_23 = toInteger(replace(trim({25  BEG}),'.','')),\n\t\tIND_6_24 = toInteger(replace(trim({30  Personal de la biblioteca}),'.','')),\n\t\tIND_6_25 = toInteger(replace(trim({110  Institució interna}),'.','')),\n\t\tIND_6_26 = toInteger(replace(trim({120  Institució externa}),'.',''))) ~> CrearIndicadores\nCrearIndicadores select(mapColumn(\n\t\tIND_6_21,\n\t\tIND_6_22,\n\t\tIND_6_23,\n\t\tIND_6_24,\n\t\tIND_6_25,\n\t\tIND_6_26,\n\t\tCODI_BIBLIOTECA = DMDimBiblioteques@CODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EliminarColumnas\nEliminarColumnas unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nConvierteNullEnCero derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nSTGFactAltesUsuaris, DimLocations join(Codi == ID_LOCATION,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nUnpivot derive(IND_VALOR = iifNull(IND_VALOR, 0)) ~> ConvierteNullEnCero\nJoin, DMDimBiblioteques join(DimLocations@CODI_BIBLIOTECA == DMDimBiblioteques@CODI_BIBLIOTECA,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join1\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactAltesUsuaris"
+		}
+	}
+}

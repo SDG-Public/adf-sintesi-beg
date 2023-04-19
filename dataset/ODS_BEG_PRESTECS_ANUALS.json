@@ -1,0 +1,42 @@
+{
+	"name": "ODS_BEG_PRESTECS_ANUALS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_biblioteca",
+				"type": "varchar"
+			},
+			{
+				"name": "codi_indicador",
+				"type": "nvarchar"
+			},
+			{
+				"name": "valor",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_periode",
+				"type": "date"
+			},
+			{
+				"name": "data_insercio",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS",
+			"table": "ODS_BEG_PRESTECS_ANUALS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

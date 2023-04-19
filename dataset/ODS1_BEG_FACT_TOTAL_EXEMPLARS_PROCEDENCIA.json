@@ -1,0 +1,42 @@
+{
+	"name": "ODS1_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS1",
+			"table": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS_PROCEDENCIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

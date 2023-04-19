@@ -1,0 +1,88 @@
+{
+	"name": "DF_DM_BEG_FACT_INDICADOR",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactIndicadors"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_FACT_PRESTECS_ANUALS",
+						"type": "DatasetReference"
+					},
+					"name": "PrestecsAnuals"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_BEG_FACT_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactIndicadors"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AlterRow"
+				},
+				{
+					"name": "Union"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_AGENCY as string,",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as decimal(17,6),",
+				"          DATA_INSERCIO as date,",
+				"          DATA_PERIODE as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSFactIndicadors",
+				"source(output(",
+				"          ID_AGENCY as string,",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as integer,",
+				"          DATA_PERIODE as date,",
+				"          DATA_INSERCIO as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> PrestecsAnuals",
+				"Union alterRow(upsertIf(1==1)) ~> AlterRow",
+				"ODSFactIndicadors, PrestecsAnuals union(byName: true)~> Union",
+				"AlterRow sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_AGENCY as string,",
+				"          CODI_BIBLIOTECA as string,",
+				"          CODI_INDICADOR as string,",
+				"          IND_VALOR as double,",
+				"          DATA_PERIODE as date,",
+				"          DATA_INSERCIO as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['CODI_BIBLIOTECA','CODI_INDICADOR','DATA_PERIODE'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMFactIndicadors"
+			]
+		}
+	}
+}

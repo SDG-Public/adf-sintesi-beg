@@ -1,0 +1,28 @@
+{
+	"name": "DF_BEG_DIM_REL_P_TYPE_INDICADOR",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_DIM_REL_P_TYPE_INDICADOR",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimRelPTypeIndicador"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_DIM_REL_P_TYPE_INDICADOR",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimRelPTypeIndicador"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tDESC_CONSULTA as string,\n\t\tP_TYPE as string,\n\t\tCODI_INDICADOR as string,\n\t\tID_INDICADOR as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimRelPTypeIndicador\nSTGDimRelPTypeIndicador sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDESC_CONSULTA as string,\n\t\tP_TYPE as string,\n\t\tCODI_INDICADOR as string,\n\t\tID_INDICADOR as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimRelPTypeIndicador"
+		}
+	}
+}

@@ -1,0 +1,63 @@
+{
+	"name": "STG_DIB_DIM_CATEGORIA_ESP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_categoria_esp",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "desc_categoria_esp",
+				"type": "varchar"
+			},
+			{
+				"name": "data_alta",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_alta",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_modif",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_modif",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "data_baixa",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "id_usuari_baixa",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DIB_STG",
+			"table": "STG_DIB_DIM_CATEGORIA_ESP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

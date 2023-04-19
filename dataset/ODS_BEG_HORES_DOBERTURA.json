@@ -1,0 +1,35 @@
+{
+	"name": "ODS_BEG_HORES_DOBERTURA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "char"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "IND_VALOR",
+				"type": "decimal",
+				"precision": 17,
+				"scale": 6
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS",
+			"table": "ODS_BEG_HORES_DOBERTURA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

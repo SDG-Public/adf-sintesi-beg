@@ -1,0 +1,252 @@
+{
+	"name": "PL_BEG_BAIXES_STG_HIST",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_STG_BEG_HIST_FACT_TOTAL_EXEMPLARS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "BORRAR_MES_ACTUAL_TOTAL_EXEMPLARS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_STG_BEG_FACT_HIST_TOTAL_EXEMPLARS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "BORRAR_MES_ACTUAL_TOTAL_EXEMPLARS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLES]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_PERIODE",
+							"type": "String"
+						},
+						"vDataCarrega": {
+							"value": {
+								"value": "@pipeline().parameters.Data_Carrega",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "BEG_STG",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "BORRAR_MES_ACTUAL_TOTAL_BIBLIOGRAFICS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "BORRAR_MES_ACTUAL_TOTAL_USUARIS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"Data_Carrega": {
+								"value": "'@{pipeline().parameters.Data_Carrega}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "IntegrationRuntimeAzure",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "BORRAR_MES_ACTUAL_TOTAL_USUARIS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLES]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_PERIODE",
+							"type": "String"
+						},
+						"vDataCarrega": {
+							"value": {
+								"value": "@pipeline().parameters.Data_Carrega",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "BEG_STG",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_BEG_HIST_FACT_TOTAL_USUARIS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "BORRAR_MES_ACTUAL_TOTAL_BIBLIOGRAFICS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLES]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_PERIODE",
+							"type": "String"
+						},
+						"vDataCarrega": {
+							"value": {
+								"value": "@pipeline().parameters.Data_Carrega",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "BEG_STG",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"Data_Carrega": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "SINTESI BEG/FLUX BAIXES/STG"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,30 @@
+{
+	"name": "DIBICA_DIM_ROLS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_DIBICA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DIBICA"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "idRol",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_ROL",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ROLS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

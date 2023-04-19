@@ -1,0 +1,33 @@
+{
+	"name": "STG_BEG_DIM_TERRITORIAL_AMBIT_TERRITORIAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDAmbit",
+				"type": "varchar"
+			},
+			{
+				"name": "Nom_Ambit",
+				"type": "varchar"
+			},
+			{
+				"name": "Data_baixa",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "TER_STG",
+			"table": "STG_TER_DIM_AMBIT_TERRITORIAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

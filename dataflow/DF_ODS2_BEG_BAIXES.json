@@ -1,0 +1,67 @@
+{
+	"name": "DF_ODS2_BEG_BAIXES",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_BIBLIOGRAFICS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactTotalBibliografics"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactTotalUsuaris"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactTotalExemplars"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_BIBLIOGRAFICS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactAltesBibliografics"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactAltesUsuaris"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_EXEMPLARS",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1FactAltesExemplars"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS2_BEG_FACT_INDICADORS_BASE",
+						"type": "DatasetReference"
+					},
+					"name": "ODS2FactIndicadorsBase"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union"
+				}
+			],
+			"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalBibliografics\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalUsuaris\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalExemplars\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesBibliografics\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesUsuaris\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_PERIODE as date,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesExemplars\nODS1FactTotalBibliografics, ODS1FactTotalUsuaris, ODS1FactTotalExemplars, ODS1FactAltesBibliografics, ODS1FactAltesUsuaris, ODS1FactAltesExemplars union(byName: true)~> Union\nUnion sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS2FactIndicadorsBase"
+		}
+	}
+}

@@ -1,0 +1,117 @@
+{
+	"name": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Significat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "-  Bad Code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "a  Llibre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "b  Revista",
+				"type": "nvarchar"
+			},
+			{
+				"name": "c  Partitura impr.",
+				"type": "nvarchar"
+			},
+			{
+				"name": "d  Partitura manus.",
+				"type": "nvarchar"
+			},
+			{
+				"name": "e  Mapa imprès",
+				"type": "nvarchar"
+			},
+			{
+				"name": "f  Mapa manuscrit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "g  Vídeo DVD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "i  Sonor no musical",
+				"type": "nvarchar"
+			},
+			{
+				"name": "j  Sonor musical",
+				"type": "nvarchar"
+			},
+			{
+				"name": "k  Gràfic",
+				"type": "nvarchar"
+			},
+			{
+				"name": "l  Article",
+				"type": "nvarchar"
+			},
+			{
+				"name": "m  Fitxer informàtic",
+				"type": "nvarchar"
+			},
+			{
+				"name": "n  Tesi",
+				"type": "nvarchar"
+			},
+			{
+				"name": "o  Equip",
+				"type": "nvarchar"
+			},
+			{
+				"name": "p  Material d'arxiu",
+				"type": "nvarchar"
+			},
+			{
+				"name": "r  Objecte",
+				"type": "nvarchar"
+			},
+			{
+				"name": "t  Manuscrit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "u  Base de dades",
+				"type": "nvarchar"
+			},
+			{
+				"name": "v  Revista en línia",
+				"type": "nvarchar"
+			},
+			{
+				"name": "z  Llibre en línia",
+				"type": "nvarchar"
+			},
+			{
+				"name": "  Totals  ",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_STG",
+			"table": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

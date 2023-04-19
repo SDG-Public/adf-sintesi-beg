@@ -1,0 +1,47 @@
+{
+	"name": "ODS_BEG_FACT_INDICADORS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_AGENCY",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BIBLIOTECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR",
+				"type": "decimal",
+				"precision": 17,
+				"scale": 6
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PERIODE",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "BEG_ODS",
+			"table": "ODS_BEG_FACT_INDICADORS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,30 @@
+{
+	"name": "STG_DIB_DIM_ROLS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DB_CLT",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "idRol",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_ROL",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "DIB_STG",
+			"table": "STG_DIB_DIM_ROLS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

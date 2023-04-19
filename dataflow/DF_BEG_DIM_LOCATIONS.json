@@ -1,0 +1,28 @@
+{
+	"name": "DF_BEG_DIM_LOCATIONS",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_BEG_DIM_LOCATIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimLocations"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_BEG_DIM_LOCATIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimLocations"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string,\n\t\tLOCATION as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimLocations\nSTGDimLocations sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string,\n\t\tLOCATION as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimLocations"
+		}
+	}
+}

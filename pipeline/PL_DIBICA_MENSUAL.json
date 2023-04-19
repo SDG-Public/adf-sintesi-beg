@@ -1,0 +1,46 @@
+{
+	"name": "PL_DIBICA_MENSUAL",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_DIBICA_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_DIBICA_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_DIBICA_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_DIBICA_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_DIBICA_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "DIBICA"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-19T09:22:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
