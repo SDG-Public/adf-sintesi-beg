@@ -1,0 +1,5141 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "df-clt-pre"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_ALTES_EXEMPLARS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_ALTES_EXEMPLARS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_ALTES_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_ALTES_HOLDINGS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_ALTES_USUARIS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_ALTES_USUARIS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_PRESTECS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LOCATION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_I_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_OUT_DATE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_OUT_LOC",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_PAT_AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_HOME_LIBR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_P_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_RECORD_PATRON",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_RECORD_ITEM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_DE_BARRES",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_CALL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_RECORD_BIBLIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_LANG",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_MAT_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_BIB_LVL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_COUNTRY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_008",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_020",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_022",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_CLASIF_CDU",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_AUTHOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_TITLE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_PUB_INFO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_IUSE3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_INTL_USE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_IN_LOC",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_PCODE1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_PCODE3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_PCODE2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_ADREÇA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_PCODE4",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_INSERCIO",
+						"type": "date"
+					},
+					{
+						"name": "DATA_PERIODE",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_PRESTECS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Codi",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Significat",
+						"type": "nvarchar"
+					},
+					{
+						"name": "0  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "1  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "2  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "3  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "4  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "5  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "6  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "7  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "8  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "9  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "10  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "11  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "12  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "13  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "14  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "15  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "16  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "17  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "18  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "19  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "20  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "21  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "22  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "23  -",
+						"type": "nvarchar"
+					},
+					{
+						"name": "totals",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_INSERCIO",
+						"type": "date"
+					},
+					{
+						"name": "DATA_PERIODE",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_TOTAL_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_TOTAL_HOLDINGS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_TOTAL_USUARIS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_TOTAL_USUARIS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_HIST_FACT_TRANSACCIONS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_HIST_FACT_TRANSACCIONS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIB_DICC_LLOCS_TREBALL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "DIB_STG",
+					"table": "STG_DIB_DIM_DICC_LLOCS_TREBALL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIB_DIM_CATEGORIA_ESP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_categoria_esp",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "desc_categoria_esp",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "DIB_STG",
+					"table": "STG_DIB_DIM_CATEGORIA_ESP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIB_DIM_DICC_TRACTAMENTS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "DIB_STG",
+					"table": "STG_DIB_DIM_DICC_TRACTAMENTS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIB_DIM_ROLS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "idRol",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_ROL",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "DIB_STG",
+					"table": "STG_DIB_DIM_ROLS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_BAIXES_STG')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_BEG_TOTAL_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TOTAL_EXEMPLARS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_TOTAL_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_TOTAL_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_EXEMPLARS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_TOTAL_USUARIS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TOTAL_USUARIS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_TOTAL_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_TOTAL_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_USUARIS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_TOTAL_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TOTAL_BIBLIOGRAFICS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_TOTAL_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_TOTAL_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_BIBLIOGRAFIC' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_BIBLIOGRAFICS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_BIBLIOGRAFICS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_BIBLIOGRAFICS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_ALTES_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_ALTES_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_BIBLIOGRAFICS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_BIBLIOGRAFICS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_BIBLIOGRAFICS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_EXEMPLARS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_ALTES_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_ALTES_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_EXEMPLARS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_USUARIS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_USUARIS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_ALTES_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_ALTES_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_USUARIS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202101"
+					}
+				},
+				"variables": {
+					"V_FICHEROS_A_CARGAR": {
+						"type": "Array"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX BAIXES/STG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:16Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_STG')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_BEG_TOTAL_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TOTAL_EXEMPLARS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_TOTAL_HOLDINGS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [BEG_STG].[STG_BEG_FACT_TOTAL_HOLDINGS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_HOLDINGS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_HOLDINGS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_TOTAL_USUARIS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TOTAL_USUARIS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_TOTAL_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TOTAL_BIBLIOGRAFICS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_BIBLIOGRAFICS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_EXEMPLARS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_EXEMPLARS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_HOLDINGS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_HOLDINGS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_HOLDINGS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_HOLDINGS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_BEG_ALTES_USUARIS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_ALTES_USUARIS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_ALTES_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_ALTES_USUARIS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_ALTES_HOLDINGS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_HOLDINGS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_ALTES_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_TOTAL_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_ALTES_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_TOTAL_HOLDINGS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_HOLDINGS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_TOTAL_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_TOTAL_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TOTAL_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "LIMPIAR_ALTES_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "Codi",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_ALTES_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "STG_BEG_TRANSACCIONS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "SftpReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false,
+									"disableChunking": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "truncate table [BEG_STG].[STG_BEG_FACT_TRANSACCIONS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_TRANSACCIONS",
+								"type": "DatasetReference",
+								"parameters": {
+									"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+									"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_FACT_TRANSACCIONS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "LIMPIAR_TRANSACCIONS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TRANSACCIONS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "[[grup estadístic]",
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_TRANSACCIONS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "ERROR_TRANSACCIONS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TRANSACCIONS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TRANSACCIONS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TRANSACCIONS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_TOTAL_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_EXEMPLARS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_TOTAL_HOLDINGS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_HOLDINGS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_HOLDINGS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_HOLDINGS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_TOTAL_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_USUARIS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_TOTAL_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_BIBLIOGRAFIC' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_TOTAL_BIBLIOGRAFICS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_ALTES_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_BIBLIOGRAFICS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_BIBLIOGRAFICS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_ALTES_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_EXEMPLARS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_ALTES_HOLDINGS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_HOLDINGS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_HOLDINGS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_HOLDINGS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "ERROR_ALTES_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "STG_BEG_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_ALTES_USUARIS').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_HOLDINGS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_HOLDINGS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TOTAL_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TOTAL_BIBLIOGRAFICS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_BIBLIOGRAFICS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_BIBLIOGRAFICS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_EXEMPLARS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_EXEMPLARS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_USUARIS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_USUARIS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_TRANSACCIONS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_TRANSACCIONS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_TRANSACCIONS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "OK_ALTES_HOLDINGS",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "LIMPIAR_ALTES_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "\nSELECT 'STG_BEG_FACT_ALTES_HOLDINGS' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LOGS_BEG",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202112"
+					}
+				},
+				"variables": {
+					"V_Until": {
+						"type": "Boolean",
+						"defaultValue": false
+					},
+					"V_Año": {
+						"type": "String",
+						"defaultValue": "2021"
+					},
+					"V_Mes": {
+						"type": "String",
+						"defaultValue": "01"
+					},
+					"V_Dia": {
+						"type": "String",
+						"defaultValue": "01"
+					},
+					"V_CountDia": {
+						"type": "String",
+						"defaultValue": "01"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/STG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:30Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_STG_2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CARREGA_PROCEDENCIA",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(substring(pipeline().parameters.Data_Carrega,4,2),'12')",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "STG_BEG_PROCEDENCIA",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "SftpReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false,
+												"disableChunking": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"preCopyScript": "drop table [BEG_STG].[STG_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA]",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": true,
+										"stagingSettings": {
+											"linkedServiceName": {
+												"referenceName": "AzureBlobStorage1",
+												"type": "LinkedServiceReference"
+											}
+										},
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "CSV_PROCEDENCIA",
+											"type": "DatasetReference",
+											"parameters": {
+												"Año": "@substring(pipeline().parameters.Data_Carrega,0,4)",
+												"Mes": "@substring(pipeline().parameters.Data_Carrega,4,2)"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								},
+								{
+									"name": "ERROR_PROCEDENCIA",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "STG_BEG_PROCEDENCIA",
+											"dependencyConditions": [
+												"Failed"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "\nSELECT 'STG_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'ERROR' AS ESTAT\n      , '@{replace(replace(string(activity('STG_BEG_PROCEDENCIA').output.errors[0].Message),'''',''),'\"','')}' AS ERROR\n      ,getdate() AS DATA_INSERCIO",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "LOGS_BEG",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								},
+								{
+									"name": "LIMPIAR_PROCEDENCIA",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "STG_BEG_PROCEDENCIA",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[DELETE_BAD_ROWS_FROM_TABLE]",
+										"storedProcedureParameters": {
+											"vColumnName": {
+												"value": "Codi",
+												"type": "String"
+											},
+											"vSchemaName": {
+												"value": "BEG_STG",
+												"type": "String"
+											},
+											"vTableName": {
+												"value": "STG_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "DB_CLT",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "OK_PROCEDENCIA",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "LIMPIAR_PROCEDENCIA",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "\nSELECT 'STG_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA' AS TAULA\n      ,'@{concat(substring(pipeline().parameters.Data_Carrega,0,4),'-',substring(pipeline().parameters.Data_Carrega,4,2))}' AS DATA_CARREGA\n      , 'OK' AS ESTAT\n      ,getdate() AS DATA_INSERCIO",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "LOGS_BEG",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202112"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/STG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:16Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_STG_PRESTECS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "TRUNCATE_STG_PRESTEC",
+						"description": "Trunca la tabla STG_BEG_FACT_PRESTECS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[TRUNCATE_TABLE]",
+							"storedProcedureParameters": {
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_FACT_PRESTECS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Get_FITCHEROS_A_CARGAR",
+						"description": "Cogemos el nombre de todos los archivos que hay que cargar para poder iterar en ellos a posterior.",
+						"type": "GetMetadata",
+						"dependsOn": [
+							{
+								"activity": "TRUNCATE_STG_PRESTEC",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "META_BEG_FICHEROS_A_CARGAR",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "SftpReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false,
+								"disableChunking": false
+							},
+							"formatSettings": {
+								"type": "BinaryReadSettings"
+							}
+						}
+					},
+					{
+						"name": "ForEach",
+						"description": "Para cara fichero, hacemos el copy data correspondiente en la tabla STG_BEG_FACT_PRESTECS",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Filter_FITCHEROS_A_CARGAR",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Filter_FITCHEROS_A_CARGAR').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "BEG_STG_FACT_PRESTEC",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "SftpReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false,
+												"disableChunking": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "AzureSqlSink"
+										},
+										"enableStaging": true,
+										"stagingSettings": {
+											"linkedServiceName": {
+												"referenceName": "AzureBlobStorage1",
+												"type": "LinkedServiceReference"
+											}
+										},
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "TXT_PRESTEC",
+											"type": "DatasetReference",
+											"parameters": {
+												"NombreArchivo": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "STG_BEG_FACT_PRESTECS",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "Set_FITCHEROS_A_CARGAR",
+						"description": "Metemos lo obtenido en la variable V_FICHEROS_A_CARGAR",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Get_FITCHEROS_A_CARGAR",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_FICHEROS_A_CARGAR",
+							"value": {
+								"value": "@activity('Get_FITCHEROS_A_CARGAR').output.childItems",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Filter_FITCHEROS_A_CARGAR",
+						"description": "Filtramos por los ficheros que queremos.",
+						"type": "Filter",
+						"dependsOn": [
+							{
+								"activity": "Set_FITCHEROS_A_CARGAR",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('V_FICHEROS_A_CARGAR')",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@and(contains( item().name, \n    concat(substring(pipeline().parameters.Data_Carrega,0,4),\n            '_',\n            substring(pipeline().parameters.Data_Carrega,4,2),\n            '_'\n     )\n )\n,\n    equals(length( item().name), 14)\n)",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202112"
+					}
+				},
+				"variables": {
+					"V_Until": {
+						"type": "Boolean",
+						"defaultValue": true
+					},
+					"V_Año": {
+						"type": "String"
+					},
+					"V_Mes": {
+						"type": "String"
+					},
+					"V_Dia": {
+						"type": "String",
+						"defaultValue": "01"
+					},
+					"V_CountDia": {
+						"type": "String",
+						"defaultValue": "01"
+					},
+					"V_FICHEROS_A_CARGAR": {
+						"type": "Array"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/STG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:29Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DIBICA_STG')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_BIBLIOTEQUES_DIBICA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [DIB_STG].[STG_DIB_DIM_BIBLIOTEQUES]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DIBICA_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_DIM_BIBLIOTEQUES_DIBICA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_HORARIS_HIVERN",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [DIB_STG].[STG_DIB_DIM_HORARIS_HIVERN]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DIBICA_DIM_HORARIS_HIVERN",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_DIM_HORARIS_HIVERN_DIBICA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_DICC_TRACTAMENTS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [DIB_STG].[STG_DIB_DIM_DICC_TRACTAMENTS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DIBICA_DIM_DICC_TRACTAMENTS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_DIB_DIM_DICC_TRACTAMENTS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_DICC_LLOCS_TREBALL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [DIB_STG].[STG_DIB_DIM_DICC_LLOCS_TREBALL]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DIBICA_DIM_LLOCS_TREBALL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_DIB_DICC_LLOCS_TREBALL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_CATEGORIA_ESP",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [DIB_STG].[STG_DIB_DIM_CATEGORIA_ESP]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DIBICA_DIM_CATEGORIA_ESP",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_DIB_DIM_CATEGORIA_ESP",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_ROLS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [DIB_STG].[STG_DIB_DIM_ROLS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DIBICA_DIM_ROLS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_DIB_DIM_ROLS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:17Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/STG_DIB_DIM_DICC_TRACTAMENTS')]",
+				"[concat(variables('factoryId'), '/datasets/STG_DIB_DICC_LLOCS_TREBALL')]",
+				"[concat(variables('factoryId'), '/datasets/STG_DIB_DIM_CATEGORIA_ESP')]",
+				"[concat(variables('factoryId'), '/datasets/STG_DIB_DIM_ROLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_TERRITORIAL_STG')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "STG_DIM_COMARCA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [TER_STG].[STG_TER_DIM_COMARCA]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TERRITORIAL_COMARCA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_DIM_TERRITORIAL_COMARCA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_DIM_AMBIT_TERRITORIAL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [TER_STG].[STG_TER_DIM_AMBIT_TERRITORIAL]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TERRITORIAL_AMBIT_TERRITORIAL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_DIM_TERRITORIAL_AMBIT_TERRITORIAL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_DIM_MUNICIPI",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [TER_STG].[STG_TER_DIM_MUNICIPI]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TERRITORIAL_MUNICIPI",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_DIM_TERRITORIAL_MUNICIPI",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "STG_DIM_PROVINCIA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [TER_STG].[STG_TER_DIM_PROVINCIA]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": true,
+							"stagingSettings": {
+								"linkedServiceName": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								}
+							},
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TERRITORIAL_PROVINCIA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "STG_BEG_DIM_TERRITORIAL_PROVINCIA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:18Z"
+			},
+			"dependsOn": []
+		}
+	]
+}

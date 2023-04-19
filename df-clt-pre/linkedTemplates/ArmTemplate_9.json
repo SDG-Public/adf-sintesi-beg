@@ -1,0 +1,1501 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "df-clt-pre"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TOTAL_EXEMPLARS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTotalExemplars"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DimBiblioteques"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalExemplars"
+						}
+					],
+					"transformations": [
+						{
+							"name": "CrearIndicadores"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "DataInsercio"
+						},
+						{
+							"name": "EliminarColumnas"
+						},
+						{
+							"name": "SelectAgency"
+						},
+						{
+							"name": "Join"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{4  Llibre prestable } as string,\n\t\t{14  Revista prestable} as string,\n\t\t{24  Sonor prestable} as string,\n\t\t{34  Vídeo prestable} as string,\n\t\t{44  Electrònic prestable} as string,\n\t\t{54  Gràfic prestable} as string,\n\t\t{64  Mapa prestable} as string,\n\t\t{74  Partitura prestable} as string,\n\t\t{84  Altre material prestable} as string,\n\t\t{99  Temari oposicions} as string,\n\t\t{100  Llibre no prestable} as string,\n\t\t{110  Revista no prestable} as string,\n\t\t{120  Sonor no prestable} as string,\n\t\t{130  Vídeo no prestable} as string,\n\t\t{140  Electrònic no prestable} as string,\n\t\t{150  Gràfic no prestable} as string,\n\t\t{160  Mapa no prestable} as string,\n\t\t{170  Partitura no prestable} as string,\n\t\t{173  Manuscrit no prestable} as string,\n\t\t{175  Microforma no prestable} as string,\n\t\t{180  Altre material no prestable} as string,\n\t\t{190  Analítica no prestable} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalExemplars\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as string,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nJoin derive(IND_12_122 = toInteger(replace(trim({110  Revista no prestable}),'.','')),\n\t\tIND_12_123 = toInteger(replace(trim({100  Llibre no prestable}),'.','')),\n\t\tIND_12_124 = toInteger(replace(trim({173  Manuscrit no prestable}),'.','')),\n\t\tIND_12_125 = toInteger(replace(trim({120  Sonor no prestable}),'.','')),\n\t\tIND_12_126 = toInteger(replace(trim({130  Vídeo no prestable}),'.','')),\n\t\tIND_12_127 = toInteger(replace(trim({140  Electrònic no prestable}),'.','')),\n\t\tIND_12_128 = toInteger(replace(trim({160  Mapa no prestable}),'.','')),\n\t\tIND_12_129 = toInteger(replace(trim({150  Gràfic no prestable}),'.','')),\n\t\tIND_12_1210 = toInteger(replace(trim({170  Partitura no prestable}),'.','')),\n\t\tIND_12_12011 = toInteger(replace(trim({175  Microforma no prestable}),'.','')),\n\t\tIND_12_12012 = toInteger(replace(trim({180  Altre material no prestable}),'.','')),\n\t\tIND_12_112 = toInteger(replace(trim({14  Revista prestable}),'.','')),\n\t\tIND_12_113 = toInteger(replace(trim({4  Llibre prestable }),'.','')),\n\t\tIND_12_115 = toInteger(replace(trim({24  Sonor prestable}),'.','')),\n\t\tIND_12_116 = toInteger(replace(trim({34  Vídeo prestable}),'.','')),\n\t\tIND_12_117 = toInteger(replace(trim({44  Electrònic prestable}),'.','')),\n\t\tIND_12_118 = toInteger(replace(trim({64  Mapa prestable}),'.','')),\n\t\tIND_12_119 = toInteger(replace(trim({54  Gràfic prestable}),'.','')),\n\t\tIND_12_1110 = toInteger(replace(trim({74  Partitura prestable}),'.','')),\n\t\tIND_12_11012 = toInteger(replace(trim({84  Altre material prestable}),'.','')) + toInteger(replace(trim({99  Temari oposicions}),'.',''))) ~> CrearIndicadores\nEliminarColumnas unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nCrearIndicadores select(mapColumn(\n\t\tIND_12_122,\n\t\tIND_12_123,\n\t\tIND_12_124,\n\t\tIND_12_125,\n\t\tIND_12_126,\n\t\tIND_12_127,\n\t\tIND_12_128,\n\t\tIND_12_129,\n\t\tIND_12_1210,\n\t\tIND_12_12011,\n\t\tIND_12_12012,\n\t\tIND_12_112,\n\t\tIND_12_113,\n\t\tIND_12_115,\n\t\tIND_12_116,\n\t\tIND_12_117,\n\t\tIND_12_118,\n\t\tIND_12_119,\n\t\tIND_12_1110,\n\t\tIND_12_11012,\n\t\tCODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EliminarColumnas\nDimBiblioteques select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tID_AGENCY\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectAgency\nSTGFactTotalExemplars, SelectAgency join(Codi == ID_AGENCY,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactTotalExemplars"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TOTAL_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTotalHoldings"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_LOCATIONS",
+								"type": "DatasetReference"
+							},
+							"name": "DMDimLocations"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactTotalHoldings"
+						}
+					],
+					"transformations": [
+						{
+							"name": "CalcularIndicadores"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "DataInsercio"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "Select"
+						},
+						{
+							"name": "BorrarColumnas"
+						},
+						{
+							"name": "SumaIndicadoresMismaBiblio"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalHoldings\nsource(output(\n\t\tID_LOCATION as string,\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimLocations\nJoin derive(IND_14_11 = toInteger(replace(trim({-  Sense informar}),'.','')),\n\t\tIND_14_12 = toInteger(replace(trim({0  Desconegut}),'.','')),\n\t\tIND_14_13 = toInteger(replace(trim({1  Altres}),'.','')),\n\t\tIND_14_14 = toInteger(replace(trim({2  Cessada}),'.','')),\n\t\tIND_14_15 = toInteger(replace(trim({4  Es rep}),'.','')),\n\t\tIND_14_16 = toInteger(replace(trim({5  No es rep}),'.',''))) ~> CalcularIndicadores\nSumaIndicadoresMismaBiblio unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tVALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nSTGFactTotalHoldings, DMDimLocations join(Codi == ID_LOCATION,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nDataInsercio select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR = VALOR,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nCalcularIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_14_11,\n\t\tIND_14_12,\n\t\tIND_14_13,\n\t\tIND_14_14,\n\t\tIND_14_15,\n\t\tIND_14_16\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> BorrarColumnas\nBorrarColumnas aggregate(groupBy(CODI_BIBLIOTECA),\n\tIND_14_11 = toInteger(sum(IND_14_11)),\n\t\tIND_14_12 = toInteger(sum(IND_14_12)),\n\t\tIND_14_13 = toInteger(sum(IND_14_13)),\n\t\tIND_14_14 = toInteger(sum(IND_14_14)),\n\t\tIND_14_15 = toInteger(sum(IND_14_15)),\n\t\tIND_14_16 = toInteger(sum(IND_14_16))) ~> SumaIndicadoresMismaBiblio\nSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactTotalHoldings"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TOTAL_USUARIS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTotalUsuaris"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_LOCATIONS",
+								"type": "DatasetReference"
+							},
+							"name": "DimLocations"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DimBiblioteques"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalUsuaris"
+						}
+					],
+					"transformations": [
+						{
+							"name": "CrearIndicadores"
+						},
+						{
+							"name": "EliminarColumnas"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "DataInsercio"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "join1"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{10  General intern} as string,\n\t\t{11  Bad Code} as string,\n\t\t{20  General extern} as string,\n\t\t{25  BEG} as string,\n\t\t{30  Personal de la biblioteca} as string,\n\t\t{110  Institució interna} as string,\n\t\t{120  Institució externa} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalUsuaris\nsource(output(\n\t\tID_LOCATION as string,\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimLocations\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\njoin1 derive(IND_6_11 = toInteger(replace(trim({10  General intern}),'.','')),\n\t\tIND_6_12 = toInteger(replace(trim({20  General extern}),'.','')),\n\t\tIND_6_13 = toInteger(replace(trim({25  BEG}),'.','')),\n\t\tIND_6_14 = toInteger(replace(trim({30  Personal de la biblioteca}),'.','')),\n\t\tIND_6_15 = toInteger(replace(trim({110  Institució interna}),'.','')),\n\t\tIND_6_16 = toInteger(replace(trim({120  Institució externa}),'.',''))) ~> CrearIndicadores\nCrearIndicadores select(mapColumn(\n\t\tIND_6_11,\n\t\tIND_6_12,\n\t\tIND_6_13,\n\t\tIND_6_14,\n\t\tIND_6_15,\n\t\tIND_6_16,\n\t\tCODI_BIBLIOTECA = DimBiblioteques@CODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EliminarColumnas\nEliminarColumnas unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nSTGFactTotalUsuaris, DimLocations join(Codi == ID_LOCATION,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nJoin, DimBiblioteques join(DimLocations@CODI_BIBLIOTECA == DimBiblioteques@CODI_BIBLIOTECA,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join1\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactTotalUsuaris"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TRANSACCIONS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TRANSACCIONS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTransaccions"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TERMINALS",
+								"type": "DatasetReference"
+							},
+							"name": "DimTerminals"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DMDimBiblioteques"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TRANSACCIONS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTransaccions"
+						}
+					],
+					"transformations": [
+						{
+							"name": "CrearIndicadores"
+						},
+						{
+							"name": "EliminarColumnas"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "DataInsercio"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "join1"
+						},
+						{
+							"name": "ConvierteNullEnCero"
+						},
+						{
+							"name": "Sumar"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\t{Grup estadístic} as string,\n\t\t{préstecs} as string,\n\t\tretorns as string,\n\t\trenovacions as string,\n\t\treserves as string,\n\t\t{Hl/RECLL} as string,\n\t\t{TOTAL #} as string,\n\t\tPERCENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTransaccions\nsource(output(\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimTerminals\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimBiblioteques\njoin1 derive(IND_13_1 = toInteger(replace(trim({préstecs}),'.','')),\n\t\tIND_13_2 = toInteger(replace(trim(retorns),'.','')),\n\t\tIND_13_3 = toInteger(replace(trim(renovacions),'.',''))) ~> CrearIndicadores\nCrearIndicadores select(mapColumn(\n\t\tIND_13_1,\n\t\tIND_13_2,\n\t\tIND_13_3,\n\t\tCODI_BIBLIOTECA = DMDimBiblioteques@CODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EliminarColumnas\nSumar unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nConvierteNullEnCero derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nSTGFactTransaccions, DimTerminals join({Grup estadístic} == ID_TERMINAL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nJoin, DMDimBiblioteques join(DimTerminals@CODI_BIBLIOTECA == DMDimBiblioteques@CODI_BIBLIOTECA,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join1\nUnpivot derive(IND_VALOR = iifNull(IND_VALOR, 0)) ~> ConvierteNullEnCero\nEliminarColumnas aggregate(groupBy(CODI_BIBLIOTECA),\n\tIND_13_1 = toInteger(sum(IND_13_1)),\n\t\tIND_13_2 = toInteger(sum(IND_13_2)),\n\t\tIND_13_3 = toInteger(sum(IND_13_3))) ~> Sumar\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactTransaccions"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS2_BEG_BAIXES')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalBibliografics"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalUsuaris"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalExemplars"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesBibliografics"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesUsuaris"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesExemplars"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS2_BEG_FACT_INDICADORS_BASE",
+								"type": "DatasetReference"
+							},
+							"name": "ODS2FactIndicadorsBase"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Union"
+						}
+					],
+					"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalBibliografics\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalUsuaris\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalExemplars\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesBibliografics\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesUsuaris\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_PERIODE as date,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesExemplars\nODS1FactTotalBibliografics, ODS1FactTotalUsuaris, ODS1FactTotalExemplars, ODS1FactAltesBibliografics, ODS1FactAltesUsuaris, ODS1FactAltesExemplars union(byName: true)~> Union\nUnion sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS2FactIndicadorsBase"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS2_BEG_FACT_INDICADORS_BASE')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesBibliografics"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesUsuaris"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesExemplars"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalBibliografics"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalUsuaris"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalExemplars"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactTotalHoldings"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_ALTES_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactAltesHoldings"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTECS_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1FactPrestecs"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS1_BEG_FACT_INDICADORS_TRANSACCIONS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS1Transaccions"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DMDimBiblioteques"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS2_BEG_FACT_INDICADORS_BASE",
+								"type": "DatasetReference"
+							},
+							"name": "ODS2FactIndicadorsBase"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Union"
+						}
+					],
+					"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesBibliografics\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesUsuaris\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_PERIODE as date,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesExemplars\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalBibliografics\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalUsuaris\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalExemplars\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactTotalHoldings\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactAltesHoldings\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1FactPrestecs\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1Transaccions\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimBiblioteques\nODS1FactAltesBibliografics, ODS1FactAltesUsuaris, ODS1FactAltesExemplars, ODS1FactTotalBibliografics, ODS1FactTotalUsuaris, ODS1FactTotalExemplars, ODS1FactTotalHoldings, ODS1FactAltesHoldings, ODS1Transaccions, ODS1FactPrestecs union(byName: true)~> Union\nUnion sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS2FactIndicadorsBase"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS3_BEG_BAIXES')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS2_BEG_FACT_INDICADORS_BASE",
+								"type": "DatasetReference"
+							},
+							"name": "ODS2FactIndicadorsBase"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "FactIndicadors"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS3_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS3FactIndicadors"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Pivot"
+						},
+						{
+							"name": "DataInsercio"
+						},
+						{
+							"name": "ColumnasIndBase",
+							"description": "Creates an explicit mapping for each drifted column"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "IndNuevos"
+						},
+						{
+							"name": "IndNuevos2"
+						},
+						{
+							"name": "FiltarFecha"
+						},
+						{
+							"name": "FiltrarIndicadores"
+						},
+						{
+							"name": "IndMesAnterior"
+						},
+						{
+							"name": "Union"
+						},
+						{
+							"name": "IndNuevos3"
+						},
+						{
+							"name": "QuitarIndAnt"
+						},
+						{
+							"name": "FiltroNULLs"
+						},
+						{
+							"name": "FiltroNoNULLs"
+						},
+						{
+							"name": "FiltroNoNULLsANT"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS2FactIndicadorsBase\nsource(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> FactIndicadors\nUnion pivot(groupBy(CODI_BIBLIOTECA),\n\tpivotBy(CODI_INDICADOR),\n\t{} = sum(IND_VALOR),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nPivot derive(IND_12_11012 = toInteger(byName('IND_12_11012')),\n\t\tIND_12_11013 = toInteger(byName('IND_12_11013')),\n\t\tIND_12_1110 = toInteger(byName('IND_12_1110')),\n\t\tIND_12_112 = toInteger(byName('IND_12_112')),\n\t\tIND_12_113 = toInteger(byName('IND_12_113')),\n\t\tIND_12_115 = toInteger(byName('IND_12_115')),\n\t\tIND_12_116 = toInteger(byName('IND_12_116')),\n\t\tIND_12_117 = toInteger(byName('IND_12_117')),\n\t\tIND_12_118 = toInteger(byName('IND_12_118')),\n\t\tIND_12_119 = toInteger(byName('IND_12_119')),\n\t\tIND_12_12011 = toInteger(byName('IND_12_12011')),\n\t\tIND_12_12012 = toInteger(byName('IND_12_12012')),\n\t\tIND_12_121 = toInteger(byName('IND_12_121')),\n\t\tIND_12_1210 = toInteger(byName('IND_12_1210')),\n\t\tIND_12_122 = toInteger(byName('IND_12_122')),\n\t\tIND_12_123 = toInteger(byName('IND_12_123')),\n\t\tIND_12_124 = toInteger(byName('IND_12_124')),\n\t\tIND_12_125 = toInteger(byName('IND_12_125')),\n\t\tIND_12_126 = toInteger(byName('IND_12_126')),\n\t\tIND_12_127 = toInteger(byName('IND_12_127')),\n\t\tIND_12_128 = toInteger(byName('IND_12_128')),\n\t\tIND_12_129 = toInteger(byName('IND_12_129')),\n\t\tIND_12_21013 = toInteger(byName('IND_12_21013')),\n\t\tIND_12_212 = toInteger(byName('IND_12_212')),\n\t\tIND_12_213 = toInteger(byName('IND_12_213')),\n\t\tIND_12_215 = toInteger(byName('IND_12_215')),\n\t\tIND_12_216 = toInteger(byName('IND_12_216')),\n\t\tIND_12_217 = toInteger(byName('IND_12_217')),\n\t\tIND_12_218 = toInteger(byName('IND_12_218')),\n\t\tIND_12_219 = toInteger(byName('IND_12_219')),\n\t\tIND_12_2110 = toInteger(byName('IND_12_2110')),\n\t\tIND_12_21012 = toInteger(byName('IND_12_21012')),\n\t\tIND_12_22012 = toInteger(byName('IND_12_22012')),\n\t\tIND_12_221 = toInteger(byName('IND_12_221')),\n\t\tIND_12_222 = toInteger(byName('IND_12_222')),\n\t\tIND_12_223 = toInteger(byName('IND_12_223')),\n\t\tIND_12_224 = toInteger(byName('IND_12_224')),\n\t\tIND_12_225 = toInteger(byName('IND_12_225')),\n\t\tIND_12_226 = toInteger(byName('IND_12_226')),\n\t\tIND_12_227 = toInteger(byName('IND_12_227')),\n\t\tIND_12_228 = toInteger(byName('IND_12_228')),\n\t\tIND_12_229 = toInteger(byName('IND_12_229')),\n\t\tIND_12_2210 = toInteger(byName('IND_12_2210')),\n\t\tIND_12_22011 = toInteger(byName('IND_12_22011')),\n\t\tIND_3_81 = toInteger(byName('IND_3_81')),\n\t\tIND_3_82 = toInteger(byName('IND_3_82')),\n\t\tIND_3_83 = toInteger(byName('IND_3_83')),\n\t\tIND_3_84 = toInteger(byName('IND_3_84')),\n\t\tIND_3_85 = toInteger(byName('IND_3_85')),\n\t\tIND_3_86 = toInteger(byName('IND_3_86')),\n\t\tIND_3_87 = toInteger(byName('IND_3_87')),\n\t\tIND_3_88 = toInteger(byName('IND_3_88')),\n\t\tIND_3_89 = toInteger(byName('IND_3_89')),\n\t\tIND_3_810 = toInteger(byName('IND_3_810')),\n\t\tIND_3_8011 = toInteger(byName('IND_3_8011')),\n\t\tIND_3_8012 = toInteger(byName('IND_3_8012')),\n\t\tIND_3_8013 = toInteger(byName('IND_3_8013')),\n\t\tIND_3_8014 = toInteger(byName('IND_3_8014')),\n\t\tIND_3_8015 = toInteger(byName('IND_3_8015')),\n\t\tIND_3_91 = toInteger(byName('IND_3_91')),\n\t\tIND_3_92 = toInteger(byName('IND_3_92')),\n\t\tIND_3_93 = toInteger(byName('IND_3_93')),\n\t\tIND_3_94 = toInteger(byName('IND_3_94')),\n\t\tIND_3_95 = toInteger(byName('IND_3_95')),\n\t\tIND_3_96 = toInteger(byName('IND_3_96')),\n\t\tIND_3_97 = toInteger(byName('IND_3_97')),\n\t\tIND_3_98 = toInteger(byName('IND_3_98')),\n\t\tIND_3_99 = toInteger(byName('IND_3_99')),\n\t\tIND_3_910 = toInteger(byName('IND_3_910')),\n\t\tIND_3_9011 = toInteger(byName('IND_3_9011')),\n\t\tIND_3_9012 = toInteger(byName('IND_3_9012')),\n\t\tIND_3_9013 = toInteger(byName('IND_3_9013')),\n\t\tIND_3_9014 = toInteger(byName('IND_3_9014')),\n\t\tIND_3_9015 = toInteger(byName('IND_3_9015')),\n\t\tIND_6_11 = toInteger(byName('IND_6_11')),\n\t\tIND_6_12 = toInteger(byName('IND_6_12')),\n\t\tIND_6_13 = toInteger(byName('IND_6_13')),\n\t\tIND_6_14 = toInteger(byName('IND_6_14')),\n\t\tIND_6_15 = toInteger(byName('IND_6_15')),\n\t\tIND_6_16 = toInteger(byName('IND_6_16')),\n\t\tIND_6_21 = toInteger(byName('IND_6_21')),\n\t\tIND_6_22 = toInteger(byName('IND_6_22')),\n\t\tIND_6_23 = toInteger(byName('IND_6_23')),\n\t\tIND_6_24 = toInteger(byName('IND_6_24')),\n\t\tIND_6_25 = toInteger(byName('IND_6_25')),\n\t\tIND_6_26 = toInteger(byName('IND_6_26')),\n\t\tIND_13_1 = toInteger(byName('IND_13_1')),\n\t\tIND_13_2 = toInteger(byName('IND_13_2')),\n\t\tIND_13_3 = toInteger(byName('IND_13_3')),\n\t\tIND_14_11 = toInteger(byName('IND_14_11')),\n\t\tIND_14_12 = toInteger(byName('IND_14_12')),\n\t\tIND_14_13 = toInteger(byName('IND_14_13')),\n\t\tIND_14_14 = toInteger(byName('IND_14_14')),\n\t\tIND_14_15 = toInteger(byName('IND_14_15')),\n\t\tIND_14_16 = toInteger(byName('IND_14_16')),\n\t\tIND_14_21 = toInteger(byName('IND_14_21')),\n\t\tIND_14_22 = toInteger(byName('IND_14_22')),\n\t\tIND_14_23 = toInteger(byName('IND_14_23')),\n\t\tIND_14_24 = toInteger(byName('IND_14_24')),\n\t\tIND_14_25 = toInteger(byName('IND_14_25')),\n\t\tIND_14_26 = toInteger(byName('IND_14_26')),\n\t\tIND_7_11 = toInteger(byName('IND_7_11')),\n\t\tIND_7_12 = toInteger(byName('IND_7_12')),\n\t\tIND_7_13 = toInteger(byName('IND_7_13')),\n\t\tIND_7_14 = toInteger(byName('IND_7_14')),\n\t\tIND_7_15 = toInteger(byName('IND_7_15')),\n\t\tIND_7_16 = toInteger(byName('IND_7_16')),\n\t\tIND_7_31 = toInteger(byName('IND_7_31')),\n\t\tIND_7_32 = toInteger(byName('IND_7_32')),\n\t\tIND_7_33 = toInteger(byName('IND_7_33')),\n\t\tIND_7_34 = toInteger(byName('IND_7_34')),\n\t\tIND_7_35 = toInteger(byName('IND_7_35')),\n\t\tIND_7_36 = toInteger(byName('IND_7_36')),\n\t\tIND_7_41 = toInteger(byName('IND_7_41')),\n\t\tIND_7_42 = toInteger(byName('IND_7_42')),\n\t\tIND_7_43 = toInteger(byName('IND_7_43')),\n\t\tIND_7_44 = toInteger(byName('IND_7_44')),\n\t\tIND_7_45 = toInteger(byName('IND_7_45')),\n\t\tIND_7_46 = toInteger(byName('IND_7_46')),\n\t\tIND_7_51 = toInteger(byName('IND_7_51')),\n\t\tIND_7_52 = toInteger(byName('IND_7_52')),\n\t\tIND_7_53 = toInteger(byName('IND_7_53')),\n\t\tIND_7_54 = toInteger(byName('IND_7_54')),\n\t\tIND_7_55 = toInteger(byName('IND_7_55')),\n\t\tIND_7_56 = toInteger(byName('IND_7_56')),\n\t\tIND_7_61 = toInteger(byName('IND_7_61')),\n\t\tIND_7_62 = toInteger(byName('IND_7_62')),\n\t\tIND_7_63 = toInteger(byName('IND_7_63')),\n\t\tIND_7_64 = toInteger(byName('IND_7_64')),\n\t\tIND_7_65 = toInteger(byName('IND_7_65')),\n\t\tIND_7_66 = toInteger(byName('IND_7_66')),\n\t\tIND_8_1311 = toInteger(byName('IND_8_1311')),\n\t\tIND_8_1312 = toInteger(byName('IND_8_1312')),\n\t\tIND_8_2311 = toInteger(byName('IND_8_2311')),\n\t\tIND_8_2312 = toInteger(byName('IND_8_2312')),\n\t\tIND_3_81_ANT = toInteger(byName('IND_3_81_ANT')),\n\t\tIND_3_82_ANT = toInteger(byName('IND_3_82_ANT')),\n\t\tIND_3_83_ANT = toInteger(byName('IND_3_83_ANT')),\n\t\tIND_3_84_ANT = toInteger(byName('IND_3_84_ANT')),\n\t\tIND_3_85_ANT = toInteger(byName('IND_3_85_ANT')),\n\t\tIND_3_86_ANT = toInteger(byName('IND_3_86_ANT')),\n\t\tIND_3_87_ANT = toInteger(byName('IND_3_87_ANT')),\n\t\tIND_3_88_ANT = toInteger(byName('IND_3_88_ANT')),\n\t\tIND_3_89_ANT = toInteger(byName('IND_3_89_ANT')),\n\t\tIND_3_810_ANT = toInteger(byName('IND_3_810_ANT')),\n\t\tIND_3_8011_ANT = toInteger(byName('IND_3_8011_ANT')),\n\t\tIND_3_8012_ANT = toInteger(byName('IND_3_8012_ANT')),\n\t\tIND_3_8013_ANT = toInteger(byName('IND_3_8013_ANT')),\n\t\tIND_3_8014_ANT = toInteger(byName('IND_3_8014_ANT')),\n\t\tIND_3_8015_ANT = toInteger(byName('IND_3_8015_ANT')),\n\t\tIND_6_11_ANT = toInteger(byName('IND_6_11_ANT')),\n\t\tIND_6_12_ANT = toInteger(byName('IND_6_12_ANT')),\n\t\tIND_6_13_ANT = toInteger(byName('IND_6_13_ANT')),\n\t\tIND_6_14_ANT = toInteger(byName('IND_6_14_ANT')),\n\t\tIND_6_15_ANT = toInteger(byName('IND_6_15_ANT')),\n\t\tIND_6_16_ANT = toInteger(byName('IND_6_16_ANT')),\n\t\tIND_14_11_ANT = toInteger(byName('IND_14_11_ANT')),\n\t\tIND_14_12_ANT = toInteger(byName('IND_14_12_ANT')),\n\t\tIND_14_13_ANT = toInteger(byName('IND_14_13_ANT')),\n\t\tIND_14_14_ANT = toInteger(byName('IND_14_14_ANT')),\n\t\tIND_14_15_ANT = toInteger(byName('IND_14_15_ANT')),\n\t\tIND_14_16_ANT = toInteger(byName('IND_14_16_ANT')),\n\t\tIND_12_112_ANT = toInteger(byName('IND_12_112_ANT')),\n\t\tIND_12_113_ANT = toInteger(byName('IND_12_113_ANT')),\n\t\tIND_12_115_ANT = toInteger(byName('IND_12_115_ANT')),\n\t\tIND_12_117_ANT = toInteger(byName('IND_12_117_ANT')),\n\t\tIND_12_118_ANT = toInteger(byName('IND_12_118_ANT')),\n\t\tIND_12_119_ANT = toInteger(byName('IND_12_119_ANT')),\n\t\tIND_12_1110_ANT = toInteger(byName('IND_12_1110_ANT')),\n\t\tIND_12_116_ANT = toInteger(byName('IND_12_116_ANT')),\n\t\tIND_12_11012_ANT = toInteger(byName('IND_12_11012_ANT')),\n\t\tIND_12_11013_ANT = toInteger(byName('IND_12_11013_ANT')),\n\t\tIND_12_121_ANT = toInteger(byName('IND_12_121_ANT')),\n\t\tIND_12_122_ANT = toInteger(byName('IND_12_122_ANT')),\n\t\tIND_12_123_ANT = toInteger(byName('IND_12_123_ANT')),\n\t\tIND_12_124_ANT = toInteger(byName('IND_12_124_ANT')),\n\t\tIND_12_125_ANT = toInteger(byName('IND_12_125_ANT')),\n\t\tIND_12_126_ANT = toInteger(byName('IND_12_126_ANT')),\n\t\tIND_12_127_ANT = toInteger(byName('IND_12_127_ANT')),\n\t\tIND_12_128_ANT = toInteger(byName('IND_12_128_ANT')),\n\t\tIND_12_129_ANT = toInteger(byName('IND_12_129_ANT')),\n\t\tIND_12_1210_ANT = toInteger(byName('IND_12_1210_ANT')),\n\t\tIND_12_12011_ANT = toInteger(byName('IND_12_12011_ANT')),\n\t\tIND_12_12012_ANT = toInteger(byName('IND_12_12012_ANT')),\n\t\tIND_18_1 = toInteger(byName('IND_18_1')),\n\t\tIND_18_2 = toInteger(byName('IND_18_2')),\n\t\tIND_18_3 = toInteger(byName('IND_18_3')),\n\t\tIND_18_4 = toInteger(byName('IND_18_4')),\n\t\tIND_18_5 = toInteger(byName('IND_18_5')),\n\t\tIND_18_6 = toInteger(byName('IND_18_6')),\n\t\tIND_18_7 = toInteger(byName('IND_18_7')),\n\t\tIND_18_8 = toInteger(byName('IND_18_8')),\n\t\tIND_18_9 = toInteger(byName('IND_18_9')),\n\t\tIND_18_10 = toInteger(byName('IND_18_10'))) ~> ColumnasIndBase\nQuitarIndAnt unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nColumnasIndBase derive(IND_3_8 = IND_3_81+IND_3_82+IND_3_83+IND_3_84+IND_3_85+IND_3_86+IND_3_87+IND_3_88+IND_3_89+IND_3_810+IND_3_8011+IND_3_8012+IND_3_8013+IND_3_8014+IND_3_8015,\n\t\tIND_3_9 = IND_3_91+IND_3_92+IND_3_93+IND_3_94+IND_3_95+IND_3_96+IND_3_97+IND_3_98+IND_3_99+IND_3_910+IND_3_9011+IND_3_9012+IND_3_9013+IND_3_9014+IND_3_9015,\n\t\tIND_3_101 = IND_3_81_ANT - IND_3_81 + IND_3_91,\n\t\tIND_3_102 = IND_3_82_ANT - IND_3_82 + IND_3_92,\n\t\tIND_3_103 = IND_3_83_ANT - IND_3_83 + IND_3_93,\n\t\tIND_3_104 = IND_3_84_ANT - IND_3_84 + IND_3_94,\n\t\tIND_3_105 = IND_3_85_ANT - IND_3_85 + IND_3_95,\n\t\tIND_3_106 = IND_3_86_ANT - IND_3_86 + IND_3_96,\n\t\tIND_3_107 = IND_3_87_ANT - IND_3_87 + IND_3_97,\n\t\tIND_3_108 = IND_3_88_ANT - IND_3_88 + IND_3_98,\n\t\tIND_3_109 = IND_3_89_ANT - IND_3_89 + IND_3_99,\n\t\tIND_3_1010 = IND_3_810_ANT - IND_3_810 + IND_3_910,\n\t\tIND_3_10011 = IND_3_8011_ANT - IND_3_8011 + IND_3_9011,\n\t\tIND_3_10012 = IND_3_8012_ANT - IND_3_8012 + IND_3_9012,\n\t\tIND_3_10013 = IND_3_8013_ANT - IND_3_8013 + IND_3_9013,\n\t\tIND_3_10014 = IND_3_8014_ANT - IND_3_8014 + IND_3_9014,\n\t\tIND_3_10015 = IND_3_8015_ANT - IND_3_8015 + IND_3_9015,\n\t\tIND_6_1 = IND_6_11+IND_6_12+IND_6_13+IND_6_14+IND_6_15+IND_6_16,\n\t\tIND_6_2 = IND_6_21+IND_6_22+IND_6_23+IND_6_24+IND_6_25+IND_6_26,\n\t\tIND_6_31 = IND_6_11_ANT - IND_6_11 + IND_6_21,\n\t\tIND_6_32 = IND_6_12_ANT - IND_6_12 + IND_6_22,\n\t\tIND_6_33 = IND_6_13_ANT - IND_6_13 + IND_6_23,\n\t\tIND_6_34 = IND_6_14_ANT - IND_6_14 + IND_6_24,\n\t\tIND_6_35 = IND_6_15_ANT - IND_6_15 + IND_6_25,\n\t\tIND_6_36 = IND_6_16_ANT - IND_6_16 + IND_6_26,\n\t\tIND_12_11 = IND_12_112+IND_12_113+IND_12_115+IND_12_116+IND_12_117+IND_12_118+IND_12_119+IND_12_1110+IND_12_11012+IND_12_11013,\n\t\tIND_12_12 = IND_12_121+IND_12_122+IND_12_123+IND_12_124+IND_12_125+IND_12_126+IND_12_127+IND_12_128+IND_12_129+IND_12_1210+IND_12_12011+IND_12_12012,\n\t\tIND_12_21 = IND_12_212+IND_12_213+IND_12_215+IND_12_216+IND_12_217+IND_12_218+IND_12_219+IND_12_2110+IND_12_21012+IND_12_21013,\n\t\tIND_12_22 = IND_12_221+IND_12_222+IND_12_223+IND_12_224+IND_12_225+IND_12_226+IND_12_227+IND_12_228+IND_12_229+IND_12_2210+IND_12_22011+IND_12_22012,\n\t\tIND_12_312 = IND_12_112_ANT -  IND_12_112 + IND_12_212,\n\t\tIND_12_313 = IND_12_113_ANT -  IND_12_113 + IND_12_213,\n\t\tIND_12_315 = IND_12_115_ANT -  IND_12_115 + IND_12_215,\n\t\tIND_12_316 = IND_12_116_ANT -  IND_12_116 + IND_12_216,\n\t\tIND_12_317 = IND_12_117_ANT -  IND_12_117 + IND_12_217,\n\t\tIND_12_318 = IND_12_118_ANT -  IND_12_118 + IND_12_218,\n\t\tIND_12_319 = IND_12_119_ANT -  IND_12_119 + IND_12_219,\n\t\tIND_12_3110 = IND_12_1110_ANT -  IND_12_1110 + IND_12_2110,\n\t\tIND_12_31012 = IND_12_11012_ANT -  IND_12_11012 + IND_12_21012,\n\t\tIND_12_31013 = IND_12_11013_ANT -  IND_12_11013 + IND_12_21013,\n\t\tIND_12_322 = IND_12_122_ANT - IND_12_122 + IND_12_222,\n\t\tIND_12_323 = IND_12_123_ANT - IND_12_123 + IND_12_223,\n\t\tIND_12_324 = IND_12_124_ANT - IND_12_124 + IND_12_224,\n\t\tIND_12_325 = IND_12_125_ANT - IND_12_125 + IND_12_225,\n\t\tIND_12_326 = IND_12_126_ANT - IND_12_126 + IND_12_226,\n\t\tIND_12_327 = IND_12_127_ANT - IND_12_127 + IND_12_227,\n\t\tIND_12_328 = IND_12_128_ANT - IND_12_128 + IND_12_228,\n\t\tIND_12_329 = IND_12_129_ANT - IND_12_129 + IND_12_229,\n\t\tIND_12_3210 = IND_12_1210_ANT - IND_12_1210 + IND_12_2210,\n\t\tIND_12_32011 = IND_12_12011_ANT - IND_12_12011 + IND_12_22011,\n\t\tIND_12_32012 = IND_12_12012_ANT - IND_12_12012 + IND_12_22012) ~> IndNuevos\nIndNuevos derive(IND_12_1 = IND_12_11+IND_12_12,\n\t\tIND_12_2 = IND_12_21+IND_12_22,\n\t\tIND_12_31 = IND_12_312+IND_12_313+IND_12_315+IND_12_316+IND_12_317+IND_12_318+IND_12_319+IND_12_3110+IND_12_31012+IND_12_31013,\n\t\tIND_12_32 = IND_12_322+IND_12_323+IND_12_324+IND_12_325+IND_12_326+IND_12_327+IND_12_328+IND_12_329+IND_12_3210+IND_12_32011+IND_12_32012,\n\t\tIND_3_10 = IND_3_101+IND_3_102+IND_3_103+IND_3_104+IND_3_105,\n\t\tIND_6_3 = IND_6_31+IND_6_32+IND_6_33+IND_6_34+IND_6_35+IND_6_36) ~> IndNuevos2\nFactIndicadors filter(addMonths(toDate(concat($Data_Carrega,'01'),'yyyyMMdd'),-1) == DATA_PERIODE) ~> FiltarFecha\nFiltarFecha filter(CODI_INDICADOR  == 'IND_3_81' || CODI_INDICADOR  == 'IND_3_82' || CODI_INDICADOR  == 'IND_3_83' || CODI_INDICADOR  == 'IND_3_84' || CODI_INDICADOR  == 'IND_3_85' || \nCODI_INDICADOR  == 'IND_3_86' || CODI_INDICADOR  == 'IND_3_87' || CODI_INDICADOR  == 'IND_3_88' || CODI_INDICADOR  == 'IND_3_89' || CODI_INDICADOR  == 'IND_3_810' || \nCODI_INDICADOR  == 'IND_3_8011' || CODI_INDICADOR  == 'IND_3_8012' || CODI_INDICADOR  == 'IND_3_8013' || CODI_INDICADOR  == 'IND_3_8014' || CODI_INDICADOR  == 'IND_3_8015' || \nCODI_INDICADOR  == 'IND_6_11' || CODI_INDICADOR  == 'IND_6_12' || CODI_INDICADOR  == 'IND_6_13' || CODI_INDICADOR  == 'IND_6_14' || CODI_INDICADOR  == 'IND_6_15' || \nCODI_INDICADOR  == 'IND_6_16' || CODI_INDICADOR  == 'IND_12_112' || CODI_INDICADOR  == 'IND_12_113' || CODI_INDICADOR  == 'IND_12_115' || CODI_INDICADOR  == 'IND_12_116' || \nCODI_INDICADOR  == 'IND_12_117' || CODI_INDICADOR  == 'IND_12_118' || CODI_INDICADOR  == 'IND_12_119' || CODI_INDICADOR  == 'IND_12_1110' || CODI_INDICADOR  == 'IND_12_11012' || \nCODI_INDICADOR  == 'IND_12_11013' || CODI_INDICADOR  == 'IND_12_121' || CODI_INDICADOR  == 'IND_12_122' || CODI_INDICADOR  == 'IND_12_123' || CODI_INDICADOR  == 'IND_12_124' || \nCODI_INDICADOR  == 'IND_12_125' || CODI_INDICADOR  == 'IND_12_126' || CODI_INDICADOR  == 'IND_12_127' || CODI_INDICADOR  == 'IND_12_128' || CODI_INDICADOR  == 'IND_12_129' || \nCODI_INDICADOR  == 'IND_12_1210' || CODI_INDICADOR  == 'IND_12_12011' || CODI_INDICADOR  == 'IND_12_12012' || CODI_INDICADOR  == 'IND_14_11' || CODI_INDICADOR  == 'IND_14_12' || \nCODI_INDICADOR  == 'IND_14_13' || CODI_INDICADOR  == 'IND_14_14' || CODI_INDICADOR  == 'IND_14_15' || CODI_INDICADOR  == 'IND_14_16') ~> FiltrarIndicadores\nFiltroNoNULLsANT derive(CODI_INDICADOR = CODI_INDICADOR+\"_ANT\") ~> IndMesAnterior\nFiltroNoNULLs, IndMesAnterior union(byName: true)~> Union\nIndNuevos2 derive(IND_12_3 = IND_12_31 + IND_12_32) ~> IndNuevos3\nIndNuevos3 select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_12_11012,\n\t\tIND_12_11013,\n\t\tIND_12_1110,\n\t\tIND_12_112,\n\t\tIND_12_113,\n\t\tIND_12_115,\n\t\tIND_12_116,\n\t\tIND_12_117,\n\t\tIND_12_118,\n\t\tIND_12_119,\n\t\tIND_12_12011,\n\t\tIND_12_12012,\n\t\tIND_12_121,\n\t\tIND_12_1210,\n\t\tIND_12_122,\n\t\tIND_12_123,\n\t\tIND_12_124,\n\t\tIND_12_125,\n\t\tIND_12_126,\n\t\tIND_12_127,\n\t\tIND_12_128,\n\t\tIND_12_129,\n\t\tIND_12_21013,\n\t\tIND_12_212,\n\t\tIND_12_213,\n\t\tIND_12_215,\n\t\tIND_12_216,\n\t\tIND_12_217,\n\t\tIND_12_218,\n\t\tIND_12_219,\n\t\tIND_12_2110,\n\t\tIND_12_21012,\n\t\tIND_12_22012,\n\t\tIND_12_221,\n\t\tIND_12_222,\n\t\tIND_12_223,\n\t\tIND_12_224,\n\t\tIND_12_225,\n\t\tIND_12_226,\n\t\tIND_12_227,\n\t\tIND_12_228,\n\t\tIND_12_229,\n\t\tIND_12_2210,\n\t\tIND_12_22011,\n\t\tIND_3_81,\n\t\tIND_3_82,\n\t\tIND_3_83,\n\t\tIND_3_84,\n\t\tIND_3_85,\n\t\tIND_3_86,\n\t\tIND_3_87,\n\t\tIND_3_88,\n\t\tIND_3_89,\n\t\tIND_3_810,\n\t\tIND_3_8011,\n\t\tIND_3_8012,\n\t\tIND_3_8013,\n\t\tIND_3_8014,\n\t\tIND_3_8015,\n\t\tIND_3_91,\n\t\tIND_3_92,\n\t\tIND_3_93,\n\t\tIND_3_94,\n\t\tIND_3_95,\n\t\tIND_3_96,\n\t\tIND_3_97,\n\t\tIND_3_98,\n\t\tIND_3_99,\n\t\tIND_3_910,\n\t\tIND_3_9011,\n\t\tIND_3_9012,\n\t\tIND_3_9013,\n\t\tIND_3_9014,\n\t\tIND_3_9015,\n\t\tIND_6_11,\n\t\tIND_6_12,\n\t\tIND_6_13,\n\t\tIND_6_14,\n\t\tIND_6_15,\n\t\tIND_6_16,\n\t\tIND_6_21,\n\t\tIND_6_22,\n\t\tIND_6_23,\n\t\tIND_6_24,\n\t\tIND_6_25,\n\t\tIND_6_26,\n\t\tIND_3_8,\n\t\tIND_3_9,\n\t\tIND_3_101,\n\t\tIND_3_102,\n\t\tIND_3_103,\n\t\tIND_3_104,\n\t\tIND_3_105,\n\t\tIND_3_106,\n\t\tIND_3_107,\n\t\tIND_3_108,\n\t\tIND_3_109,\n\t\tIND_3_1010,\n\t\tIND_3_10011,\n\t\tIND_3_10012,\n\t\tIND_3_10013,\n\t\tIND_3_10014,\n\t\tIND_3_10015,\n\t\tIND_6_1,\n\t\tIND_6_2,\n\t\tIND_6_31,\n\t\tIND_6_32,\n\t\tIND_6_33,\n\t\tIND_6_34,\n\t\tIND_6_35,\n\t\tIND_6_36,\n\t\tIND_12_11,\n\t\tIND_12_12,\n\t\tIND_12_21,\n\t\tIND_12_22,\n\t\tIND_12_312,\n\t\tIND_12_313,\n\t\tIND_12_315,\n\t\tIND_12_316,\n\t\tIND_12_317,\n\t\tIND_12_318,\n\t\tIND_12_319,\n\t\tIND_12_3110,\n\t\tIND_12_31012,\n\t\tIND_12_31013,\n\t\tIND_12_322,\n\t\tIND_12_323,\n\t\tIND_12_324,\n\t\tIND_12_325,\n\t\tIND_12_326,\n\t\tIND_12_327,\n\t\tIND_12_328,\n\t\tIND_12_329,\n\t\tIND_12_3210,\n\t\tIND_12_32011,\n\t\tIND_12_32012,\n\t\tIND_12_1,\n\t\tIND_12_2,\n\t\tIND_12_31,\n\t\tIND_12_32,\n\t\tIND_3_10,\n\t\tIND_6_3,\n\t\tIND_12_3\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> QuitarIndAnt\nODS2FactIndicadorsBase filter(isNull(IND_VALOR)) ~> FiltroNULLs\nODS2FactIndicadorsBase filter(!isNull(IND_VALOR)) ~> FiltroNoNULLs\nFiltrarIndicadores filter(!isNull(IND_VALOR)) ~> FiltroNoNULLsANT\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS3FactIndicadors"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS3_BEG_FACT_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS2_BEG_FACT_INDICADORS_BASE",
+								"type": "DatasetReference"
+							},
+							"name": "ODS2FactIndicadors"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DimBiblioteques"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "DMDimIndicadors"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS3_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS3FactIndicadors"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectInd"
+						},
+						{
+							"name": "CrossJoin"
+						},
+						{
+							"name": "SoloCodiBiblioteca"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "Select"
+						},
+						{
+							"name": "FilterIndFitxer"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS2FactIndicadors\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nsource(output(\n\t\tID_INDICADOR as string,\n\t\tCODI_INDICADOR as string,\n\t\tDESC_INDICADOR as string,\n\t\tDESC_COMO_CALCULAR as string,\n\t\tFLAG_FITXER as string,\n\t\tFLAG_PRESTECS as string,\n\t\tFLAG_DATAENTRY as string,\n\t\tFLAG_NO_PERIODICS as string,\n\t\tFILA_LEVEL_1 as string,\n\t\tFILA_LEVEL_2 as string,\n\t\tFILA_LEVEL_3 as string,\n\t\tFILA_LEVEL_4 as string,\n\t\tFILA_LEVEL_5 as string,\n\t\tCOLUMNA_LEVEL_1 as string,\n\t\tCOLUMNA_LEVEL_2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimIndicadors\nDMDimIndicadors select(mapColumn(\n\t\tCODI_INDICADOR,\n\t\tFLAG_FITXER\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectInd\nFilterIndFitxer, SoloCodiBiblioteca join(FLAG_FITXER == '1' && CODI_BIBLIOTECA == CODI_BIBLIOTECA,\n\tjoinType:'cross',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> CrossJoin\nDimBiblioteques select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tID_AGENCY\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SoloCodiBiblioteca\nODS2FactIndicadors, CrossJoin join(ODS2FactIndicadors@CODI_BIBLIOTECA == SoloCodiBiblioteca@CODI_BIBLIOTECA\n\t&& ODS2FactIndicadors@CODI_INDICADOR == SelectInd@CODI_INDICADOR,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nJoin derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tCODI_BIBLIOTECA = SoloCodiBiblioteca@CODI_BIBLIOTECA,\n\t\tCODI_INDICADOR = SelectInd@CODI_INDICADOR,\n\t\tIND_VALOR,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nSelectInd filter(FLAG_FITXER == '1') ~> FilterIndFitxer\nSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS3FactIndicadors"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS3_BEG_PRESTECS_ANUALS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "DMFactIndicadors"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS3_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS3FactIndicadors"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_PRESTECS_ANUAL",
+								"type": "DatasetReference"
+							},
+							"name": "PrestecsAnual"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FiltrarFechaAny"
+						},
+						{
+							"name": "FiltrarIndicadors"
+						},
+						{
+							"name": "Suma"
+						},
+						{
+							"name": "Select"
+						},
+						{
+							"name": "Pivot"
+						},
+						{
+							"name": "CrearIndicadores"
+						},
+						{
+							"name": "IndTotal"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "SelectIndicadores"
+						},
+						{
+							"name": "FiltrarIndicadorsODS3"
+						},
+						{
+							"name": "Select2"
+						},
+						{
+							"name": "Union"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactIndicadors\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS3FactIndicadors\nDMFactIndicadors filter(year(toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) == year(DATA_PERIODE)) ~> FiltrarFechaAny\nFiltrarFechaAny filter(CODI_INDICADOR == 'IND_7_11' || CODI_INDICADOR == 'IND_7_12' || CODI_INDICADOR == 'IND_7_13' || CODI_INDICADOR == 'IND_7_14' || CODI_INDICADOR == 'IND_7_15' || CODI_INDICADOR == 'IND_7_16') ~> FiltrarIndicadors\nUnion aggregate(groupBy(CODI_BIBLIOTECA,\n\t\tCODI_INDICADOR),\n\tIND_VALOR = sum(IND_VALOR)) ~> Suma\nFiltrarIndicadors select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nSuma pivot(groupBy(CODI_BIBLIOTECA),\n\tpivotBy(CODI_INDICADOR),\n\t{} = sum(IND_VALOR),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot\nPivot derive(IND_7_21 = iif(isNull(toInteger(byName('IND_7_11'))), 0, toInteger(byName('IND_7_11'))),\n\t\tIND_7_22 = iif(isNull(toInteger(byName('IND_7_12'))), 0, toInteger(byName('IND_7_12'))),\n\t\tIND_7_23 = iif(isNull(toInteger(byName('IND_7_13'))), 0, toInteger(byName('IND_7_13'))),\n\t\tIND_7_24 = iif(isNull(toInteger(byName('IND_7_14'))), 0, toInteger(byName('IND_7_14'))),\n\t\tIND_7_25 = iif(isNull(toInteger(byName('IND_7_15'))), 0, toInteger(byName('IND_7_15'))),\n\t\tIND_7_26 = iif(isNull(toInteger(byName('IND_7_16'))), 0, toInteger(byName('IND_7_16')))) ~> CrearIndicadores\nSelectIndicadores derive(IND_7_2 = IND_7_21+IND_7_22+IND_7_23+IND_7_24+IND_7_25+IND_7_26) ~> IndTotal\nIndTotal unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat(concat(substring($Data_Carrega,0,4),'12'),'01'),'yyyyMMdd')) ~> Datas\nCrearIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_7_21,\n\t\tIND_7_22,\n\t\tIND_7_23,\n\t\tIND_7_24,\n\t\tIND_7_25,\n\t\tIND_7_26\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectIndicadores\nODS3FactIndicadors filter(CODI_INDICADOR == 'IND_7_11' || CODI_INDICADOR == 'IND_7_12' || CODI_INDICADOR == 'IND_7_13' || CODI_INDICADOR == 'IND_7_14' || CODI_INDICADOR == 'IND_7_15' || CODI_INDICADOR == 'IND_7_16') ~> FiltrarIndicadorsODS3\nFiltrarIndicadorsODS3 select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect, Select2 union(byName: true)~> Union\nDatas sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PrestecsAnual"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS3_BEG_PRESTECS_ANUALS_HIST')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "FactIndicadors"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_PRESTECS_ANUAL",
+								"type": "DatasetReference"
+							},
+							"name": "PrestecsAnual"
+						}
+					],
+					"transformations": [
+						{
+							"name": "FiltrarFechaAny"
+						},
+						{
+							"name": "FiltrarIndicadors"
+						},
+						{
+							"name": "Suma"
+						},
+						{
+							"name": "Select"
+						},
+						{
+							"name": "Pivot"
+						},
+						{
+							"name": "CrearIndicadores"
+						},
+						{
+							"name": "IndTotal"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "SelectIndicadores"
+						},
+						{
+							"name": "AlterRow"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> FactIndicadors\nFactIndicadors filter(year(toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) == year(DATA_PERIODE)) ~> FiltrarFechaAny\nFiltrarFechaAny filter(CODI_INDICADOR == 'IND_7_11' || CODI_INDICADOR == 'IND_7_12' || CODI_INDICADOR == 'IND_7_13' || CODI_INDICADOR == 'IND_7_14' || CODI_INDICADOR == 'IND_7_15' || CODI_INDICADOR == 'IND_7_16') ~> FiltrarIndicadors\nSelect aggregate(groupBy(CODI_BIBLIOTECA,\n\t\tCODI_INDICADOR),\n\tIND_VALOR = sum(IND_VALOR)) ~> Suma\nFiltrarIndicadors select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nSuma pivot(groupBy(CODI_BIBLIOTECA),\n\tpivotBy(CODI_INDICADOR),\n\t{} = sum(IND_VALOR),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot\nPivot derive(IND_7_21 = iif(isNull(toInteger(byName('IND_7_11'))), 0, toInteger(byName('IND_7_11'))),\n\t\tIND_7_22 = iif(isNull(toInteger(byName('IND_7_12'))), 0, toInteger(byName('IND_7_12'))),\n\t\tIND_7_23 = iif(isNull(toInteger(byName('IND_7_13'))), 0, toInteger(byName('IND_7_13'))),\n\t\tIND_7_24 = iif(isNull(toInteger(byName('IND_7_14'))), 0, toInteger(byName('IND_7_14'))),\n\t\tIND_7_25 = iif(isNull(toInteger(byName('IND_7_15'))), 0, toInteger(byName('IND_7_15'))),\n\t\tIND_7_26 = iif(isNull(toInteger(byName('IND_7_16'))), 0, toInteger(byName('IND_7_16')))) ~> CrearIndicadores\nSelectIndicadores derive(IND_7_2 = IND_7_21+IND_7_22+IND_7_23+IND_7_24+IND_7_25+IND_7_26) ~> IndTotal\nIndTotal unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tVALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = addMonths(toDate(concat(concat(substring($Data_Carrega,0,4),'12'),'01'),'yyyyMMdd'),-12)) ~> Datas\nCrearIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_7_21,\n\t\tIND_7_22,\n\t\tIND_7_23,\n\t\tIND_7_24,\n\t\tIND_7_25,\n\t\tIND_7_26\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectIndicadores\nDatas alterRow(updateIf(1==1)) ~> AlterRow\nAlterRow sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['CODI_BIBLIOTECA','CODI_INDICADOR','DATA_PERIODE'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> PrestecsAnual"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS4_BEG_FACT_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS3_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS3FactIndicadorsBase"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "FactIndicadors"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS4_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS4FactIndicadors"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Pivot"
+						},
+						{
+							"name": "DataInsercio"
+						},
+						{
+							"name": "ColumnasIndBase",
+							"description": "Creates an explicit mapping for each drifted column"
+						},
+						{
+							"name": "Unpivot"
+						},
+						{
+							"name": "IndNuevos"
+						},
+						{
+							"name": "IndNuevos2"
+						},
+						{
+							"name": "FiltarFecha"
+						},
+						{
+							"name": "FiltrarIndicadores"
+						},
+						{
+							"name": "IndMesAnterior"
+						},
+						{
+							"name": "Union"
+						},
+						{
+							"name": "FiltroIndProcedenciaDiciembre"
+						},
+						{
+							"name": "QuitarIndAnt"
+						},
+						{
+							"name": "FiltroNulls"
+						},
+						{
+							"name": "FiltroNoNulls"
+						},
+						{
+							"name": "UnionNULLs"
+						},
+						{
+							"name": "FiltroNoNULLsANT"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS3FactIndicadorsBase\nsource(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> FactIndicadors\nUnion pivot(groupBy(CODI_BIBLIOTECA),\n\tpivotBy(CODI_INDICADOR),\n\t{} = sum(IND_VALOR),\n\tcolumnNaming: '$N$V',\n\tlateral: true) ~> Pivot\nFiltroIndProcedenciaDiciembre derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nPivot derive(IND_12_11012 = toInteger(byName('IND_12_11012')),\n\t\tIND_12_11013 = toInteger(byName('IND_12_11013')),\n\t\tIND_12_1110 = toInteger(byName('IND_12_1110')),\n\t\tIND_12_112 = toInteger(byName('IND_12_112')),\n\t\tIND_12_113 = toInteger(byName('IND_12_113')),\n\t\tIND_12_115 = toInteger(byName('IND_12_115')),\n\t\tIND_12_116 = toInteger(byName('IND_12_116')),\n\t\tIND_12_117 = toInteger(byName('IND_12_117')),\n\t\tIND_12_118 = toInteger(byName('IND_12_118')),\n\t\tIND_12_119 = toInteger(byName('IND_12_119')),\n\t\tIND_12_12011 = toInteger(byName('IND_12_12011')),\n\t\tIND_12_12012 = toInteger(byName('IND_12_12012')),\n\t\tIND_12_121 = toInteger(byName('IND_12_121')),\n\t\tIND_12_1210 = toInteger(byName('IND_12_1210')),\n\t\tIND_12_122 = toInteger(byName('IND_12_122')),\n\t\tIND_12_123 = toInteger(byName('IND_12_123')),\n\t\tIND_12_124 = toInteger(byName('IND_12_124')),\n\t\tIND_12_125 = toInteger(byName('IND_12_125')),\n\t\tIND_12_126 = toInteger(byName('IND_12_126')),\n\t\tIND_12_127 = toInteger(byName('IND_12_127')),\n\t\tIND_12_128 = toInteger(byName('IND_12_128')),\n\t\tIND_12_129 = toInteger(byName('IND_12_129')),\n\t\tIND_12_21013 = toInteger(byName('IND_12_21013')),\n\t\tIND_12_212 = toInteger(byName('IND_12_212')),\n\t\tIND_12_213 = toInteger(byName('IND_12_213')),\n\t\tIND_12_215 = toInteger(byName('IND_12_215')),\n\t\tIND_12_216 = toInteger(byName('IND_12_216')),\n\t\tIND_12_217 = toInteger(byName('IND_12_217')),\n\t\tIND_12_218 = toInteger(byName('IND_12_218')),\n\t\tIND_12_219 = toInteger(byName('IND_12_219')),\n\t\tIND_12_2110 = toInteger(byName('IND_12_2110')),\n\t\tIND_12_21012 = toInteger(byName('IND_12_21012')),\n\t\tIND_12_22012 = toInteger(byName('IND_12_22012')),\n\t\tIND_12_221 = toInteger(byName('IND_12_221')),\n\t\tIND_12_222 = toInteger(byName('IND_12_222')),\n\t\tIND_12_223 = toInteger(byName('IND_12_223')),\n\t\tIND_12_224 = toInteger(byName('IND_12_224')),\n\t\tIND_12_225 = toInteger(byName('IND_12_225')),\n\t\tIND_12_226 = toInteger(byName('IND_12_226')),\n\t\tIND_12_227 = toInteger(byName('IND_12_227')),\n\t\tIND_12_228 = toInteger(byName('IND_12_228')),\n\t\tIND_12_229 = toInteger(byName('IND_12_229')),\n\t\tIND_12_2210 = toInteger(byName('IND_12_2210')),\n\t\tIND_12_22011 = toInteger(byName('IND_12_22011')),\n\t\tIND_3_81 = toInteger(byName('IND_3_81')),\n\t\tIND_3_82 = toInteger(byName('IND_3_82')),\n\t\tIND_3_83 = toInteger(byName('IND_3_83')),\n\t\tIND_3_84 = toInteger(byName('IND_3_84')),\n\t\tIND_3_85 = toInteger(byName('IND_3_85')),\n\t\tIND_3_86 = toInteger(byName('IND_3_86')),\n\t\tIND_3_87 = toInteger(byName('IND_3_87')),\n\t\tIND_3_88 = toInteger(byName('IND_3_88')),\n\t\tIND_3_89 = toInteger(byName('IND_3_89')),\n\t\tIND_3_810 = toInteger(byName('IND_3_810')),\n\t\tIND_3_8011 = toInteger(byName('IND_3_8011')),\n\t\tIND_3_8012 = toInteger(byName('IND_3_8012')),\n\t\tIND_3_8013 = toInteger(byName('IND_3_8013')),\n\t\tIND_3_8014 = toInteger(byName('IND_3_8014')),\n\t\tIND_3_8015 = toInteger(byName('IND_3_8015')),\n\t\tIND_3_91 = toInteger(byName('IND_3_91')),\n\t\tIND_3_92 = toInteger(byName('IND_3_92')),\n\t\tIND_3_93 = toInteger(byName('IND_3_93')),\n\t\tIND_3_94 = toInteger(byName('IND_3_94')),\n\t\tIND_3_95 = toInteger(byName('IND_3_95')),\n\t\tIND_3_96 = toInteger(byName('IND_3_96')),\n\t\tIND_3_97 = toInteger(byName('IND_3_97')),\n\t\tIND_3_98 = toInteger(byName('IND_3_98')),\n\t\tIND_3_99 = toInteger(byName('IND_3_99')),\n\t\tIND_3_910 = toInteger(byName('IND_3_910')),\n\t\tIND_3_9011 = toInteger(byName('IND_3_9011')),\n\t\tIND_3_9012 = toInteger(byName('IND_3_9012')),\n\t\tIND_3_9013 = toInteger(byName('IND_3_9013')),\n\t\tIND_3_9014 = toInteger(byName('IND_3_9014')),\n\t\tIND_3_9015 = toInteger(byName('IND_3_9015')),\n\t\tIND_6_11 = toInteger(byName('IND_6_11')),\n\t\tIND_6_12 = toInteger(byName('IND_6_12')),\n\t\tIND_6_13 = toInteger(byName('IND_6_13')),\n\t\tIND_6_14 = toInteger(byName('IND_6_14')),\n\t\tIND_6_15 = toInteger(byName('IND_6_15')),\n\t\tIND_6_16 = toInteger(byName('IND_6_16')),\n\t\tIND_6_21 = toInteger(byName('IND_6_21')),\n\t\tIND_6_22 = toInteger(byName('IND_6_22')),\n\t\tIND_6_23 = toInteger(byName('IND_6_23')),\n\t\tIND_6_24 = toInteger(byName('IND_6_24')),\n\t\tIND_6_25 = toInteger(byName('IND_6_25')),\n\t\tIND_6_26 = toInteger(byName('IND_6_26')),\n\t\tIND_13_1 = toInteger(byName('IND_13_1')),\n\t\tIND_13_2 = toInteger(byName('IND_13_2')),\n\t\tIND_13_3 = toInteger(byName('IND_13_3')),\n\t\tIND_14_11 = toInteger(byName('IND_14_11')),\n\t\tIND_14_12 = toInteger(byName('IND_14_12')),\n\t\tIND_14_13 = toInteger(byName('IND_14_13')),\n\t\tIND_14_14 = toInteger(byName('IND_14_14')),\n\t\tIND_14_15 = toInteger(byName('IND_14_15')),\n\t\tIND_14_16 = toInteger(byName('IND_14_16')),\n\t\tIND_14_21 = toInteger(byName('IND_14_21')),\n\t\tIND_14_22 = toInteger(byName('IND_14_22')),\n\t\tIND_14_23 = toInteger(byName('IND_14_23')),\n\t\tIND_14_24 = toInteger(byName('IND_14_24')),\n\t\tIND_14_25 = toInteger(byName('IND_14_25')),\n\t\tIND_14_26 = toInteger(byName('IND_14_26')),\n\t\tIND_7_11 = toInteger(byName('IND_7_11')),\n\t\tIND_7_12 = toInteger(byName('IND_7_12')),\n\t\tIND_7_13 = toInteger(byName('IND_7_13')),\n\t\tIND_7_14 = toInteger(byName('IND_7_14')),\n\t\tIND_7_15 = toInteger(byName('IND_7_15')),\n\t\tIND_7_16 = toInteger(byName('IND_7_16')),\n\t\tIND_7_31 = toInteger(byName('IND_7_31')),\n\t\tIND_7_32 = toInteger(byName('IND_7_32')),\n\t\tIND_7_33 = toInteger(byName('IND_7_33')),\n\t\tIND_7_34 = toInteger(byName('IND_7_34')),\n\t\tIND_7_35 = toInteger(byName('IND_7_35')),\n\t\tIND_7_36 = toInteger(byName('IND_7_36')),\n\t\tIND_7_41 = toInteger(byName('IND_7_41')),\n\t\tIND_7_42 = toInteger(byName('IND_7_42')),\n\t\tIND_7_43 = toInteger(byName('IND_7_43')),\n\t\tIND_7_44 = toInteger(byName('IND_7_44')),\n\t\tIND_7_45 = toInteger(byName('IND_7_45')),\n\t\tIND_7_46 = toInteger(byName('IND_7_46')),\n\t\tIND_7_51 = toInteger(byName('IND_7_51')),\n\t\tIND_7_52 = toInteger(byName('IND_7_52')),\n\t\tIND_7_53 = toInteger(byName('IND_7_53')),\n\t\tIND_7_54 = toInteger(byName('IND_7_54')),\n\t\tIND_7_55 = toInteger(byName('IND_7_55')),\n\t\tIND_7_56 = toInteger(byName('IND_7_56')),\n\t\tIND_7_61 = toInteger(byName('IND_7_61')),\n\t\tIND_7_62 = toInteger(byName('IND_7_62')),\n\t\tIND_7_63 = toInteger(byName('IND_7_63')),\n\t\tIND_7_64 = toInteger(byName('IND_7_64')),\n\t\tIND_7_65 = toInteger(byName('IND_7_65')),\n\t\tIND_7_66 = toInteger(byName('IND_7_66')),\n\t\tIND_8_1311 = toInteger(byName('IND_8_1311')),\n\t\tIND_8_1312 = toInteger(byName('IND_8_1312')),\n\t\tIND_8_2311 = toInteger(byName('IND_8_2311')),\n\t\tIND_8_2312 = toInteger(byName('IND_8_2312')),\n\t\tIND_3_81_ANT = toInteger(byName('IND_3_81_ANT')),\n\t\tIND_3_82_ANT = toInteger(byName('IND_3_82_ANT')),\n\t\tIND_3_83_ANT = toInteger(byName('IND_3_83_ANT')),\n\t\tIND_3_84_ANT = toInteger(byName('IND_3_84_ANT')),\n\t\tIND_3_85_ANT = toInteger(byName('IND_3_85_ANT')),\n\t\tIND_3_86_ANT = toInteger(byName('IND_3_86_ANT')),\n\t\tIND_3_87_ANT = toInteger(byName('IND_3_87_ANT')),\n\t\tIND_3_88_ANT = toInteger(byName('IND_3_88_ANT')),\n\t\tIND_3_89_ANT = toInteger(byName('IND_3_89_ANT')),\n\t\tIND_3_810_ANT = toInteger(byName('IND_3_810_ANT')),\n\t\tIND_3_8011_ANT = toInteger(byName('IND_3_8011_ANT')),\n\t\tIND_3_8012_ANT = toInteger(byName('IND_3_8012_ANT')),\n\t\tIND_3_8013_ANT = toInteger(byName('IND_3_8013_ANT')),\n\t\tIND_3_8014_ANT = toInteger(byName('IND_3_8014_ANT')),\n\t\tIND_3_8015_ANT = toInteger(byName('IND_3_8015_ANT')),\n\t\tIND_6_11_ANT = toInteger(byName('IND_6_11_ANT')),\n\t\tIND_6_12_ANT = toInteger(byName('IND_6_12_ANT')),\n\t\tIND_6_13_ANT = toInteger(byName('IND_6_13_ANT')),\n\t\tIND_6_14_ANT = toInteger(byName('IND_6_14_ANT')),\n\t\tIND_6_15_ANT = toInteger(byName('IND_6_15_ANT')),\n\t\tIND_6_16_ANT = toInteger(byName('IND_6_16_ANT')),\n\t\tIND_14_11_ANT = toInteger(byName('IND_14_11_ANT')),\n\t\tIND_14_12_ANT = toInteger(byName('IND_14_12_ANT')),\n\t\tIND_14_13_ANT = toInteger(byName('IND_14_13_ANT')),\n\t\tIND_14_14_ANT = toInteger(byName('IND_14_14_ANT')),\n\t\tIND_14_15_ANT = toInteger(byName('IND_14_15_ANT')),\n\t\tIND_14_16_ANT = toInteger(byName('IND_14_16_ANT')),\n\t\tIND_12_112_ANT = toInteger(byName('IND_12_112_ANT')),\n\t\tIND_12_113_ANT = toInteger(byName('IND_12_113_ANT')),\n\t\tIND_12_115_ANT = toInteger(byName('IND_12_115_ANT')),\n\t\tIND_12_117_ANT = toInteger(byName('IND_12_117_ANT')),\n\t\tIND_12_118_ANT = toInteger(byName('IND_12_118_ANT')),\n\t\tIND_12_119_ANT = toInteger(byName('IND_12_119_ANT')),\n\t\tIND_12_1110_ANT = toInteger(byName('IND_14_16_ANT')),\n\t\tIND_12_116_ANT = toInteger(byName('IND_12_116_ANT')),\n\t\tIND_12_11012_ANT = toInteger(byName('IND_12_11012_ANT')),\n\t\tIND_12_11013_ANT = toInteger(byName('IND_12_11013_ANT')),\n\t\tIND_12_121_ANT = toInteger(byName('IND_12_121_ANT')),\n\t\tIND_12_122_ANT = toInteger(byName('IND_12_122_ANT')),\n\t\tIND_12_123_ANT = toInteger(byName('IND_12_123_ANT')),\n\t\tIND_12_124_ANT = toInteger(byName('IND_12_124_ANT')),\n\t\tIND_12_125_ANT = toInteger(byName('IND_12_125_ANT')),\n\t\tIND_12_126_ANT = toInteger(byName('IND_12_126_ANT')),\n\t\tIND_12_127_ANT = toInteger(byName('IND_12_127_ANT')),\n\t\tIND_12_128_ANT = toInteger(byName('IND_12_128_ANT')),\n\t\tIND_12_129_ANT = toInteger(byName('IND_12_129_ANT')),\n\t\tIND_12_1210_ANT = toInteger(byName('IND_12_1210_ANT')),\n\t\tIND_12_12011_ANT = toInteger(byName('IND_12_12011_ANT')),\n\t\tIND_12_12012_ANT = toInteger(byName('IND_12_12012_ANT')),\n\t\tIND_18_1 = toInteger(byName('IND_18_1')),\n\t\tIND_18_2 = toInteger(byName('IND_18_2')),\n\t\tIND_18_3 = toInteger(byName('IND_18_3')),\n\t\tIND_18_4 = toInteger(byName('IND_18_4')),\n\t\tIND_18_5 = toInteger(byName('IND_18_5')),\n\t\tIND_18_6 = toInteger(byName('IND_18_6')),\n\t\tIND_18_7 = toInteger(byName('IND_18_7')),\n\t\tIND_18_8 = toInteger(byName('IND_18_8')),\n\t\tIND_18_9 = toInteger(byName('IND_18_9')),\n\t\tIND_18_10 = toInteger(byName('IND_18_10'))) ~> ColumnasIndBase\nQuitarIndAnt unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: true) ~> Unpivot\nColumnasIndBase derive(IND_3_8 = IND_3_81+IND_3_82+IND_3_83+IND_3_84+IND_3_85+IND_3_86+IND_3_87+IND_3_88+IND_3_89+IND_3_810+IND_3_8011+IND_3_8012+IND_3_8013+IND_3_8014+IND_3_8015,\n\t\tIND_3_9 = IND_3_91+IND_3_92+IND_3_93+IND_3_94+IND_3_95+IND_3_96+IND_3_97+IND_3_98+IND_3_99+IND_3_910+IND_3_9011+IND_3_9012+IND_3_9013+IND_3_9014+IND_3_9015,\n\t\tIND_6_1 = IND_6_11+IND_6_12+IND_6_13+IND_6_14+IND_6_15+IND_6_16,\n\t\tIND_6_2 = IND_6_21+IND_6_22+IND_6_23+IND_6_24+IND_6_25+IND_6_26,\n\t\tIND_7_1 = IND_7_11+IND_7_12+IND_7_13+IND_7_14+IND_7_15+IND_7_16,\n\t\tIND_7_3 = IND_7_31+IND_7_32+IND_7_33+IND_7_34+IND_7_35+IND_7_36,\n\t\tIND_7_4 = IND_7_41+IND_7_42+IND_7_43+IND_7_44+IND_7_45+IND_7_46,\n\t\tIND_7_5 = IND_7_51+IND_7_52+IND_7_53+IND_7_54+IND_7_55+IND_7_56,\n\t\tIND_7_6 = IND_7_61+IND_7_62+IND_7_63+IND_7_64+IND_7_65+IND_7_66,\n\t\tIND_12_11 = IND_12_112+IND_12_113+IND_12_115+IND_12_116+IND_12_117+IND_12_118+IND_12_119+IND_12_1110+IND_12_11012+IND_12_11013,\n\t\tIND_12_12 = IND_12_121+IND_12_122+IND_12_123+IND_12_124+IND_12_125+IND_12_126+IND_12_127+IND_12_128+IND_12_129+IND_12_1210+IND_12_12011+IND_12_12012,\n\t\tIND_12_21 = IND_12_212+IND_12_213+IND_12_215+IND_12_216+IND_12_217+IND_12_218+IND_12_219+IND_12_2110+IND_12_21012+IND_12_21013,\n\t\tIND_12_22 = IND_12_221+IND_12_222+IND_12_223+IND_12_224+IND_12_225+IND_12_226+IND_12_227+IND_12_228+IND_12_229+IND_12_2210+IND_12_22011+IND_12_22012,\n\t\tIND_14_1 = IND_14_11+IND_14_12+IND_14_13+IND_14_14+IND_14_15+IND_14_16,\n\t\tIND_14_2 = IND_14_21+IND_14_22+IND_14_23+IND_14_24+IND_14_25+IND_14_26,\n\t\tIND_14_31 = IND_14_11_ANT - IND_14_11 + IND_14_21,\n\t\tIND_14_32 = IND_14_12_ANT - IND_14_12 + IND_14_22,\n\t\tIND_14_33 = IND_14_13_ANT - IND_14_13 + IND_14_23,\n\t\tIND_14_34 = IND_14_14_ANT - IND_14_14 + IND_14_24,\n\t\tIND_14_35 = IND_14_15_ANT - IND_14_15 + IND_14_25,\n\t\tIND_14_36 = IND_14_16_ANT - IND_14_16 + IND_14_26,\n\t\tIND_18 = IND_18_1+IND_18_2+IND_18_3+IND_18_4+IND_18_5+IND_18_6+IND_18_7+IND_18_8+IND_18_9+IND_18_10) ~> IndNuevos\nIndNuevos derive(IND_12_1 = IND_12_11+IND_12_12,\n\t\tIND_12_2 = IND_12_21+IND_12_22,\n\t\tIND_14_3 = IND_14_31+IND_14_32+IND_14_33+IND_14_34+IND_14_35+IND_14_36) ~> IndNuevos2\nFactIndicadors filter(addMonths(toDate(concat($Data_Carrega,'01'),'yyyyMMdd'),-1) == DATA_PERIODE) ~> FiltarFecha\nFiltarFecha filter(CODI_INDICADOR  == 'IND_14_11' || CODI_INDICADOR  == 'IND_14_12' || CODI_INDICADOR  == 'IND_14_13' || CODI_INDICADOR  == 'IND_14_14' || CODI_INDICADOR  == 'IND_14_15' || CODI_INDICADOR  == 'IND_14_16') ~> FiltrarIndicadores\nFiltroNoNULLsANT derive(CODI_INDICADOR = CODI_INDICADOR+\"_ANT\") ~> IndMesAnterior\nFiltroNoNulls, IndMesAnterior union(byName: true)~> Union\nUnpivot filter(not(substring($Data_Carrega,4,2) != '12' && CODI_INDICADOR == 'IND_18')) ~> FiltroIndProcedenciaDiciembre\nIndNuevos2 select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_12_11012,\n\t\tIND_12_11013,\n\t\tIND_12_1110,\n\t\tIND_12_112,\n\t\tIND_12_113,\n\t\tIND_12_115,\n\t\tIND_12_116,\n\t\tIND_12_117,\n\t\tIND_12_118,\n\t\tIND_12_119,\n\t\tIND_12_12011,\n\t\tIND_12_12012,\n\t\tIND_12_121,\n\t\tIND_12_1210,\n\t\tIND_12_122,\n\t\tIND_12_123,\n\t\tIND_12_124,\n\t\tIND_12_125,\n\t\tIND_12_126,\n\t\tIND_12_127,\n\t\tIND_12_128,\n\t\tIND_12_129,\n\t\tIND_12_21013,\n\t\tIND_12_212,\n\t\tIND_12_213,\n\t\tIND_12_215,\n\t\tIND_12_216,\n\t\tIND_12_217,\n\t\tIND_12_218,\n\t\tIND_12_219,\n\t\tIND_12_2110,\n\t\tIND_12_21012,\n\t\tIND_12_22012,\n\t\tIND_12_221,\n\t\tIND_12_222,\n\t\tIND_12_223,\n\t\tIND_12_224,\n\t\tIND_12_225,\n\t\tIND_12_226,\n\t\tIND_12_227,\n\t\tIND_12_228,\n\t\tIND_12_229,\n\t\tIND_12_2210,\n\t\tIND_12_22011,\n\t\tIND_3_81,\n\t\tIND_3_82,\n\t\tIND_3_83,\n\t\tIND_3_84,\n\t\tIND_3_85,\n\t\tIND_3_86,\n\t\tIND_3_87,\n\t\tIND_3_88,\n\t\tIND_3_89,\n\t\tIND_3_810,\n\t\tIND_3_8011,\n\t\tIND_3_8012,\n\t\tIND_3_8013,\n\t\tIND_3_8014,\n\t\tIND_3_8015,\n\t\tIND_3_91,\n\t\tIND_3_92,\n\t\tIND_3_93,\n\t\tIND_3_94,\n\t\tIND_3_95,\n\t\tIND_3_96,\n\t\tIND_3_97,\n\t\tIND_3_98,\n\t\tIND_3_99,\n\t\tIND_3_910,\n\t\tIND_3_9011,\n\t\tIND_3_9012,\n\t\tIND_3_9013,\n\t\tIND_3_9014,\n\t\tIND_3_9015,\n\t\tIND_6_11,\n\t\tIND_6_12,\n\t\tIND_6_13,\n\t\tIND_6_14,\n\t\tIND_6_15,\n\t\tIND_6_16,\n\t\tIND_6_21,\n\t\tIND_6_22,\n\t\tIND_6_23,\n\t\tIND_6_24,\n\t\tIND_6_25,\n\t\tIND_6_26,\n\t\tIND_13_1,\n\t\tIND_13_2,\n\t\tIND_13_3,\n\t\tIND_14_11,\n\t\tIND_14_12,\n\t\tIND_14_13,\n\t\tIND_14_14,\n\t\tIND_14_15,\n\t\tIND_14_16,\n\t\tIND_14_21,\n\t\tIND_14_22,\n\t\tIND_14_23,\n\t\tIND_14_24,\n\t\tIND_14_25,\n\t\tIND_14_26,\n\t\tIND_7_11,\n\t\tIND_7_12,\n\t\tIND_7_13,\n\t\tIND_7_14,\n\t\tIND_7_15,\n\t\tIND_7_16,\n\t\tIND_7_31,\n\t\tIND_7_32,\n\t\tIND_7_33,\n\t\tIND_7_34,\n\t\tIND_7_35,\n\t\tIND_7_36,\n\t\tIND_7_41,\n\t\tIND_7_42,\n\t\tIND_7_43,\n\t\tIND_7_44,\n\t\tIND_7_45,\n\t\tIND_7_46,\n\t\tIND_7_51,\n\t\tIND_7_52,\n\t\tIND_7_53,\n\t\tIND_7_54,\n\t\tIND_7_55,\n\t\tIND_7_56,\n\t\tIND_7_61,\n\t\tIND_7_62,\n\t\tIND_7_63,\n\t\tIND_7_64,\n\t\tIND_7_65,\n\t\tIND_7_66,\n\t\tIND_8_1311,\n\t\tIND_8_1312,\n\t\tIND_8_2311,\n\t\tIND_8_2312,\n\t\tIND_18_1,\n\t\tIND_18_2,\n\t\tIND_18_3,\n\t\tIND_18_4,\n\t\tIND_18_5,\n\t\tIND_18_6,\n\t\tIND_18_7,\n\t\tIND_18_8,\n\t\tIND_18_9,\n\t\tIND_18_10,\n\t\tIND_3_8,\n\t\tIND_3_9,\n\t\tIND_6_1,\n\t\tIND_6_2,\n\t\tIND_7_1,\n\t\tIND_7_3,\n\t\tIND_7_4,\n\t\tIND_7_5,\n\t\tIND_7_6,\n\t\tIND_12_11,\n\t\tIND_12_12,\n\t\tIND_12_21,\n\t\tIND_12_22,\n\t\tIND_14_1,\n\t\tIND_14_2,\n\t\tIND_14_31,\n\t\tIND_14_32,\n\t\tIND_14_33,\n\t\tIND_14_34,\n\t\tIND_14_35,\n\t\tIND_14_36,\n\t\tIND_18,\n\t\tIND_12_1,\n\t\tIND_12_2,\n\t\tIND_14_3\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> QuitarIndAnt\nODS3FactIndicadorsBase filter(isNull(IND_VALOR)) ~> FiltroNulls\nODS3FactIndicadorsBase filter(!isNull(IND_VALOR)) ~> FiltroNoNulls\nDataInsercio, FiltroNulls union(byName: true)~> UnionNULLs\nFiltrarIndicadores filter(!isNull(IND_VALOR)) ~> FiltroNoNULLsANT\nUnionNULLs sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS4FactIndicadors"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_BEG_FACT_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS4_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODS4FactIndicadors"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DimBiblioteques"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_HORES_DOBERTURA",
+								"type": "DatasetReference"
+							},
+							"name": "HoresDObertura"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactIndicadors"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Union"
+						},
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "Select"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "ADouble"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS4FactIndicadors\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as integer,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nsource(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as decimal(17,6)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> HoresDObertura\nODS4FactIndicadors, HoresDObertura union(byName: true)~> Union\nADouble derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_AGENCY,\n\t\tCODI_BIBLIOTECA = DimBiblioteques@CODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nUnion, DimBiblioteques join(Union@CODI_BIBLIOTECA == DimBiblioteques@CODI_BIBLIOTECA,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nJoin derive(IND_VALOR = toDouble(IND_VALOR)) ~> ADouble\nSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as decimal(17,6),\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactIndicadors"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_BEG_FACT_INDICADORS_PRESTECS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA1",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta1"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA3",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta3"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA4",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta4"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA5",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta5"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA7",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta7"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA8",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta8"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA9",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta9"
+						},
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTEC_CONSULTA10",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactConsulta10"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
+								"type": "DatasetReference"
+							},
+							"name": "DIMBiblio"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "DimIndicador"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_PRESTECS_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactIndicadorsPrestecs"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Union"
+						},
+						{
+							"name": "Fechas"
+						},
+						{
+							"name": "Join"
+						},
+						{
+							"name": "Select"
+						},
+						{
+							"name": "NullsCero"
+						},
+						{
+							"name": "CrossJoin"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta1\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta3\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta4\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta5\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta7\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta8\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta9\nsource(output(\n\t\tid_biblioteca as string,\n\t\tcodi_indicador as string,\n\t\tvalor as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactConsulta10\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as string,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DIMBiblio\nsource(output(\n\t\tID_INDICADOR as string,\n\t\tCODI_INDICADOR as string,\n\t\tDESC_INDICADOR as string,\n\t\tDESC_COMO_CALCULAR as string,\n\t\tFLAG_FITXER as string,\n\t\tFLAG_PRESTECS as string,\n\t\tFLAG_DATAENTRY as string,\n\t\tFLAG_NO_PERIODICS as string,\n\t\tFILA_LEVEL_1 as string,\n\t\tFILA_LEVEL_2 as string,\n\t\tFILA_LEVEL_3 as string,\n\t\tFILA_LEVEL_4 as string,\n\t\tFILA_LEVEL_5 as string,\n\t\tCOLUMNA_LEVEL_1 as string,\n\t\tCOLUMNA_LEVEL_2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimIndicador\nODSFactConsulta1, ODSFactConsulta3, ODSFactConsulta4, ODSFactConsulta5, ODSFactConsulta7, ODSFactConsulta8, ODSFactConsulta9, ODSFactConsulta10 union(byName: true)~> Union\nSelect derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> Fechas\nUnion, CrossJoin join(Union@id_biblioteca == ID_AGENCY\n\t&& Union@codi_indicador == DimIndicador@CODI_INDICADOR,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nNullsCero select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR = DimIndicador@CODI_INDICADOR,\n\t\tIND_VALOR = valor\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nJoin derive(valor = iifNull(valor, 0)) ~> NullsCero\nDIMBiblio, DimIndicador join(FLAG_PRESTECS == '1' && CODI_BIBLIOTECA == CODI_BIBLIOTECA,\n\tjoinType:'cross',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> CrossJoin\nFechas sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactIndicadorsPrestecs"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_FACT_HIST_TOTAL_EXEMPLARS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTotalExemplars"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_HIST_TOTAL_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "HistFactTotalExemplars"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn1"
+						},
+						{
+							"name": "CambiarNombres"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{4  Llibre prestable } as string,\n\t\t{14  Revista prestable} as string,\n\t\t{24  Sonor prestable} as string,\n\t\t{34  Vídeo prestable} as string,\n\t\t{44  Electrònic prestable} as string,\n\t\t{54  Gràfic prestable} as string,\n\t\t{64  Mapa prestable} as string,\n\t\t{74  Partitura prestable} as string,\n\t\t{84  Altre material prestable} as string,\n\t\t{99  Temari oposicions} as string,\n\t\t{100  Llibre no prestable} as string,\n\t\t{110  Revista no prestable} as string,\n\t\t{120  Sonor no prestable} as string,\n\t\t{130  Vídeo no prestable} as string,\n\t\t{140  Electrònic no prestable} as string,\n\t\t{150  Gràfic no prestable} as string,\n\t\t{160  Mapa no prestable} as string,\n\t\t{170  Partitura no prestable} as string,\n\t\t{173  Manuscrit no prestable} as string,\n\t\t{175  Microforma no prestable} as string,\n\t\t{180  Altre material no prestable} as string,\n\t\t{190  Analítica no prestable} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalExemplars\nSTGFactTotalExemplars derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tID_AGENCY = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_LLIBRE_PRESTABLE = {4  Llibre prestable },\n\t\tNUM_REVISTA_PRESTABLE = {14  Revista prestable},\n\t\tNUM_SONOR_PRESTABLE = {24  Sonor prestable},\n\t\tNUM_VIDEO_PRESTABLE = {34  Vídeo prestable},\n\t\tNUM_ELECTRONIC_PRESTABLE = {44  Electrònic prestable},\n\t\tNUM_GRAFIC_PRESTABLE = {54  Gràfic prestable},\n\t\tNUM_MAPA_PRESTABLE = {64  Mapa prestable},\n\t\tNUM_PARTITURA_PRESTABLE = {74  Partitura prestable},\n\t\tNUM_ALTRE_MATERIAL_PRESTABLE = {84  Altre material prestable},\n\t\tNUM_TEMARI_OPOSICIONS = {99  Temari oposicions},\n\t\tNUM_LLIBRE_NO_PRESTABLE = {100  Llibre no prestable},\n\t\tNUM_REVISTA_NO_PRESTABLE = {110  Revista no prestable},\n\t\tNUM_SONOR_NO_PRESTABLE = {120  Sonor no prestable},\n\t\tNUM_VIDEO_NO_PRESTABLE = {130  Vídeo no prestable},\n\t\tNUM_ELECTRONIC_NO_PRESTABLE = {140  Electrònic no prestable},\n\t\tNUM_GRAFIC_NO_PRESTABLE = {150  Gràfic no prestable},\n\t\tNUM_MAPA_NO_PRESTABLE = {160  Mapa no prestable},\n\t\tNUM_PARTITURA_NO_PRESTABLE = {170  Partitura no prestable},\n\t\tNUM_MANUSCRIT_NO_PRESTABLE = {173  Manuscrit no prestable},\n\t\tNUM_MICROFORMA_NO_PRESTABLE = {175  Microforma no prestable},\n\t\tNUM_ALTRE_MATERIAL_NO_PRESTABLE = {180  Altre material no prestable},\n\t\tNUM_ANALITICA_NO_PRESTABLE = {190  Analítica no prestable},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CambiarNombres\nCambiarNombres sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactTotalExemplars"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactAltesBibliografics"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "HistFactAltesBibliografics"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "RenombraCampos"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{a  Llibre} as string,\n\t\t{b  Revista} as string,\n\t\t{c  Partitura impr.} as string,\n\t\t{d  Partitura manus.} as string,\n\t\t{e  Mapa imprès} as string,\n\t\t{f  Mapa manuscrit} as string,\n\t\t{g  Vídeo DVD} as string,\n\t\t{i  Sonor no musical} as string,\n\t\t{j  Sonor musical} as string,\n\t\t{k  Gràfic} as string,\n\t\t{l  Article} as string,\n\t\t{m  Fitxer informàtic} as string,\n\t\t{n  Tesi} as string,\n\t\t{o  Equip} as string,\n\t\t{p  Material d'arxiu} as string,\n\t\t{r  Objecte} as string,\n\t\t{t  Manuscrit} as string,\n\t\t{u  Base de dades} as string,\n\t\t{v  Revista en línia} as string,\n\t\t{z  Llibre en línia} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesBibliografics\nSTGFactAltesBibliografics derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_LLIBRE = {a  Llibre},\n\t\tNUM_REVISTA = {b  Revista},\n\t\tNUM_PARTITURA_IMPR = {c  Partitura impr.},\n\t\tNUM_PARTITURA_MANUS = {d  Partitura manus.},\n\t\tNUM_MAPA_IMPRES = {e  Mapa imprès},\n\t\tNUM_MAPA_MANUS = {f  Mapa manuscrit},\n\t\tNUM_VIDEO_DVD = {g  Vídeo DVD},\n\t\tNUM_SONOR_NO_MUSICAL = {i  Sonor no musical},\n\t\tNUM_SONOR_MUSICAL = {j  Sonor musical},\n\t\tNUM_GRAFIC = {k  Gràfic},\n\t\tNUM_ARTICLE = {l  Article},\n\t\tNUM_FITXER_INFORMATIC = {m  Fitxer informàtic},\n\t\tNUM_TESI = {n  Tesi},\n\t\tNUM_EQUIP = {o  Equip},\n\t\tNUM_MATERIAL_DARXIU = {p  Material d'arxiu},\n\t\tNUM_OBJECTE = {r  Objecte},\n\t\tNUM_MANUSCRIT = {t  Manuscrit},\n\t\tNUM_BASE_DE_DADES = {u  Base de dades},\n\t\tNUM_REVISTA_EN_LINEA = {v  Revista en línia},\n\t\tNUM_LLIBRE_EN_LINEA = {z  Llibre en línia},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactAltesBibliografics"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_ALTES_EXEMPLARS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_ALTES_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactAltesExemplars"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+								"type": "DatasetReference"
+							},
+							"name": "HISTAltesExemplars"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedColumn1"
+						},
+						{
+							"name": "RenombrarCampos"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{4  Llibre prestable } as string,\n\t\t{14  Revista prestable} as string,\n\t\t{24  Sonor prestable} as string,\n\t\t{34  Vídeo prestable} as string,\n\t\t{44  Electrònic prestable} as string,\n\t\t{54  Gràfic prestable} as string,\n\t\t{64  Mapa prestable} as string,\n\t\t{74  Partitura prestable} as string,\n\t\t{84  Altre material prestable} as string,\n\t\t{99  Temari oposicions} as string,\n\t\t{100  Llibre no prestable} as string,\n\t\t{110  Revista no prestable} as string,\n\t\t{120  Sonor no prestable} as string,\n\t\t{130  Vídeo no prestable} as string,\n\t\t{140  Electrònic no prestable} as string,\n\t\t{150  Gràfic no prestable} as string,\n\t\t{160  Mapa no prestable} as string,\n\t\t{170  Partitura no prestable} as string,\n\t\t{173  Manuscrit no prestable} as string,\n\t\t{175  Microforma no prestable} as string,\n\t\t{180  Altre material no prestable} as string,\n\t\t{190  Analítica no prestable} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesExemplars\nSTGFactAltesExemplars derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tID_AGENCY = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_LLIBRE_PRESTABLE = {4  Llibre prestable },\n\t\tNUM_REVISTA_PRESTABLE = {14  Revista prestable},\n\t\tNUM_SONOR_PRESTABLE = {24  Sonor prestable},\n\t\tNUM_VIDEO_PRESTABLE = {34  Vídeo prestable},\n\t\tNUM_ELECTRONIC_PRESTABLE = {44  Electrònic prestable},\n\t\tNUM_GRAFIC_PRESTABLE = {54  Gràfic prestable},\n\t\tNUM_MAPA_PRESTABLE = {64  Mapa prestable},\n\t\tNUM_PARTITURA_PRESTABLE = {74  Partitura prestable},\n\t\tNUM_ALTRE_MATERIAL_PRESTABLE = {84  Altre material prestable},\n\t\tNUM_TEMARI_OPOSICIONS = {99  Temari oposicions},\n\t\tNUM_LLIBRE_NO_PRESTALBE = {100  Llibre no prestable},\n\t\tNUM_REVISTA_NO_PRESTABLE = {110  Revista no prestable},\n\t\tNUM_SONOR_NO_PRESTABLE = {120  Sonor no prestable},\n\t\tNUM_VIDEO_NO_PRESTABLE = {130  Vídeo no prestable},\n\t\tNUM_ELECTRONIC_NO_PRESTABLE = {140  Electrònic no prestable},\n\t\tNUM_GRAFIC_NO_PRESTABLE = {150  Gràfic no prestable},\n\t\tNUM_MAPA_NO_PRESTABLE = {160  Mapa no prestable},\n\t\tNUM_PARTITURA_NO_PRESTABLE = {170  Partitura no prestable},\n\t\tNUM_MANUSCRIT_NO_PRESTABLE = {173  Manuscrit no prestable},\n\t\tNUM_MICROFORMA_NO_PRESTABLE = {175  Microforma no prestable},\n\t\tNUM_ALTRE_MATERIAL_NO_PRESTABLE = {180  Altre material no prestable},\n\t\tNUM_ANALITICA_NO_PRESTABLE = {190  Analítica no prestable},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HISTAltesExemplars"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_ALTES_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_ALTES_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactAltesHoldings"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "HistFactAltesHoldings"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "RenombrarCampos"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesHoldings\nSTGFactAltesHoldings derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_SENSE_INFORMAR = {-  Sense informar},\n\t\tNUM_DESCONEGUT = {0  Desconegut},\n\t\tNUM_ALTRES = {1  Altres},\n\t\tNUM_CESSADA = {2  Cessada},\n\t\tNUM_ES_REP = {4  Es rep},\n\t\tNUM_NO_ES_REP = {5  No es rep},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactAltesHoldings"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_ALTES_USUARIS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_ALTES_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactAltesUsuaris"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_ALTES_USUARIS",
+								"type": "DatasetReference"
+							},
+							"name": "HistFactAltesUsuaris"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "RenombrarCampos"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{10  General intern} as string,\n\t\t{11  Bad Code} as string,\n\t\t{20  General extern} as string,\n\t\t{25  BEG} as string,\n\t\t{30  Personal de la biblioteca} as string,\n\t\t{110  Institució interna} as string,\n\t\t{120  Institució externa} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactAltesUsuaris\nSTGFactAltesUsuaris derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_GENERAL_INTERN = {10  General intern},\n\t\tNUM_BAD_CODE = {11  Bad Code},\n\t\tNUM_GENERAL_EXTERN = {20  General extern},\n\t\tNUM_BEG = {25  BEG},\n\t\tNUM_PERSONAL_DE_LA_BIBLIOTECA = {30  Personal de la biblioteca},\n\t\tNUM_INSTITUCIO_INTERNA = {110  Institució interna},\n\t\tNUM_INSTITUCIO_EXTERNA = {120  Institució externa},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactAltesUsuaris"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_PRESTECS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_PRESTECS",
+								"type": "DatasetReference"
+							},
+							"name": "STGPrestecs"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_PRESTECS",
+								"type": "DatasetReference"
+							},
+							"name": "STGHistFactPrestecs"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     Data_Carrega as string",
+						"}",
+						"source(output(",
+						"          AGENCY as string,",
+						"          LOCATION as string,",
+						"          {I TYPE} as string,",
+						"          {OUT DATE} as string,",
+						"          {OUT LOC} as string,",
+						"          {PAT AGENCY} as string,",
+						"          {HOME LIBR} as string,",
+						"          {P TYPE} as string,",
+						"          {RECORD #(Patron)} as string,",
+						"          {RECORD #(Item)} as string,",
+						"          { DE BARRES} as string,",
+						"          {CALL #} as string,",
+						"          {RECORD #(BIBLIO)} as string,",
+						"          LANG as string,",
+						"          {MAT TYPE} as string,",
+						"          {BIB LVL} as string,",
+						"          COUNTRY as string,",
+						"          {008 Data 1} as string,",
+						"          {020} as string,",
+						"          {022} as string,",
+						"          {CLASIF CDU} as string,",
+						"          AUTHOR as string,",
+						"          TITLE as string,",
+						"          {PUB INFO} as string,",
+						"          IUSE3 as string,",
+						"          {INTL USE} as string,",
+						"          {IN LOC} as string,",
+						"          PCODE1 as string,",
+						"          PCODE3 as string,",
+						"          PCODE2 as string,",
+						"          {ADREÇA} as string,",
+						"          PCODE4 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> STGPrestecs",
+						"STGPrestecs derive(DATA_INSERCIO = currentDate(),",
+						"          DATA_PERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas",
+						"Datas sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ID_AGENCY as string,",
+						"          ID_LOCATION as string,",
+						"          CODI_I_TYPE as string,",
+						"          DATA_OUT_DATE as string,",
+						"          ID_OUT_LOC as string,",
+						"          NUM_PAT_AGENCY as string,",
+						"          NUM_HOME_LIBR as string,",
+						"          NUM_P_TYPE as string,",
+						"          CODI_RECORD_PATRON as string,",
+						"          CODI_RECORD_ITEM as string,",
+						"          NUM_DE_BARRES as string,",
+						"          NUM_CALL as string,",
+						"          DESC_RECORD_BIBLIO as string,",
+						"          CODI_LANG as string,",
+						"          CODI_MAT_TYPE as string,",
+						"          CODI_BIB_LVL as string,",
+						"          CODI_COUNTRY as string,",
+						"          CODI_008 as string,",
+						"          CODI_020 as string,",
+						"          CODI_022 as string,",
+						"          CODI_CLASIF_CDU as string,",
+						"          DESC_AUTHOR as string,",
+						"          DESC_TITLE as string,",
+						"          DESC_PUB_INFO as string,",
+						"          CODI_IUSE3 as string,",
+						"          CODI_INTL_USE as string,",
+						"          CODI_IN_LOC as string,",
+						"          CODI_PCODE1 as string,",
+						"          CODI_PCODE3 as string,",
+						"          CODI_PCODE2 as string,",
+						"          {DESC_ADREÇA} as string,",
+						"          CODI_PCODE4 as string,",
+						"          DATA_INSERCIO as date,",
+						"          DATA_PERIODE as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          ID_AGENCY = AGENCY,",
+						"          ID_LOCATION = LOCATION,",
+						"          CODI_I_TYPE = {I TYPE},",
+						"          DATA_OUT_DATE = {OUT DATE},",
+						"          ID_OUT_LOC = {OUT LOC},",
+						"          NUM_PAT_AGENCY = {PAT AGENCY},",
+						"          NUM_HOME_LIBR = {HOME LIBR},",
+						"          NUM_P_TYPE = {P TYPE},",
+						"          CODI_RECORD_PATRON = {RECORD #(Patron)},",
+						"          CODI_RECORD_ITEM = {RECORD #(Item)},",
+						"          NUM_DE_BARRES = { DE BARRES},",
+						"          NUM_CALL = {CALL #},",
+						"          DESC_RECORD_BIBLIO = {RECORD #(BIBLIO)},",
+						"          CODI_LANG = LANG,",
+						"          CODI_MAT_TYPE = {MAT TYPE},",
+						"          CODI_BIB_LVL = {BIB LVL},",
+						"          CODI_COUNTRY = COUNTRY,",
+						"          CODI_008 = {008 Data 1},",
+						"          CODI_020 = {020},",
+						"          CODI_022 = {022},",
+						"          CODI_CLASIF_CDU = {CLASIF CDU},",
+						"          DESC_AUTHOR = AUTHOR,",
+						"          DESC_TITLE = TITLE,",
+						"          DESC_PUB_INFO = {PUB INFO},",
+						"          CODI_IUSE3 = IUSE3,",
+						"          CODI_INTL_USE = {INTL USE},",
+						"          CODI_IN_LOC = {IN LOC},",
+						"          CODI_PCODE1 = PCODE1,",
+						"          CODI_PCODE3 = PCODE3,",
+						"          CODI_PCODE2 = PCODE2,",
+						"          {DESC_ADREÇA} = {ADREÇA},",
+						"          CODI_PCODE4 = PCODE4,",
+						"          DATA_INSERCIO,",
+						"          DATA_PERIODE",
+						"     )) ~> STGHistFactPrestecs"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_PROCEDENCIA')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+								"type": "DatasetReference"
+							},
+							"name": "STGProcedencia"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+								"type": "DatasetReference"
+							},
+							"name": "STGHistProcedencia"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "CambiaNombres"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     Data_Carrega as string",
+						"}",
+						"source(output(",
+						"          Codi as string,",
+						"          Significat as string,",
+						"          {0} as string,",
+						"          {-1} as string,",
+						"          {-2} as string,",
+						"          {-3} as string,",
+						"          {-4} as string,",
+						"          {-5} as string,",
+						"          {-6} as string,",
+						"          {-7} as string,",
+						"          {-8} as string,",
+						"          {-9} as string,",
+						"          {-10} as string,",
+						"          {-11} as string,",
+						"          {-12} as string,",
+						"          {-13} as string,",
+						"          {-14} as string,",
+						"          {-15} as string,",
+						"          {-16} as string,",
+						"          {-17} as string,",
+						"          {-18} as string,",
+						"          {-19} as string,",
+						"          {-20} as string,",
+						"          {-21} as string,",
+						"          {-22} as string,",
+						"          {-23} as string,",
+						"          {  Totals  } as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> STGProcedencia",
+						"STGProcedencia derive(DATA_INSERCIO = currentDate(),",
+						"          DATA_PERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas",
+						"Datas select(mapColumn(",
+						"          ID_AGENCY = Codi,",
+						"          DESC_BIBLIOTECA = Significat,",
+						"          NUM_0 = {0},",
+						"          NUM_1 = {-1},",
+						"          NUM_2 = {-2},",
+						"          NUM_3 = {-3},",
+						"          NUM_4 = {-4},",
+						"          NUM_5 = {-5},",
+						"          NUM_6 = {-6},",
+						"          NUM_7 = {-7},",
+						"          NUM_8 = {-8},",
+						"          NUM_9 = {-9},",
+						"          NUM_10 = {-10},",
+						"          NUM_11 = {-11},",
+						"          NUM_12 = {-12},",
+						"          NUM_13 = {-13},",
+						"          NUM_14 = {-14},",
+						"          NUM_15 = {-15},",
+						"          NUM_16 = {-16},",
+						"          NUM_17 = {-17},",
+						"          NUM_18 = {-18},",
+						"          NUM_19 = {-19},",
+						"          NUM_20 = {-20},",
+						"          NUM_21 = {-21},",
+						"          NUM_22 = {-22},",
+						"          NUM_23 = {-23},",
+						"          NUM_TOTAL = {  Totals  },",
+						"          DATA_INSERCIO,",
+						"          DATA_PERIODE",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> CambiaNombres",
+						"CambiaNombres sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Codi as string,",
+						"          Significat as string,",
+						"          {0  -} as string,",
+						"          {1  -} as string,",
+						"          {2  -} as string,",
+						"          {3  -} as string,",
+						"          {4  -} as string,",
+						"          {5  -} as string,",
+						"          {6  -} as string,",
+						"          {7  -} as string,",
+						"          {8  -} as string,",
+						"          {9  -} as string,",
+						"          {10  -} as string,",
+						"          {11  -} as string,",
+						"          {12  -} as string,",
+						"          {13  -} as string,",
+						"          {14  -} as string,",
+						"          {15  -} as string,",
+						"          {16  -} as string,",
+						"          {17  -} as string,",
+						"          {18  -} as string,",
+						"          {19  -} as string,",
+						"          {20  -} as string,",
+						"          {21  -} as string,",
+						"          {22  -} as string,",
+						"          {23  -} as string,",
+						"          totals as string,",
+						"          DATA_INSERCIO as date,",
+						"          DATA_PERIODE as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> STGHistProcedencia"
+					]
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

@@ -1,0 +1,1318 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "df-clt-pre"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_DIM_LOCATION')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_LOCATIONS.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_DIM_TERMINALS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_TERMINALS.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_INDICADORS.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_PROCEDENCIA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Exemplars_Procedencia.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TIME')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_TIME.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DATA",
+						"type": "String"
+					},
+					{
+						"name": "FLAG_ES_LABORABLE",
+						"type": "String"
+					},
+					{
+						"name": "DATA_ANY",
+						"type": "String"
+					},
+					{
+						"name": "NUM_SEMESTRE",
+						"type": "String"
+					},
+					{
+						"name": "NUM_TRIMESTRE",
+						"type": "String"
+					},
+					{
+						"name": "DATA_ANY_TRIMESTRE",
+						"type": "String"
+					},
+					{
+						"name": "DATA_MES",
+						"type": "String"
+					},
+					{
+						"name": "DATA_MES_NN",
+						"type": "String"
+					},
+					{
+						"name": "DATA_ANY_MES",
+						"type": "String"
+					},
+					{
+						"name": "NUM_DIA",
+						"type": "String"
+					},
+					{
+						"name": "NUM_DIA_DD",
+						"type": "String"
+					},
+					{
+						"name": "NUM_DIA_SEMANA",
+						"type": "String"
+					},
+					{
+						"name": "DESC_MES",
+						"type": "String"
+					},
+					{
+						"name": "DESC_MES_CAT",
+						"type": "String"
+					},
+					{
+						"name": "DESC_DIA",
+						"type": "String"
+					},
+					{
+						"name": "DESC_DIA_CAT",
+						"type": "String"
+					},
+					{
+						"name": "NUM_SEMANA",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_BIBLIOGRAFICS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Bibliografics.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_EXEMPLARS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Exemplars.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Holdings.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_USUARIS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Usuaris.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TRANSACCIONS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Transaccions.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_BIBLIOTEQUES')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id_biblioteca",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_usuari",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "codi",
+						"type": "char"
+					},
+					{
+						"name": "id_tipus",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_modul",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "niden",
+						"type": "char"
+					},
+					{
+						"name": "id_estat",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "denominacio",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta_biblio",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "data_baixa_biblio",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_tipus_via",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nom_via",
+						"type": "varchar"
+					},
+					{
+						"name": "numero_via",
+						"type": "varchar"
+					},
+					{
+						"name": "ine_municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "id_districte",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cp",
+						"type": "varchar"
+					},
+					{
+						"name": "utmx",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "utmy",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "longitud",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "latitud",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "telefon",
+						"type": "varchar"
+					},
+					{
+						"name": "extensio",
+						"type": "varchar"
+					},
+					{
+						"name": "fax",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "web",
+						"type": "varchar"
+					},
+					{
+						"name": "beg",
+						"type": "bit"
+					},
+					{
+						"name": "slpc",
+						"type": "bit"
+					},
+					{
+						"name": "id_mapa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_categoria",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_titularitat",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "finan_adm_central",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_generalitat",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_diputacio",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_con_comarcal",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_ajuntament",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_universitat",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_privada",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_altres",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "id_forma_acces",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "es_cataleg_colectiu_cclp",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_cclp",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_dip_bcn",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_dip_bcn",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_ccuc",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_ccuc",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_beg",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_beg",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_altres",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_altres",
+						"type": "varchar"
+					},
+					{
+						"name": "id_director_tractament",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "director_nom",
+						"type": "varchar"
+					},
+					{
+						"name": "director_primer_cognom",
+						"type": "varchar"
+					},
+					{
+						"name": "director_segon_cognom",
+						"type": "varchar"
+					},
+					{
+						"name": "adaptada",
+						"type": "bit"
+					},
+					{
+						"name": "observacions",
+						"type": "varchar"
+					},
+					{
+						"name": "obs_itineraris",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_adscripcio",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_categoria_esp",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "BIBLIOTEQUES"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_CATEGORIA_ESP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id_categoria_esp",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "desc_categoria_esp",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DICC_CATEGORIA_ESP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_DICC_TRACTAMENTS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id_tractament",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "desc_tractament",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DICC_TRACTAMENTS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_HORARIS_HIVERN')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id_horari_hivern",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_biblioteca",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dl_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dl_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dl_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dl_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "resum",
+						"type": "varchar"
+					},
+					{
+						"name": "observacions",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "HORARIS_HIVERN"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_LLOCS_TREBALL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id_lloc_treball",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "desc_lloc_treball",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DICC_LLOCS_TREBALL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_ROLS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "idRol",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_ROL",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ROLS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/META_BEG_FICHEROS_A_CARGAR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_DIB_ROLS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "idRol",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_ROL",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ROLS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TERRITORIAL_AMBIT_TERRITORIAL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_TERRITORIAL",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "IDAmbit",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Ambit",
+						"type": "varchar"
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "AMBIT_TERRITORIAL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TERRITORIAL_COMARCA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_TERRITORIAL",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "INE_Comarca",
+						"type": "varchar"
+					},
+					{
+						"name": "IDAmbit",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Comarca",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Comarca_cat",
+						"type": "varchar"
+					},
+					{
+						"name": "cod_sstt",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "COMARCA"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

@@ -1,0 +1,3559 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "df-clt-pre"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_ODS5')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DF_ODS_BEG_FACT_INDICADORS",
+						"description": "",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "HORES_DOBERTURA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_BEG_FACT_INDICADORS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"ODS4FactIndicadors": {},
+									"DimBiblioteques": {},
+									"HoresDObertura": {},
+									"ODSFactIndicadors": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "HORES_DOBERTURA",
+						"description": "Calcula el IND_1_3",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select b.CODI_BIBLIOTECA,'IND_1_3' as CODI_INDICADOR,\n(coalesce(datediff(MINUTE,cast(dl_mati_ini as time),cast(isnull(dl_mati_fi,dl_tarda_fi) as time)),0)\n+ coalesce(datediff(MINUTE,cast(dl_tarda_ini as time),cast(dl_tarda_fi as time)),0)\n \n+ coalesce(datediff(MINUTE,cast(dt_mati_ini as time),cast(isnull(dt_mati_fi,dt_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dt_tarda_ini as time),cast(dt_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dc_mati_ini as time),cast(isnull(dc_mati_fi,dc_tarda_fi) as time)),0)\n+ coalesce(datediff(MINUTE,cast(dc_tarda_ini as time),cast(dc_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dj_mati_ini as time),cast(isnull(dj_mati_fi,dj_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dj_tarda_ini as time),cast(dj_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dv_mati_ini as time),cast(isnull(dv_mati_fi,dv_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dv_tarda_ini as time),cast(dv_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(ds_mati_ini as time),cast(isnull(ds_mati_fi,ds_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(ds_tarda_ini as time),cast(ds_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dg_mati_ini as time),cast(isnull(dg_mati_fi,dg_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dg_tarda_ini as time),cast(dg_tarda_fi as time)),0))\n\n/60.0\n as IND_VALOR\nfrom [DIB_STG].[STG_DIB_DIM_HORARIS_HIVERN] h\njoin [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] b on h.id_biblioteca=b.id_biblioteca\n",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [BEG_ODS].[ODS_BEG_HORES_DOBERTURA]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_DIBICA_HORARIS_HIVERN",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ODS_BEG_HORES_DOBERTURA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202112"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/ODS"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_STG_HIST')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_EXEMPLARS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_FACT_HIST_TOTAL_EXEMPLARS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalExemplars": {},
+									"HistFactTotalExemplars": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalBibliografics": {},
+									"HistFactTotalBibliografics": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalUsuaris": {},
+									"HistFactTotalUsuaris": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalHoldings": {},
+									"HISTFactTotalHoldings": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesBibliografics": {},
+									"HistFactAltesBibliografics": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_USUARIS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_USUARIS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesUsuaris": {},
+									"HistFactAltesUsuaris": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesExemplars": {},
+									"HISTAltesExemplars": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesHoldings": {},
+									"HistFactAltesHoldings": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_HOLDINGS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_HOLDINGS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TRANSACCIONS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TRANSACCIONS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TRANSACCIONS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTransaccions": {},
+									"STGHistTransaccions": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TRANSACCIONS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TRANSACCIONS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_PRESTECS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_PRESTECS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_PRESTECS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_PRESTECS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_PRESTECS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGPrestecs": {},
+									"STGHistFactPrestecs": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_PROCEDENCIA",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_PROCEDENCIA",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_PROCEDENCIA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_PROCEDENCIA",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGProcedencia": {},
+									"STGHistProcedencia": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202109"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/STG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:21Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DATA_ENTRY_MES_VENCIDO_DIARI')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DATA_ENTRY_MES_VENCIDO",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_CARREGA_DATA_ENTRY_MES_VENCIDO",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DataEntry": {},
+									"DMDimBiblioteques": {},
+									"HistEntradaIndicadors": {},
+									"DMFactIndicadors": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX DATA ENTRY"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:18Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DIBICA_DM')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DM_BIBLIOTEQUES",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_BIBLIOTEQUES",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGBiblioteques": {},
+									"DMBiblioteques": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_HORARIS_HIVERN",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_HORARIS_HIVERN",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGHorarisHivern": {},
+									"DMHorarisHivern": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_DICC_LLOCS_TREBALL",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_DICC_LLOCS_TREBALL",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_DICC_TRACTAMENTS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_DICC_TRACTAMENTS",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_CATEGORIA_ESP",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_CATEGORIA_ESP",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGDimCategoriaEsp": {},
+									"DMDimCategoriaEsp": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_ROLS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_ROLS",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGRols": {},
+									"DMRols": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:33Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_TERRITORIAL_DM')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DM_BEG_AMBIT_TERRITORIAL",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_BEG_AMBIT_TERRITORIAL",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGAmbitTerritorial": {},
+									"DMAmbitTerritorial": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_BEG_PROVINCIA",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_BEG_PROVINCIA",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGProvincia": {},
+									"DMProvincia": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_BEG_MUNICIPI",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_BEG_MUNICIPI",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGMunicipi": {},
+									"DMMunicipi": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DM_BEG_COMARCA",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DM_BEG_COMARCA",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"STGComarca": {},
+									"DMComarca": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:20Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_BAIXES')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PL_BEG_BAIXES_STG",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_STG",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_STG_HIST",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_BAIXES_STG",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_STG_HIST",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_ODS1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_BAIXES_STG_HIST",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_ODS1",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_ODS2",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_BAIXES_ODS1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_ODS2",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_ODS3",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_BAIXES_ODS2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_ODS3",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_ODS4",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_BAIXES_ODS3",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_ODS4",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_DM",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_BAIXES_ODS4",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_DM",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202107"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX BAIXES"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_DIM')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "BEG_DIM_LOCATIONS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [BEG_DM].[DM_BEG_DIM_LOCATIONS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_DIM_LOCATION",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DM_BEG_DIM_LOCATIONS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "BEG_DIM_TERMINALS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [BEG_DM].[DM_BEG_DIM_TERMINALS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_DIM_TERMINALS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DM_BEG_DIM_TERMINALS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "BEG_DIM_INDICADORS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [BEG_DM].[DM_BEG_DIM_INDICADORS]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CSV_INDICADORS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DM_BEG_DIM_INDICADORS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "BEG_DIM_TIME",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_DIM_TIME",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"CSVTime": {},
+									"DMDimTime": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BEG_DIM_REL_P_TYPE_INDICADORS",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "XLSX_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "PL_BEG_DIM_BIBLIOTEQUES",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_DIM_BIBLIOTEQUES",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:21Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PL_BEG_FACT_STG",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "SET_DATA_INICIO",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_FACT_STG",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_FACT_STG_PRESTECS",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_FACT_STG_2",
+								"dependencyConditions": [
+									"Succeeded",
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_FACT_STG_PRESTECS",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_FACT_STG_2",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_FACT_STG",
+								"dependencyConditions": [
+									"Succeeded",
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_FACT_STG_2",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@pipeline().parameters.Data_Carrega",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "CAPTURA_ERROR",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "SET_NUM_ERRORS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(int(variables('NUM_ERRORS')),0)",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "PL_BEG_FACT_ODS1",
+									"description": "Calcula Indicadores Base",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_ODS1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT_ODS2",
+									"description": "Une todos los indicadores base en una sola tabla",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_FACT_ODS1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_ODS2",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT_ODS3",
+									"description": "Pone indicadores que no se han calculado para las bibliotecas con un NULL",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_FACT_ODS2",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_ODS3",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT_ODS4",
+									"description": "Calcula indicadores a partir de los base",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_FACT_ODS3",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_ODS4",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT_DM",
+									"description": "Inserta en la DM_BEG_FACT_INDICADORS",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_FACT_ODS5",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_DM",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT_ODS5",
+									"description": "Une los prestamos anuales con los demás y añade el AGENCY como codigo.",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_FACT_ODS4",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_ODS5",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT_STG_HIST",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT_STG_HIST",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@pipeline().parameters.Data_Carrega",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "NUM_ERRORS",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_FACT_STG_PRESTECS",
+								"dependencyConditions": [
+									"Succeeded",
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@CONCAT('select COUNT(error) AS NUM_ERRORS from [BEG_STG].[LOGS_BEG]\nwhere error not like ''%sftppathnotfound%'' AND ERROR IS NOT NULL AND DATA_INSERCIO < ''',activity('DATA_INICIO').output.firstRow.DATA_INICIO,'''')",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "SET_NUM_ERRORS",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "NUM_ERRORS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "NUM_ERRORS",
+							"value": {
+								"value": "@string(activity('NUM_ERRORS').output.firstRow.NUM_ERRORS)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "DATA_INICIO",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT GETDATE() AS DATA_INICIO;",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "SET_DATA_INICIO",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "DATA_INICIO",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "DATA_INICIO",
+							"value": {
+								"value": "@activity('DATA_INICIO').output.firstRow.DATA_INICIO",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202101"
+					}
+				},
+				"variables": {
+					"NUM_ERRORS": {
+						"type": "String"
+					},
+					"DATA_INICIO": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:34Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_FACT_ODS5')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_FACT_STG_HIST')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DATA_ENTRY_MENSUAL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PL_BEG_DATA_ENTRY",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "SET_V_DATA_CARREGA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_DATA_ENTRY",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@variables('V_DATA_CARREGA')",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "LeerMesACargar",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,0,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,0,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TIME",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "SET_V_DATA_CARREGA",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LeerMesACargar",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_DATA_CARREGA",
+							"value": {
+								"value": "@string(activity('LeerMesACargar').output.firstRow.DATA)",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"V_DATA_CARREGA": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX DATA ENTRY"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:21Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DIBICA_MENSUAL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PL_DIBICA_STG",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_DIBICA_STG",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "PL_DIBICA_DM",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_DIBICA_STG",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_DIBICA_DM",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:36Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_DIBICA_DM')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_TERRITORIAL_MENSUAL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PL_BEG_TERRITORIAL_STG",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_TERRITORIAL_STG",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "PL_BEG_TERRITORIAL_DM",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_TERRITORIAL_STG",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_TERRITORIAL_DM",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:22Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_TERRITORIAL_DM')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger Data Entry Mes Vencido')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ejecuta cada día el proceso de carga de data entry a mes vencido.",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_DATA_ENTRY_MES_VENCIDO_DIARI",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2022-08-01T00:55:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								0
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_DATA_ENTRY_MES_VENCIDO_DIARI')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_BAIXES_HISTORICO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FIJAR_INICIO",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_F_FIN",
+							"value": {
+								"value": "@pipeline().parameters.P_INI",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "IGUALA_FI",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "FIJAR_INICIO",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_F_FIN_2",
+							"value": {
+								"value": "@variables('V_F_FIN')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "BUCLE",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "IGUALA_FI",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@variables('V_UNTIL')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "CHECK_FIN_BUCLE",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_BAIXES",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "V_UNTIL",
+										"value": {
+											"value": "@bool(lessOrEquals(pipeline().parameters.P_FIN, variables('V_F_FIN')))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set variable1",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "CHECK_FIN_BUCLE",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "V_F_FIN",
+										"value": {
+											"value": "@if(equals(substring(variables('V_F_FIN_2'),4,2),'12'),concat(string(add(int(substring(variables('V_F_FIN_2'),0,4)),1)),'01') , string(add(int(variables('V_F_FIN_2')),1)))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set variable2",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set variable1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "V_F_FIN_2",
+										"value": {
+											"value": "@variables('V_F_FIN')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_BAIXES",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_BAIXES",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@variables('V_F_FIN')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							],
+							"timeout": "7.00:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"P_INI": {
+						"type": "string",
+						"defaultValue": "202101"
+					},
+					"P_FIN": {
+						"type": "string",
+						"defaultValue": "202106"
+					}
+				},
+				"variables": {
+					"V_UNTIL": {
+						"type": "Boolean",
+						"defaultValue": false
+					},
+					"V_F_FIN": {
+						"type": "String"
+					},
+					"V_F_FIN_2": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX BAIXES"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:27Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_BAIXES')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_MENSUAL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PL_BEG_FACT",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_DIM",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_FACT",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@variables('V_DATA_CARREGA')",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_DIM",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "SET_V_DATA_CARREGA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_DIM",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "LeerMesACargar",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,1,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,1,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TIME",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "SET_V_DATA_CARREGA",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LeerMesACargar",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_DATA_CARREGA",
+							"value": {
+								"value": "@string(activity('LeerMesACargar').output.firstRow.DATA)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_CREA_DATA_ENTRY",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "PL_BEG_FACT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_CREA_DATA_ENTRY",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"Data_Carrega": {
+									"value": "@variables('V_DATA_CARREGA')",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"V_DATA_CARREGA": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:36Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_FACT')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_DIM')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger DIBICA-TERRITORIAL')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Carga todos los día 3 de mes las tablas de DIBICA y TERRITORIAL",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_DIBICA_MENSUAL",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "PL_TERRITORIAL_MENSUAL",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 1,
+						"startTime": "2022-08-01T00:50:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								0
+							],
+							"monthDays": [
+								3
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_DIBICA_MENSUAL')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_TERRITORIAL_MENSUAL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger Data Entry')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ejecuta cada día 28 de mes, el pipeline de data entry del último mes.",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_DATA_ENTRY_MENSUAL",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 1,
+						"startTime": "2022-08-01T00:30:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								0
+							],
+							"monthDays": [
+								28
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_DATA_ENTRY_MENSUAL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_HISTORICO')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "BUCLE",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "IGUALA_FI",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@variables('V_UNTIL')",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "CHECK_FIN_BUCLE",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "IF_BAIXES",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "V_UNTIL",
+										"value": {
+											"value": "@bool(lessOrEquals(pipeline().parameters.P_FIN, variables('V_F_FIN')))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set variable1",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "CHECK_FIN_BUCLE",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "V_F_FIN",
+										"value": {
+											"value": "@if(equals(substring(variables('V_F_FIN_2'),4,2),'12'),concat(string(add(int(substring(variables('V_F_FIN_2'),0,4)),1)),'01') , string(add(int(variables('V_F_FIN_2')),1)))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set variable2",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set variable1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "V_F_FIN_2",
+										"value": {
+											"value": "@variables('V_F_FIN')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "PL_BEG_FACT",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "SET_MAX_DATA_BAIXES",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_BEG_FACT",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Data_Carrega": {
+												"value": "@variables('V_F_FIN')",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "IF_BAIXES",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "PL_BEG_FACT",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@lessOrEquals(int(variables('V_F_FIN')),int(concat(substring(variables('MAX_DATA_BAIXES'),0,4),substring(variables('MAX_DATA_BAIXES'),5,2))))",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "PL_BEG_BAIXES_HISTORICO",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "PL_BEG_BAIXES_HISTORICO",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true,
+													"parameters": {
+														"P_INI": {
+															"value": "@variables('V_F_FIN')",
+															"type": "Expression"
+														},
+														"P_FIN": {
+															"value": "@if(equals(substring(variables('V_F_FIN'),4,2),'12'),concat(string(add(int(substring(variables('V_F_FIN'),0,4)),1)),'01') , string(add(int(variables('V_F_FIN')),1)))",
+															"type": "Expression"
+														}
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "GET_MAX_DATA_BAIXES",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"sqlReaderQuery": {
+												"value": "select MAX(DATA_PERIODE) AS MAX_DATA_BAIXES FROM [BEG_DM].[DM_BEG_FACT_INDICADORS]\nWHERE CODI_INDICADOR = 'IND_3_10011';",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"dataset": {
+											"referenceName": "DM_BEG_FACT_INDICADORS",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": true
+									}
+								},
+								{
+									"name": "SET_MAX_DATA_BAIXES",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "GET_MAX_DATA_BAIXES",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "MAX_DATA_BAIXES",
+										"value": {
+											"value": "@substring(string(activity('GET_MAX_DATA_BAIXES').output.firstRow.MAX_DATA_BAIXES),0,10)",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "7.00:00:00"
+						}
+					},
+					{
+						"name": "FIJAR_INICIO",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_F_FIN",
+							"value": {
+								"value": "@pipeline().parameters.P_INI",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "IGUALA_FI",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "FIJAR_INICIO",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_F_FIN_2",
+							"value": {
+								"value": "@variables('V_F_FIN')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"P_INI": {
+						"type": "string",
+						"defaultValue": "202101"
+					},
+					"P_FIN": {
+						"type": "string",
+						"defaultValue": "202112"
+					}
+				},
+				"variables": {
+					"V_UNTIL": {
+						"type": "Boolean",
+						"defaultValue": false
+					},
+					"V_F_FIN": {
+						"type": "String"
+					},
+					"V_F_FIN_2": {
+						"type": "String"
+					},
+					"MAX_DATA_BAIXES": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:36Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_FACT')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_BAIXES_HISTORICO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_SEMESTRAL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SET_V_INI",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LeerMesDeCargaIni",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_INI",
+							"value": {
+								"value": "@string(activity('LeerMesDeCargaIni').output.firstRow.DATA)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "PL_BEG_BAIXES_HISTORICO",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "SET_V_FIN",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "PL_BEG_BAIXES_HISTORICO",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"P_INI": {
+									"value": "@variables('V_INI')",
+									"type": "Expression"
+								},
+								"P_FIN": {
+									"value": "@variables('V_FIN')",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "LeerMesDeCargaIni",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-7,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-7,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TIME",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					},
+					{
+						"name": "SET_V_FIN",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "LeerMesDeCargaFin",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "V_FIN",
+							"value": {
+								"value": "@string(activity('LeerMesDeCargaFin').output.firstRow.DATA)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "LeerMesDeCargaFin",
+						"type": "Lookup",
+						"dependsOn": [
+							{
+								"activity": "SET_V_INI",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT CONCAT(SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-2,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),1,4),SUBSTRING(CONVERT(VARCHAR,DATEADD(MONTH,-2,CONVERT(date, CONCAT('1-',SUBSTRING(ULTIM_MES_CARREGAT,6,2),'-',SUBSTRING(ULTIM_MES_CARREGAT,1,4)), 103))),6,2)) AS DATA FROM [BEG_DM].[DM_BEG_ADMIN_WEB];",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TIME",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"V_INI": {
+						"type": "String"
+					},
+					"V_FIN": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX BAIXES"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:29Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_BAIXES_HISTORICO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger Fitxers')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ejecuta cada día 4 de mes el proceso de carga de ficheros.",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_BEG_MENSUAL",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 1,
+						"startTime": "2022-08-01T00:53:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								0
+							],
+							"monthDays": [
+								5
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_MENSUAL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger Baixes')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Ejecuta el mes de septiembre las bajas del primer semestre y el mes de marzo las bajas del segundo semestre del año anterior.",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_BEG_SEMESTRAL",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 6,
+						"startTime": "2022-09-01T00:12:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								0
+							],
+							"monthDays": [
+								27
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_BEG_SEMESTRAL')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,2425 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "df-clt-pre"
+		},
+		"DB_CLT_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "bbdd-beg-connection"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/TERRITORIAL_MUNICIPI')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_TERRITORIAL",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "INE_Municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_Comarca",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Municipi_cat",
+						"type": "varchar"
+					},
+					{
+						"name": "CP",
+						"type": "varchar"
+					},
+					{
+						"name": "Altitud",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Superficie",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					},
+					{
+						"name": "Cap_Pais",
+						"type": "bit"
+					},
+					{
+						"name": "Cap_Comunitat_Autonoma",
+						"type": "bit"
+					},
+					{
+						"name": "Cap_Provincia",
+						"type": "bit"
+					},
+					{
+						"name": "Cap_Comarca",
+						"type": "bit"
+					},
+					{
+						"name": "IDAmbit",
+						"type": "varchar"
+					},
+					{
+						"name": "cod_sstt",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MUNICIPI"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TERRITORIAL_PROVINCIA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_TERRITORIAL",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "INE_Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_Comunitat_Autonoma",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Provincia_cat",
+						"type": "varchar"
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "PROVINCIA"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TXT_PRESTEC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"NombreArchivo": {
+						"type": "string",
+						"defaultValue": "2022_01_01.txt"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@dataset().NombreArchivo",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/XLSX_BEG_DIM_REL_P_TYPE_INDICADOR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "Sheet1",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_REL_P_TYPE_INDICADOR.xlsx",
+						"container": "cltsintesibeg"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DB_CLT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AKV",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('DB_CLT_properties_typeProperties_connectionString_secretName')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IntegrationRuntimeAzure",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_AUTOPRESTECS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_AUTOPRESTECS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_BIBLIOTEQUES')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_BIBLIOTECA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_AGENCY",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_USUARI",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "char"
+					},
+					{
+						"name": "ID_TIPUS",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_MODUL",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CODI_NIDEN",
+						"type": "char"
+					},
+					{
+						"name": "ID_ESTAT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_BIBLIOTECA",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_ALTA_BIBLIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DATA_BAIXA_BIBLIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_TIPUS_VIA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_VIA",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_VIA",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_MUNICIPI",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_DISTRICTE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CP",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMX",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "UTMY",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "NUM_LONGITUD",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "NUM_LATITUD",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "NUM_TELEFON",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_EXTENSIO",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_FAX",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_EMAIL",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_WEB",
+						"type": "varchar"
+					},
+					{
+						"name": "FLAG_BEG",
+						"type": "bit"
+					},
+					{
+						"name": "FLAG_SLPC",
+						"type": "bit"
+					},
+					{
+						"name": "ID_MAPA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_CATEGORIA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_TITULARITAT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FORMA_ACCES",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_CCLP",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_CCLP",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_DIP_BCN",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_DIP_BCN",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_CCUC",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_CCUC",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_BEG",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_BEG",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_ALTRES",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_ALTRES",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_DIRECTOR_TRACTAMENT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_DIRECTOR_NOMB",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_DIRECTOR_PRIMER_COGNOM",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_DIRECTOR_SEGON_COGNOM",
+						"type": "varchar"
+					},
+					{
+						"name": "FLAG_ADAPTADA",
+						"type": "bit"
+					},
+					{
+						"name": "DESC_OBSERVACIONS",
+						"type": "varchar"
+					},
+					{
+						"name": "OBS_ITINERARIS",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_ALTA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_ALTA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_MODIF",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_MODIF",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_BAIXA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_ADSCRIPCIO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_CATEGORIA_ESP",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_BIBLIOTEQUES"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_DIBICA_BIBLIOTEQUES')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_BIBLIOTECA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_USUARI",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "char"
+					},
+					{
+						"name": "ID_TIPUS",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_MODUL",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CODI_NIDEN",
+						"type": "char"
+					},
+					{
+						"name": "ID_ESTAT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_BIBLIOTECA",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_ALTA_BIBLIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DATA_BAIXA_BIBLIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_TIPUS_VIA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_VIA",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_VIA",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_MUNICIPI",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_DISTRICTE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CP",
+						"type": "varchar"
+					},
+					{
+						"name": "UTMX",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "UTMY",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "NUM_LONGITUD",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "NUM_LATITUD",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "NUM_TELEFON",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_EXTENSIO",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_FAX",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_EMAIL",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_WEB",
+						"type": "varchar"
+					},
+					{
+						"name": "FLAG_BEG",
+						"type": "bit"
+					},
+					{
+						"name": "FLAG_SLPC",
+						"type": "bit"
+					},
+					{
+						"name": "ID_MAPA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_CATEGORIA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_TITULARITAT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FORMA_ACCES",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_CCLP",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_CCLP",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_DIP_BCN",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_DIP_BCN",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_CCUC",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_CCUC",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_BEG",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_BEG",
+						"type": "varchar"
+					},
+					{
+						"name": "ES_CATALEG_COLECTIU_ALTRES",
+						"type": "bit"
+					},
+					{
+						"name": "WEB_CATALEG_COLECTIU_ALTRES",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_DIRECTOR_TRACTAMENT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DESC_DIRECTOR_NOMB",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_DIRECTOR_PRIMER_COGNOM",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_DIRECTOR_SEGON_COGNOM",
+						"type": "varchar"
+					},
+					{
+						"name": "FLAG_ADAPTADA",
+						"type": "bit"
+					},
+					{
+						"name": "DESC_OBSERVACIONS",
+						"type": "varchar"
+					},
+					{
+						"name": "OBS_ITINERARIS",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_ALTA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_ALTA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_MODIF",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_MODIF",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_BAIXA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_ADSCRIPCIO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_CATEGORIA_ESP",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "DIB_DM",
+					"table": "DM_DIB_DIM_BIBLIOTEQUES"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_DIBICA_HORARIS_HIVERN')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_HORARI_HIVERN",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_BIBLIOTECA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NUM_DL_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DL_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DL_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DL_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DT_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DT_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DT_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DT_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DC_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DC_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DC_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DC_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DJ_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DJ_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DJ_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DJ_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DV_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DV_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DV_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DV_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DS_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DS_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DS_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DS_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DG_MATI_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DG_MATI_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DG_TARDA_INI",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_DG_TARDA_FI",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_RESUM",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_OBSERVACIONS",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_ALTA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_ALTA",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_MODIF",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_MODIF",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "ID_USUARI_BAIXA",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "DIB_DM",
+					"table": "DM_DIB_DIM_HORARIS_HIVERN"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_COMO_CALCULAR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FLAG_FITXER",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FLAG_PRESTECS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FLAG_DATAENTRY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FLAG_NO_PERIODICS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILA_LEVEL_1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILA_LEVEL_2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILA_LEVEL_3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILA_LEVEL_4",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FILA_LEVEL_5",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COLUMNA_LEVEL_1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "COLUMNA_LEVEL_2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SECCIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IND_ORDRE",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_INDICADORS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_LOCATIONS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_LOCATION",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_LOCATIONS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_REL_P_TYPE_INDICADOR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "DESC_CONSULTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "P_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_INDICADOR",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_REL_P_TYPE_INDICADOR"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_TERMINALS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_TERMINAL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_TERMINALS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_TERRITORIAL_AMBIT_TERRITORIAL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_AMBIT_TERRITORIAL",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_AMBIT_TERRITORIAL",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "TER_DM",
+					"table": "DM_TER_DIM_AMBIT_TERRITORIAL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_TERRITORIAL_COMARCA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "INE_COMARCA",
+						"type": "varchar"
+					},
+					{
+						"name": "ID_AMBIT_TERRITORIAL",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_COMARCA",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_COMARCA_CAT",
+						"type": "varchar"
+					},
+					{
+						"name": "CODI_SSTT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "TER_DM",
+					"table": "DM_TER_DIM_COMARCA"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_TERRITORIAL_MUNICIPI')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "INE_MUNICIPI",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_COMARCA",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_PROVINCIA",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_MUNICIPI",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_MUNICIPI_CAT",
+						"type": "varchar"
+					},
+					{
+						"name": "CP",
+						"type": "varchar"
+					},
+					{
+						"name": "NUM_ALTITUD",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NUM_SUPERFICIE",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					},
+					{
+						"name": "FLAG_CAPITAL_PAIS",
+						"type": "bit"
+					},
+					{
+						"name": "FLAG_CAPITAL_COMUNIDAD_AUTONOMA",
+						"type": "bit"
+					},
+					{
+						"name": "FLAG_CAPITAL_PROVINCIA",
+						"type": "bit"
+					},
+					{
+						"name": "FLAG_CAPITAL_COMARCA",
+						"type": "bit"
+					},
+					{
+						"name": "ID_AMBIT_TERRITORIAL",
+						"type": "varchar"
+					},
+					{
+						"name": "CODI_SSTT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "TER_DM",
+					"table": "DM_TER_DIM_MUNICIPI"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_TERRITORIAL_PROVINCIA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "INE_PROVINCIA",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_COMUNITAT_AUTONOMA",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_PROVINCIA",
+						"type": "varchar"
+					},
+					{
+						"name": "DESC_PROVINCIA_CAT",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "TER_DM",
+					"table": "DM_TER_DIM_PROVINCIA"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_TIME')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "DATA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FLAG_ES_LABORABLE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_ANY",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "NUM_SEMESTRE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_TRIMESTRE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_ANY_TRIMESTRE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_MES",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DATA_MES_NN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_ANY_MES",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_DIA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_DIA_DD",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_DIA_SEMANA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_MES",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_MES_CAT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_DIA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESC_DIA_CAT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NUM_SEMANA",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_DIM_TIME"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_FACT_DATA_ENTRY')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_PERIODE",
+						"type": "date"
+					},
+					{
+						"name": "IND_1_4",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_1111",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_1113",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_1122",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_113",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_114",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_115",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_121",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_122",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_123",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_2111",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_2113",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_2122",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_213",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_214",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_215",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_221",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_222",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_223",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_4111",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_4113",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_4122",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_413",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_414",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_415",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_421",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_422",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_423",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_5111",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_5113",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_5122",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_513",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_514",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_515",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_521",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_522",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_523",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_71",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_72",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_73",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_2_74",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_111",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_112",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_122",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_123",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_21",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_22",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_31",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_4_32",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_41",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_42",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_5",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_6",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_7",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_8",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_9",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_6_4",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_1311",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_1312",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_132",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_1411",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_1412",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_142",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_1511",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_1512",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_152",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_2311",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_2312",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_232",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_2411",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_2412",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_242",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_2511",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_2512",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_252",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_311",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_312",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_313",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_321",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_322",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_8_323",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_011",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_012",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_013",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_015",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_016",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_020",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_0223",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_0231",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_0232",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_0233",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_02411",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_02412",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_02413",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_02421",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_02422",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_02423",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_025",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_9_026",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_11",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_13",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_14",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_15",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_1613",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_1614",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_1615",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_162",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_17",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_18",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_21",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_24",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_25",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_2612",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_2613",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_2614",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_2615",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_262",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_27",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_10_28",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_11",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_12",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_13",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_14",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_15",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_51",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_52",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_53",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_54",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_11_55",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_51",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_52",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_53",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_54",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_61",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_62",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_63",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_64",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_7",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_16_8",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_17_1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_17_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_17_3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_19_1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_19_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_19_3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_19_4",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_19_5",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_20_1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_20_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_20_3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_20_4",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_20_5",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_21_1",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_21_2",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_21_3",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_21_4",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "IND_5_10",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_FACT_DATA_ENTRY"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_BEG_FACT_HIST_ENTRADA_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "varchar"
+					},
+					{
+						"name": "DATA_PERIODE",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "DATA_MODIFICACIO",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_DM",
+					"table": "DM_BEG_FACT_HIST_ENTRADA_INDICADORS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_CLT')]"
+			]
+		}
+	]
+}

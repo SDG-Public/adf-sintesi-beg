@@ -1,0 +1,334 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Nombre de instancia de Data Factory",
+			"defaultValue": "df-clt-pre"
+		},
+		"AKV_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-pre-clt.vault.azure.net/"
+		},
+		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "blob-beg-connection"
+		},
+		"DB_CLT_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "bbdd-beg-connection"
+		},
+		"DB_DIBICA_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "dibica-beg-connection"
+		},
+		"DB_TERRITORIAL_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "territorial-beg-connection"
+		},
+		"SFTP_CLT_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "10.51.192.54"
+		},
+		"SFTP_CLT_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Pclt_oec"
+		},
+		"AzureSqlDatabase55_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/083bb4ff-85bb-4801-bea6-6cb11178ebe4/resourceGroups/iaz-pre-rg/providers/Microsoft.Sql/servers/clt-db-pre"
+		},
+		"AzureSqlDatabase55_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
+		"AzureSqlDatabase55_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"clt-db-pre.database.windows.net"
+			]
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Token de SAS para la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "df-clt-pre_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AKV_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AKV_properties_typeProperties_baseUrl')]"
+					},
+					"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_connectionString_secretName')]"
+					},
+					"DB_DIBICA_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('DB_DIBICA_properties_typeProperties_connectionString_secretName')]"
+					},
+					"DB_TERRITORIAL_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('DB_TERRITORIAL_properties_typeProperties_connectionString_secretName')]"
+					},
+					"SFTP_CLT_properties_typeProperties_host": {
+						"value": "[parameters('SFTP_CLT_properties_typeProperties_host')]"
+					},
+					"SFTP_CLT_properties_typeProperties_userName": {
+						"value": "[parameters('SFTP_CLT_properties_typeProperties_userName')]"
+					},
+					"AzureSqlDatabase55_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureSqlDatabase55_properties_privateLinkResourceId')]"
+					},
+					"AzureSqlDatabase55_properties_groupId": {
+						"value": "[parameters('AzureSqlDatabase55_properties_groupId')]"
+					},
+					"AzureSqlDatabase55_properties_fqdns": {
+						"value": "[parameters('AzureSqlDatabase55_properties_fqdns')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"DB_CLT_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('DB_CLT_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_4')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_6",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_6.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_5')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_7",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_7.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_6')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_8",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_8.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_7')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_9",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_9.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_8')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_10",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_10.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_9')]"
+			]
+		},
+		{
+			"name": "df-clt-pre_ArmTemplate_11",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_11.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'df-clt-pre_ArmTemplate_10')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "df-clt-pre"
+		},
+		"AKV_properties_typeProperties_baseUrl": {
+			"value": "https://kv-pre-clt.vault.azure.net/"
+		},
+		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+			"value": "blob-beg-connection"
+		},
+		"DB_CLT_properties_typeProperties_connectionString_secretName": {
+			"value": "bbdd-beg-connection"
+		},
+		"DB_DIBICA_properties_typeProperties_connectionString_secretName": {
+			"value": "dibica-beg-connection"
+		},
+		"DB_TERRITORIAL_properties_typeProperties_connectionString_secretName": {
+			"value": "territorial-beg-connection"
+		},
+		"SFTP_CLT_properties_typeProperties_host": {
+			"value": "10.51.192.54"
+		},
+		"SFTP_CLT_properties_typeProperties_userName": {
+			"value": "Pclt_oec"
+		},
+		"AzureSqlDatabase55_properties_privateLinkResourceId": {
+			"value": "/subscriptions/083bb4ff-85bb-4801-bea6-6cb11178ebe4/resourceGroups/iaz-pre-rg/providers/Microsoft.Sql/servers/clt-db-pre"
+		},
+		"AzureSqlDatabase55_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"AzureSqlDatabase55_properties_fqdns": {
+			"value": [
+				"clt-db-pre.database.windows.net"
+			]
+		}
+	}
+}
