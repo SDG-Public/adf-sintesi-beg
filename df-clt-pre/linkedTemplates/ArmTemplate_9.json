@@ -13,123 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TOTAL_EXEMPLARS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_FACT_TOTAL_EXEMPLARS",
-								"type": "DatasetReference"
-							},
-							"name": "STGFactTotalExemplars"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
-								"type": "DatasetReference"
-							},
-							"name": "DimBiblioteques"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_EXEMPLARS",
-								"type": "DatasetReference"
-							},
-							"name": "ODS1FactTotalExemplars"
-						}
-					],
-					"transformations": [
-						{
-							"name": "CrearIndicadores"
-						},
-						{
-							"name": "Unpivot"
-						},
-						{
-							"name": "DataInsercio"
-						},
-						{
-							"name": "EliminarColumnas"
-						},
-						{
-							"name": "SelectAgency"
-						},
-						{
-							"name": "Join"
-						}
-					],
-					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{4  Llibre prestable } as string,\n\t\t{14  Revista prestable} as string,\n\t\t{24  Sonor prestable} as string,\n\t\t{34  Vídeo prestable} as string,\n\t\t{44  Electrònic prestable} as string,\n\t\t{54  Gràfic prestable} as string,\n\t\t{64  Mapa prestable} as string,\n\t\t{74  Partitura prestable} as string,\n\t\t{84  Altre material prestable} as string,\n\t\t{99  Temari oposicions} as string,\n\t\t{100  Llibre no prestable} as string,\n\t\t{110  Revista no prestable} as string,\n\t\t{120  Sonor no prestable} as string,\n\t\t{130  Vídeo no prestable} as string,\n\t\t{140  Electrònic no prestable} as string,\n\t\t{150  Gràfic no prestable} as string,\n\t\t{160  Mapa no prestable} as string,\n\t\t{170  Partitura no prestable} as string,\n\t\t{173  Manuscrit no prestable} as string,\n\t\t{175  Microforma no prestable} as string,\n\t\t{180  Altre material no prestable} as string,\n\t\t{190  Analítica no prestable} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalExemplars\nsource(output(\n\t\tID_BIBLIOTECA as integer,\n\t\tID_AGENCY as string,\n\t\tID_USUARI as integer,\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_TIPUS as integer,\n\t\tID_MODUL as integer,\n\t\tCODI_NIDEN as string,\n\t\tID_ESTAT as integer,\n\t\tDESC_BIBLIOTECA as string,\n\t\tDATA_ALTA_BIBLIO as timestamp,\n\t\tDATA_BAIXA_BIBLIO as timestamp,\n\t\tID_TIPUS_VIA as integer,\n\t\tDESC_VIA as string,\n\t\tNUM_VIA as string,\n\t\tINE_MUNICIPI as string,\n\t\tID_DISTRICTE as integer,\n\t\tCP as string,\n\t\tUTMX as double,\n\t\tUTMY as double,\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_TELEFON as string,\n\t\tNUM_EXTENSIO as string,\n\t\tNUM_FAX as string,\n\t\tDESC_EMAIL as string,\n\t\tDESC_WEB as string,\n\t\tFLAG_BEG as boolean,\n\t\tFLAG_SLPC as boolean,\n\t\tID_MAPA as integer,\n\t\tID_CATEGORIA as integer,\n\t\tID_TITULARITAT as integer,\n\t\tID_FORMA_ACCES as integer,\n\t\tES_CATALEG_COLECTIU_CCLP as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCLP as string,\n\t\tES_CATALEG_COLECTIU_DIP_BCN as boolean,\n\t\tWEB_CATALEG_COLECTIU_DIP_BCN as string,\n\t\tES_CATALEG_COLECTIU_CCUC as boolean,\n\t\tWEB_CATALEG_COLECTIU_CCUC as string,\n\t\tES_CATALEG_COLECTIU_BEG as boolean,\n\t\tWEB_CATALEG_COLECTIU_BEG as string,\n\t\tES_CATALEG_COLECTIU_ALTRES as boolean,\n\t\tWEB_CATALEG_COLECTIU_ALTRES as string,\n\t\tID_DIRECTOR_TRACTAMENT as integer,\n\t\tDESC_DIRECTOR_NOMB as string,\n\t\tDESC_DIRECTOR_PRIMER_COGNOM as string,\n\t\tDESC_DIRECTOR_SEGON_COGNOM as string,\n\t\tFLAG_ADAPTADA as boolean,\n\t\tDESC_OBSERVACIONS as string,\n\t\tOBS_ITINERARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tID_USUARI_ALTA as integer,\n\t\tDATA_MODIF as timestamp,\n\t\tID_USUARI_MODIF as integer,\n\t\tDATA_BAIXA as timestamp,\n\t\tID_USUARI_BAIXA as integer,\n\t\tID_ADSCRIPCIO as integer,\n\t\tID_CATEGORIA_ESP as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DimBiblioteques\nJoin derive(IND_12_122 = toInteger(replace(trim({110  Revista no prestable}),'.','')),\n\t\tIND_12_123 = toInteger(replace(trim({100  Llibre no prestable}),'.','')),\n\t\tIND_12_124 = toInteger(replace(trim({173  Manuscrit no prestable}),'.','')),\n\t\tIND_12_125 = toInteger(replace(trim({120  Sonor no prestable}),'.','')),\n\t\tIND_12_126 = toInteger(replace(trim({130  Vídeo no prestable}),'.','')),\n\t\tIND_12_127 = toInteger(replace(trim({140  Electrònic no prestable}),'.','')),\n\t\tIND_12_128 = toInteger(replace(trim({160  Mapa no prestable}),'.','')),\n\t\tIND_12_129 = toInteger(replace(trim({150  Gràfic no prestable}),'.','')),\n\t\tIND_12_1210 = toInteger(replace(trim({170  Partitura no prestable}),'.','')),\n\t\tIND_12_12011 = toInteger(replace(trim({175  Microforma no prestable}),'.','')),\n\t\tIND_12_12012 = toInteger(replace(trim({180  Altre material no prestable}),'.','')),\n\t\tIND_12_112 = toInteger(replace(trim({14  Revista prestable}),'.','')),\n\t\tIND_12_113 = toInteger(replace(trim({4  Llibre prestable }),'.','')),\n\t\tIND_12_115 = toInteger(replace(trim({24  Sonor prestable}),'.','')),\n\t\tIND_12_116 = toInteger(replace(trim({34  Vídeo prestable}),'.','')),\n\t\tIND_12_117 = toInteger(replace(trim({44  Electrònic prestable}),'.','')),\n\t\tIND_12_118 = toInteger(replace(trim({64  Mapa prestable}),'.','')),\n\t\tIND_12_119 = toInteger(replace(trim({54  Gràfic prestable}),'.','')),\n\t\tIND_12_1110 = toInteger(replace(trim({74  Partitura prestable}),'.','')),\n\t\tIND_12_11012 = toInteger(replace(trim({84  Altre material prestable}),'.','')) + toInteger(replace(trim({99  Temari oposicions}),'.',''))) ~> CrearIndicadores\nEliminarColumnas unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nCrearIndicadores select(mapColumn(\n\t\tIND_12_122,\n\t\tIND_12_123,\n\t\tIND_12_124,\n\t\tIND_12_125,\n\t\tIND_12_126,\n\t\tIND_12_127,\n\t\tIND_12_128,\n\t\tIND_12_129,\n\t\tIND_12_1210,\n\t\tIND_12_12011,\n\t\tIND_12_12012,\n\t\tIND_12_112,\n\t\tIND_12_113,\n\t\tIND_12_115,\n\t\tIND_12_116,\n\t\tIND_12_117,\n\t\tIND_12_118,\n\t\tIND_12_119,\n\t\tIND_12_1110,\n\t\tIND_12_11012,\n\t\tCODI_BIBLIOTECA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> EliminarColumnas\nDimBiblioteques select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tID_AGENCY\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectAgency\nSTGFactTotalExemplars, SelectAgency join(Codi == ID_AGENCY,\n\tjoinType:'right',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS1FactTotalExemplars"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TOTAL_HOLDINGS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_FACT_TOTAL_HOLDINGS",
-								"type": "DatasetReference"
-							},
-							"name": "STGFactTotalHoldings"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_LOCATIONS",
-								"type": "DatasetReference"
-							},
-							"name": "DMDimLocations"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ODS1_BEG_FACT_INDICADORS_TOTAL_HOLDINGS",
-								"type": "DatasetReference"
-							},
-							"name": "ODSFactTotalHoldings"
-						}
-					],
-					"transformations": [
-						{
-							"name": "CalcularIndicadores"
-						},
-						{
-							"name": "Unpivot"
-						},
-						{
-							"name": "DataInsercio"
-						},
-						{
-							"name": "Join"
-						},
-						{
-							"name": "Select"
-						},
-						{
-							"name": "BorrarColumnas"
-						},
-						{
-							"name": "SumaIndicadoresMismaBiblio"
-						}
-					],
-					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalHoldings\nsource(output(\n\t\tID_LOCATION as string,\n\t\tID_TERMINAL as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimLocations\nJoin derive(IND_14_11 = toInteger(replace(trim({-  Sense informar}),'.','')),\n\t\tIND_14_12 = toInteger(replace(trim({0  Desconegut}),'.','')),\n\t\tIND_14_13 = toInteger(replace(trim({1  Altres}),'.','')),\n\t\tIND_14_14 = toInteger(replace(trim({2  Cessada}),'.','')),\n\t\tIND_14_15 = toInteger(replace(trim({4  Es rep}),'.','')),\n\t\tIND_14_16 = toInteger(replace(trim({5  No es rep}),'.',''))) ~> CalcularIndicadores\nSumaIndicadoresMismaBiblio unpivot(output(\n\t\tCODI_INDICADOR as string,\n\t\tVALOR as integer\n\t),\n\tungroupBy(CODI_BIBLIOTECA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> Unpivot\nUnpivot derive(DATA_INSERCIO = currentDate(),\n\t\tDATA_PERIODE = toDate(concat($Data_Carrega,'01'),'yyyyMMdd')) ~> DataInsercio\nSTGFactTotalHoldings, DMDimLocations join(Codi == ID_LOCATION,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join\nDataInsercio select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tCODI_INDICADOR,\n\t\tIND_VALOR = VALOR,\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select\nCalcularIndicadores select(mapColumn(\n\t\tCODI_BIBLIOTECA,\n\t\tIND_14_11,\n\t\tIND_14_12,\n\t\tIND_14_13,\n\t\tIND_14_14,\n\t\tIND_14_15,\n\t\tIND_14_16\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> BorrarColumnas\nBorrarColumnas aggregate(groupBy(CODI_BIBLIOTECA),\n\tIND_14_11 = toInteger(sum(IND_14_11)),\n\t\tIND_14_12 = toInteger(sum(IND_14_12)),\n\t\tIND_14_13 = toInteger(sum(IND_14_13)),\n\t\tIND_14_14 = toInteger(sum(IND_14_14)),\n\t\tIND_14_15 = toInteger(sum(IND_14_15)),\n\t\tIND_14_16 = toInteger(sum(IND_14_16))) ~> SumaIndicadoresMismaBiblio\nSelect sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tDATA_PERIODE as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactTotalHoldings"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DF_ODS1_BEG_FACT_TOTAL_USUARIS')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1493,6 +1376,82 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> STGHistProcedencia"
 					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTotalBibliografics"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+								"type": "DatasetReference"
+							},
+							"name": "HistFactTotalBibliografics"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "RenombraCampos"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Bad Code} as string,\n\t\t{a  Llibre} as string,\n\t\t{b  Revista} as string,\n\t\t{c  Partitura impr.} as string,\n\t\t{d  Partitura manus.} as string,\n\t\t{e  Mapa imprès} as string,\n\t\t{f  Mapa manuscrit} as string,\n\t\t{g  Vídeo DVD} as string,\n\t\t{i  Sonor no musical} as string,\n\t\t{j  Sonor musical} as string,\n\t\t{k  Gràfic} as string,\n\t\t{l  Article} as string,\n\t\t{m  Fitxer informàtic} as string,\n\t\t{n  Tesi} as string,\n\t\t{o  Equip} as string,\n\t\t{p  Material d'arxiu} as string,\n\t\t{r  Objecte} as string,\n\t\t{t  Manuscrit} as string,\n\t\t{u  Base de dades} as string,\n\t\t{v  Revista en línia} as string,\n\t\t{z  Llibre en línia} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalBibliografics\nSTGFactTotalBibliografics derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_BAD_CODE = {-  Bad Code},\n\t\tNUM_LLIBRE = {a  Llibre},\n\t\tNUM_REVISTA = {b  Revista},\n\t\tNUM_PARTITURA_IMPR = {c  Partitura impr.},\n\t\tNUM_PARTITURA_MANUS = {d  Partitura manus.},\n\t\tNUM_MAPA_IMPRES = {e  Mapa imprès},\n\t\tNUM_MAPA_MANUSCRIT = {f  Mapa manuscrit},\n\t\tNUM_VIDEO_DVD = {g  Vídeo DVD},\n\t\tNUM_SONOR_NO_MUSICAL = {i  Sonor no musical},\n\t\tNUM_SONOR_MUSICAL = {j  Sonor musical},\n\t\tNUM_GRAFIC = {k  Gràfic},\n\t\tNUM_ARTICLE = {l  Article},\n\t\tNUM_FITXER_INFORMATIC = {m  Fitxer informàtic},\n\t\tNUM_TESI = {n  Tesi},\n\t\tNUM_EQUIP = {o  Equip},\n\t\tNUM_MATERIAL_DARXIU = {p  Material d'arxiu},\n\t\tNUM_OBJECTE = {r  Objecte},\n\t\tNUM_MANUSCRIT = {t  Manuscrit},\n\t\tNUM_BASE_DE_DADES = {u  Base de dades},\n\t\tNUM_REVISTA_EN_LINEA = {v  Revista en línia},\n\t\tNUM_LLIBRE_EN_LINEA = {z  Llibre en línia},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactTotalBibliografics"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_TOTAL_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_FACT_TOTAL_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "STGFactTotalHoldings"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+								"type": "DatasetReference"
+							},
+							"name": "HISTFactTotalHoldings"
+						}
+					],
+					"transformations": [
+						{
+							"name": "Datas"
+						},
+						{
+							"name": "RenombraCampos"
+						}
+					],
+					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalHoldings\nSTGFactTotalHoldings derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_SENSE_INFORMAR = {-  Sense informar},\n\t\tNUM_DESCONEGUT = {0  Desconegut},\n\t\tNUM_ALTRES = {1  Altres},\n\t\tNUM_CESSADA = {2  Cessada},\n\t\tNUM_ES_REP = {4  Es rep},\n\t\tNUM_NO_ES_REP = {5  No es rep},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HISTFactTotalHoldings"
 				}
 			},
 			"dependsOn": []

@@ -11,10 +11,6 @@
 			"type": "string",
 			"defaultValue": "https://kv-pre-clt.vault.azure.net/"
 		},
-		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
-			"type": "string",
-			"defaultValue": "blob-beg-connection"
-		},
 		"DB_DIBICA_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "dibica-beg-connection"
@@ -166,58 +162,11 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntimePrueba')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "AutoResolve",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 10,
-							"cleanup": false
-						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/default')]",
 			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
 			"apiVersion": "2018-06-01",
 			"properties": {},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AKV",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "[parameters('AzureBlobStorage1_properties_typeProperties_connectionString_secretName')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "IntegrationRuntimeTimeToLive",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/IntegrationRuntimeTimeToLive')]",
-				"[concat(variables('factoryId'), '/linkedServices/AKV')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DB_DIBICA')]",
@@ -307,35 +256,6 @@
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/IntegrationRuntimeAzure')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "West Europe",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 10,
-							"cleanup": false
-						},
-						"pipelineExternalComputeScaleProperties": {
-							"timeToLive": 60
-						}
-					}
-				},
-				"managedVirtualNetwork": {
-					"type": "ManagedVirtualNetworkReference",
-					"referenceName": "default"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IntegrationRuntimeAzureManaged')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -545,13 +465,21 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CSV_DIM_BIBLIOTEQUES')]",
+			"name": "[concat(parameters('factoryName'), '/CSV_PROCEDENCIA')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
+					"referenceName": "SFTP_CLT",
 					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
 				},
 				"folder": {
 					"name": "FITXERS"
@@ -560,9 +488,12 @@
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_BIBLIOTEQUES.csv",
-						"container": "cltsintesibeg"
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Exemplars_Procedencia.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
 					},
 					"columnDelimiter": "|",
 					"escapeChar": "\\",
@@ -572,7 +503,133 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_BIBLIOGRAFICS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Bibliografics.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_EXEMPLARS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Exemplars.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_HOLDINGS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Holdings.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
 			]
 		}
 	]

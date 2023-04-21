@@ -13,82 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_FACT_TOTAL_BIBLIOGRAFICS",
-								"type": "DatasetReference"
-							},
-							"name": "STGFactTotalBibliografics"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
-								"type": "DatasetReference"
-							},
-							"name": "HistFactTotalBibliografics"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Datas"
-						},
-						{
-							"name": "RenombraCampos"
-						}
-					],
-					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Bad Code} as string,\n\t\t{a  Llibre} as string,\n\t\t{b  Revista} as string,\n\t\t{c  Partitura impr.} as string,\n\t\t{d  Partitura manus.} as string,\n\t\t{e  Mapa imprès} as string,\n\t\t{f  Mapa manuscrit} as string,\n\t\t{g  Vídeo DVD} as string,\n\t\t{i  Sonor no musical} as string,\n\t\t{j  Sonor musical} as string,\n\t\t{k  Gràfic} as string,\n\t\t{l  Article} as string,\n\t\t{m  Fitxer informàtic} as string,\n\t\t{n  Tesi} as string,\n\t\t{o  Equip} as string,\n\t\t{p  Material d'arxiu} as string,\n\t\t{r  Objecte} as string,\n\t\t{t  Manuscrit} as string,\n\t\t{u  Base de dades} as string,\n\t\t{v  Revista en línia} as string,\n\t\t{z  Llibre en línia} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalBibliografics\nSTGFactTotalBibliografics derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_BAD_CODE = {-  Bad Code},\n\t\tNUM_LLIBRE = {a  Llibre},\n\t\tNUM_REVISTA = {b  Revista},\n\t\tNUM_PARTITURA_IMPR = {c  Partitura impr.},\n\t\tNUM_PARTITURA_MANUS = {d  Partitura manus.},\n\t\tNUM_MAPA_IMPRES = {e  Mapa imprès},\n\t\tNUM_MAPA_MANUSCRIT = {f  Mapa manuscrit},\n\t\tNUM_VIDEO_DVD = {g  Vídeo DVD},\n\t\tNUM_SONOR_NO_MUSICAL = {i  Sonor no musical},\n\t\tNUM_SONOR_MUSICAL = {j  Sonor musical},\n\t\tNUM_GRAFIC = {k  Gràfic},\n\t\tNUM_ARTICLE = {l  Article},\n\t\tNUM_FITXER_INFORMATIC = {m  Fitxer informàtic},\n\t\tNUM_TESI = {n  Tesi},\n\t\tNUM_EQUIP = {o  Equip},\n\t\tNUM_MATERIAL_DARXIU = {p  Material d'arxiu},\n\t\tNUM_OBJECTE = {r  Objecte},\n\t\tNUM_MANUSCRIT = {t  Manuscrit},\n\t\tNUM_BASE_DE_DADES = {u  Base de dades},\n\t\tNUM_REVISTA_EN_LINEA = {v  Revista en línia},\n\t\tNUM_LLIBRE_EN_LINEA = {z  Llibre en línia},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HistFactTotalBibliografics"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_TOTAL_HOLDINGS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_FACT_TOTAL_HOLDINGS",
-								"type": "DatasetReference"
-							},
-							"name": "STGFactTotalHoldings"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
-								"type": "DatasetReference"
-							},
-							"name": "HISTFactTotalHoldings"
-						}
-					],
-					"transformations": [
-						{
-							"name": "Datas"
-						},
-						{
-							"name": "RenombraCampos"
-						}
-					],
-					"script": "parameters{\n\tData_Carrega as string\n}\nsource(output(\n\t\tCodi as string,\n\t\tSignificat as string,\n\t\t{-  Sense informar} as string,\n\t\t{0  Desconegut} as string,\n\t\t{1  Altres} as string,\n\t\t{2  Cessada} as string,\n\t\t{4  Es rep} as string,\n\t\t{5  No es rep} as string,\n\t\t{  Totals  } as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTotalHoldings\nSTGFactTotalHoldings derive(DATA_INSERCIO = currentDate(),\n\t\tPERIODE = toDate(concat($Data_Carrega, '01'),'yyyyMMdd')) ~> Datas\nDatas select(mapColumn(\n\t\tID_LOCATION = Codi,\n\t\tDESC_BIBLIOTECA = Significat,\n\t\tNUM_SENSE_INFORMAR = {-  Sense informar},\n\t\tNUM_DESCONEGUT = {0  Desconegut},\n\t\tNUM_ALTRES = {1  Altres},\n\t\tNUM_CESSADA = {2  Cessada},\n\t\tNUM_ES_REP = {4  Es rep},\n\t\tNUM_NO_ES_REP = {5  No es rep},\n\t\tNUM_TOTAL = {  Totals  },\n\t\tDATA_INSERCIO,\n\t\tDATA_PERIODE = PERIODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> HISTFactTotalHoldings"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DF_STG_BEG_HIST_FACT_TOTAL_USUARIS')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -938,7 +862,6 @@
 				"lastPublishTime": "2023-04-19T09:22:20Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS')]",
 				"[concat(variables('factoryId'), '/dataflows/DF_STG_BEG_HIST_FACT_TOTAL_USUARIS')]"
 			]
 		},
@@ -6142,6 +6065,1069 @@
 				"lastPublishTime": "2023-04-19T09:22:20Z"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_ODS5')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DF_ODS_BEG_FACT_INDICADORS",
+						"description": "",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "HORES_DOBERTURA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_BEG_FACT_INDICADORS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"ODS4FactIndicadors": {},
+									"DimBiblioteques": {},
+									"HoresDObertura": {},
+									"ODSFactIndicadors": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "HORES_DOBERTURA",
+						"description": "Calcula el IND_1_3",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select b.CODI_BIBLIOTECA,'IND_1_3' as CODI_INDICADOR,\n(coalesce(datediff(MINUTE,cast(dl_mati_ini as time),cast(isnull(dl_mati_fi,dl_tarda_fi) as time)),0)\n+ coalesce(datediff(MINUTE,cast(dl_tarda_ini as time),cast(dl_tarda_fi as time)),0)\n \n+ coalesce(datediff(MINUTE,cast(dt_mati_ini as time),cast(isnull(dt_mati_fi,dt_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dt_tarda_ini as time),cast(dt_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dc_mati_ini as time),cast(isnull(dc_mati_fi,dc_tarda_fi) as time)),0)\n+ coalesce(datediff(MINUTE,cast(dc_tarda_ini as time),cast(dc_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dj_mati_ini as time),cast(isnull(dj_mati_fi,dj_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dj_tarda_ini as time),cast(dj_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dv_mati_ini as time),cast(isnull(dv_mati_fi,dv_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dv_tarda_ini as time),cast(dv_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(ds_mati_ini as time),cast(isnull(ds_mati_fi,ds_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(ds_tarda_ini as time),cast(ds_tarda_fi as time)),0)\n\n+ coalesce(datediff(MINUTE,cast(dg_mati_ini as time),cast(isnull(dg_mati_fi,dg_tarda_fi) as time)),0) \n+ coalesce(datediff(MINUTE,cast(dg_tarda_ini as time),cast(dg_tarda_fi as time)),0))\n\n/60.0\n as IND_VALOR\nfrom [DIB_STG].[STG_DIB_DIM_HORARIS_HIVERN] h\njoin [BEG_DM].[DM_BEG_DIM_BIBLIOTEQUES] b on h.id_biblioteca=b.id_biblioteca\n",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": "TRUNCATE TABLE [BEG_ODS].[ODS_BEG_HORES_DOBERTURA]",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DM_BEG_DIM_DIBICA_HORARIS_HIVERN",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ODS_BEG_HORES_DOBERTURA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202112"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/ODS"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:23Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_BEG_FACT_STG_HIST')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_EXEMPLARS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_FACT_HIST_TOTAL_EXEMPLARS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalExemplars": {},
+									"HistFactTotalExemplars": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalBibliografics": {},
+									"HistFactTotalBibliografics": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_USUARIS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalUsuaris": {},
+									"HistFactTotalUsuaris": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TOTAL_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTotalHoldings": {},
+									"HISTFactTotalHoldings": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_BIBLIOGRAFICS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesBibliografics": {},
+									"HistFactAltesBibliografics": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_USUARIS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_USUARIS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_USUARIS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesUsuaris": {},
+									"HistFactAltesUsuaris": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_EXEMPLARS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesExemplars": {},
+									"HISTAltesExemplars": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_ALTES_HOLDINGS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactAltesHoldings": {},
+									"HistFactAltesHoldings": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_HOLDINGS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_HOLDINGS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_EXEMPLARS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_EXEMPLARS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_USUARIS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_USUARIS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_ALTES_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_ALTES_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_HOLDINGS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_HOLDINGS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TOTAL_BIBLIOGRAFICS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_BIBLIOGRAFICS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_TRANSACCIONS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_TRANSACCIONS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_TRANSACCIONS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGFactTransaccions": {},
+									"STGHistTransaccions": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_TRANSACCIONS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TRANSACCIONS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_PRESTECS",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_PRESTECS",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_PRESTECS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_PRESTECS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_PRESTECS",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGPrestecs": {},
+									"STGHistFactPrestecs": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "BORRAR_MES_ACTUAL_PROCEDENCIA",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[DELETE_ROWS_FROM_TABLES]",
+							"storedProcedureParameters": {
+								"vColumnName": {
+									"value": "DATA_PERIODE",
+									"type": "String"
+								},
+								"vDataCarrega": {
+									"value": {
+										"value": "@pipeline().parameters.Data_Carrega",
+										"type": "Expression"
+									},
+									"type": "String"
+								},
+								"vSchemaName": {
+									"value": "BEG_STG",
+									"type": "String"
+								},
+								"vTableName": {
+									"value": "STG_BEG_HIST_FACT_TOTAL_EXEMPLARS_PROCEDENCIA",
+									"type": "String"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "DB_CLT",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DF_STG_BEG_HIST_FACT_PROCEDENCIA",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "BORRAR_MES_ACTUAL_PROCEDENCIA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_STG_BEG_HIST_FACT_PROCEDENCIA",
+								"type": "DataFlowReference",
+								"parameters": {
+									"Data_Carrega": {
+										"value": "'@{pipeline().parameters.Data_Carrega}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"STGProcedencia": {},
+									"STGHistProcedencia": {}
+								}
+							},
+							"staging": {},
+							"integrationRuntime": {
+								"referenceName": "IntegrationRuntimeAzure",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Data_Carrega": {
+						"type": "string",
+						"defaultValue": "202109"
+					}
+				},
+				"folder": {
+					"name": "SINTESI BEG/FLUX FITXERS/STG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-19T09:22:21Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DF_STG_BEG_HIST_FACT_TOTAL_USUARIS')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_STG_BEG_HIST_FACT_TRANSACCIONS')]"
+			]
 		}
 	]
 }

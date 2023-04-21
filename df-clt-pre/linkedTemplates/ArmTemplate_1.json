@@ -6,357 +6,20 @@
 			"type": "string",
 			"metadata": "Nombre de instancia de Data Factory",
 			"defaultValue": "df-clt-pre"
+		},
+		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "blob-beg-connection"
+		},
+		"DB_CLT_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "bbdd-beg-connection"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_DIM_LOCATION')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_LOCATIONS.csv",
-						"container": "cltsintesibeg"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_DIM_TERMINALS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_TERMINALS.csv",
-						"container": "cltsintesibeg"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_INDICADORS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_INDICADORS.csv",
-						"container": "cltsintesibeg"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_PROCEDENCIA')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SFTP_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Año": {
-						"type": "string"
-					},
-					"Mes": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": {
-							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Exemplars_Procedencia.csv'\n)",
-							"type": "Expression"
-						},
-						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_TIME')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_TIME.csv",
-						"container": "cltsintesibeg"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "DATA",
-						"type": "String"
-					},
-					{
-						"name": "FLAG_ES_LABORABLE",
-						"type": "String"
-					},
-					{
-						"name": "DATA_ANY",
-						"type": "String"
-					},
-					{
-						"name": "NUM_SEMESTRE",
-						"type": "String"
-					},
-					{
-						"name": "NUM_TRIMESTRE",
-						"type": "String"
-					},
-					{
-						"name": "DATA_ANY_TRIMESTRE",
-						"type": "String"
-					},
-					{
-						"name": "DATA_MES",
-						"type": "String"
-					},
-					{
-						"name": "DATA_MES_NN",
-						"type": "String"
-					},
-					{
-						"name": "DATA_ANY_MES",
-						"type": "String"
-					},
-					{
-						"name": "NUM_DIA",
-						"type": "String"
-					},
-					{
-						"name": "NUM_DIA_DD",
-						"type": "String"
-					},
-					{
-						"name": "NUM_DIA_SEMANA",
-						"type": "String"
-					},
-					{
-						"name": "DESC_MES",
-						"type": "String"
-					},
-					{
-						"name": "DESC_MES_CAT",
-						"type": "String"
-					},
-					{
-						"name": "DESC_DIA",
-						"type": "String"
-					},
-					{
-						"name": "DESC_DIA_CAT",
-						"type": "String"
-					},
-					{
-						"name": "NUM_SEMANA",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_BIBLIOGRAFICS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SFTP_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Año": {
-						"type": "string"
-					},
-					"Mes": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": {
-							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Bibliografics.csv'\n)",
-							"type": "Expression"
-						},
-						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_EXEMPLARS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SFTP_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Año": {
-						"type": "string"
-					},
-					"Mes": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": {
-							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Exemplars.csv'\n)",
-							"type": "Expression"
-						},
-						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_HOLDINGS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SFTP_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"Año": {
-						"type": "string"
-					},
-					"Mes": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "SftpLocation",
-						"fileName": {
-							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Holdings.csv'\n)",
-							"type": "Expression"
-						},
-						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_USUARIS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -1313,6 +976,315 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TERRITORIAL_MUNICIPI')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_TERRITORIAL",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "INE_Municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_Comarca",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Municipi_cat",
+						"type": "varchar"
+					},
+					{
+						"name": "CP",
+						"type": "varchar"
+					},
+					{
+						"name": "Altitud",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Superficie",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 2
+					},
+					{
+						"name": "Cap_Pais",
+						"type": "bit"
+					},
+					{
+						"name": "Cap_Comunitat_Autonoma",
+						"type": "bit"
+					},
+					{
+						"name": "Cap_Provincia",
+						"type": "bit"
+					},
+					{
+						"name": "Cap_Comarca",
+						"type": "bit"
+					},
+					{
+						"name": "IDAmbit",
+						"type": "varchar"
+					},
+					{
+						"name": "cod_sstt",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "MUNICIPI"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TERRITORIAL_PROVINCIA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_TERRITORIAL",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "TERRITORIAL"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "INE_Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "INE_Comunitat_Autonoma",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Provincia_cat",
+						"type": "varchar"
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "PROVINCIA"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TXT_PRESTEC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"NombreArchivo": {
+						"type": "string",
+						"defaultValue": "2022_01_01.txt"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@dataset().NombreArchivo",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AKV",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('AzureBlobStorage1_properties_typeProperties_connectionString_secretName')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IntegrationRuntimeAzure",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DB_CLT')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AKV",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('DB_CLT_properties_typeProperties_connectionString_secretName')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "IntegrationRuntimeAzure",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_DIM_BIBLIOTEQUES')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_BIBLIOTEQUES.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_DIM_LOCATION')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_LOCATIONS.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_DIM_TERMINALS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "BEG_DIM_TERMINALS.csv",
+						"container": "cltsintesibeg"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
 		}
 	]
 }

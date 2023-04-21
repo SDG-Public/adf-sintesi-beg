@@ -79,9 +79,6 @@
 					"AKV_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AKV_properties_typeProperties_baseUrl')]"
 					},
-					"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
-						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_connectionString_secretName')]"
-					},
 					"DB_DIBICA_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('DB_DIBICA_properties_typeProperties_connectionString_secretName')]"
 					},
@@ -120,6 +117,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_connectionString_secretName')]"
+					},
+					"DB_CLT_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('DB_CLT_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},
@@ -140,9 +143,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"DB_CLT_properties_typeProperties_connectionString_secretName": {
-						"value": "[parameters('DB_CLT_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},

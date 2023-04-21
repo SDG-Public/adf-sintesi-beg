@@ -13,252 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/ODS4_BEG_FACT_INDICADORS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CODI_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CODI_INDICADOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "IND_VALOR",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DATA_INSERCIO",
-						"type": "date"
-					},
-					{
-						"name": "DATA_PERIODE",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "BEG_ODS4",
-					"table": "ODS4_BEG_FACT_INDICADORS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_AUTOPRESTECS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CODI_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DESC_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ID_AGENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TERMINAL",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "BEG_ODS",
-					"table": "ODS_BEG_DIM_AUTOPRESTECS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_BIBLIOTEQUES')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CODI_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CODI_NIDEN",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ESTAT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TIPUS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CATEGORIA_ESPECIALITZADA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DESC_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ID_AGENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TERMINAL",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DATA_ALTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DATA_BAIXA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADAPTADA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FORMA_ACCESS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TITULARITAT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADREÇA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MUNICIPI",
-						"type": "nvarchar"
-					},
-					{
-						"name": "C.P.",
-						"type": "nvarchar"
-					},
-					{
-						"name": "COMARCA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ÀMBIT TERRITORIAL",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SSTT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PROVINCIA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "UTMX",
-						"type": "nvarchar"
-					},
-					{
-						"name": "UTMY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "MÒDUL_TERRITORIAL",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TELÈFON",
-						"type": "nvarchar"
-					},
-					{
-						"name": "EXT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FAX",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WEB",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADREÇA_ELCT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ADREÇA_ELECT_2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TRACTAMENT_DIRECT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "NOM_DIRECT",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PRIMER_COGNOM",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SEGON_COGNOM",
-						"type": "nvarchar"
-					},
-					{
-						"name": "OBSERVACIONS",
-						"type": "nvarchar"
-					},
-					{
-						"name": "GRUP",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "BEG_ODS",
-					"table": "ODS_BEG_DIM_BIBLIOTEQUES"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_LOCATIONS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -913,6 +667,557 @@
 				"typeProperties": {
 					"schema": "BEG_STG",
 					"table": "STG_BEG_DIM_AUTOPRESTECS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_DIM_BIBLIOTEQUES_DIBICA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_biblioteca",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_usuari",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "codi",
+						"type": "char"
+					},
+					{
+						"name": "id_tipus",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_modul",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "niden",
+						"type": "char"
+					},
+					{
+						"name": "id_estat",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "denominacio",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta_biblio",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "data_baixa_biblio",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_tipus_via",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nom_via",
+						"type": "varchar"
+					},
+					{
+						"name": "numero_via",
+						"type": "varchar"
+					},
+					{
+						"name": "ine_municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "id_districte",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cp",
+						"type": "varchar"
+					},
+					{
+						"name": "utmx",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "utmy",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "longitud",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "latitud",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "telefon",
+						"type": "varchar"
+					},
+					{
+						"name": "extensio",
+						"type": "varchar"
+					},
+					{
+						"name": "fax",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "web",
+						"type": "varchar"
+					},
+					{
+						"name": "beg",
+						"type": "bit"
+					},
+					{
+						"name": "slpc",
+						"type": "bit"
+					},
+					{
+						"name": "id_mapa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_categoria",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_titularitat",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "finan_adm_central",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_generalitat",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_diputacio",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_con_comarcal",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_ajuntament",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_universitat",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_privada",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_altres",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "id_forma_acces",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "es_cataleg_colectiu_cclp",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_cclp",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_dip_bcn",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_dip_bcn",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_ccuc",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_ccuc",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_beg",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_beg",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_altres",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_altres",
+						"type": "varchar"
+					},
+					{
+						"name": "id_director_tractament",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "director_nom",
+						"type": "varchar"
+					},
+					{
+						"name": "director_primer_cognom",
+						"type": "varchar"
+					},
+					{
+						"name": "director_segon_cognom",
+						"type": "varchar"
+					},
+					{
+						"name": "adaptada",
+						"type": "bit"
+					},
+					{
+						"name": "observacions",
+						"type": "varchar"
+					},
+					{
+						"name": "obs_itineraris",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_adscripcio",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_categoria_esp",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "DIB_STG",
+					"table": "STG_DIB_DIM_BIBLIOTEQUES"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_DIM_HORARIS_HIVERN_DIBICA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_horari_hivern",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_biblioteca",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "dl_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dl_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dl_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dl_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dt_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dc_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dj_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dv_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "ds_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_mati_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_mati_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_tarda_ini",
+						"type": "varchar"
+					},
+					{
+						"name": "dg_tarda_fi",
+						"type": "varchar"
+					},
+					{
+						"name": "resum",
+						"type": "varchar"
+					},
+					{
+						"name": "observacions",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "DIB_STG",
+					"table": "STG_DIB_DIM_HORARIS_HIVERN"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_DIM_LOCATIONS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERMINAL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LOCATION",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_DIM_LOCATIONS"
 				}
 			},
 			"dependsOn": []

@@ -13,68 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DF_BEG_DIM_AUTOPRESTECS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_DIM_AUTOPRESTECS",
-								"type": "DatasetReference"
-							},
-							"name": "STGDimAutoprestecs"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ODS_BEG_DIM_AUTOPRESTECS",
-								"type": "DatasetReference"
-							},
-							"name": "ODSDimAutoprestecs"
-						}
-					],
-					"transformations": [],
-					"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tDESC_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimAutoprestecs\nSTGDimAutoprestecs sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tDESC_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimAutoprestecs"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_BEG_DIM_LOCATIONS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_DIM_LOCATIONS",
-								"type": "DatasetReference"
-							},
-							"name": "STGDimLocations"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ODS_BEG_DIM_LOCATIONS",
-								"type": "DatasetReference"
-							},
-							"name": "ODSDimLocations"
-						}
-					],
-					"transformations": [],
-					"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string,\n\t\tLOCATION as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimLocations\nSTGDimLocations sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string,\n\t\tLOCATION as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimLocations"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DF_BEG_DIM_REL_P_TYPE_INDICADOR')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -5170,6 +5108,128 @@
 					],
 					"transformations": [],
 					"script": "source(output(\n\t\tCODI_BIBLIOTECA as string,\n\t\tID_AGENCY as string,\n\t\tTERMINAL as string,\n\t\tLOCATION as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimLocations\nODSDimLocations sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_LOCATION as string,\n\t\tCODI_BIBLIOTECA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimLocations"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_DM_BEG_DIM_REL_P_TYPE_INDICADOR')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference"
+							},
+							"name": "ODSDimRelPTypeIndicador"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_REL_P_TYPE_INDICADOR",
+								"type": "DatasetReference"
+							},
+							"name": "DMDimRelPTypeIndicador"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\tDESC_CONSULTA as string,\n\t\tP_TYPE as string,\n\t\tCODI_INDICADOR as string,\n\t\tID_INDICADOR as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimRelPTypeIndicador\nODSDimRelPTypeIndicador sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDESC_CONSULTA as string,\n\t\tP_TYPE as string,\n\t\tCODI_INDICADOR as string,\n\t\tID_INDICADOR as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimRelPTypeIndicador"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_DM_BEG_FACT_INDICADOR')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactIndicadors"
+						},
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_PRESTECS_ANUALS",
+								"type": "DatasetReference"
+							},
+							"name": "PrestecsAnuals"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "DMFactIndicadors"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AlterRow"
+						},
+						{
+							"name": "Union"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ID_AGENCY as string,",
+						"          CODI_BIBLIOTECA as string,",
+						"          CODI_INDICADOR as string,",
+						"          IND_VALOR as decimal(17,6),",
+						"          DATA_INSERCIO as date,",
+						"          DATA_PERIODE as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> ODSFactIndicadors",
+						"source(output(",
+						"          ID_AGENCY as string,",
+						"          CODI_BIBLIOTECA as string,",
+						"          CODI_INDICADOR as string,",
+						"          IND_VALOR as integer,",
+						"          DATA_PERIODE as date,",
+						"          DATA_INSERCIO as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> PrestecsAnuals",
+						"Union alterRow(upsertIf(1==1)) ~> AlterRow",
+						"ODSFactIndicadors, PrestecsAnuals union(byName: true)~> Union",
+						"AlterRow sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ID_AGENCY as string,",
+						"          CODI_BIBLIOTECA as string,",
+						"          CODI_INDICADOR as string,",
+						"          IND_VALOR as double,",
+						"          DATA_PERIODE as date,",
+						"          DATA_INSERCIO as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['CODI_BIBLIOTECA','CODI_INDICADOR','DATA_PERIODE'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> DMFactIndicadors"
+					]
 				}
 			},
 			"dependsOn": []
