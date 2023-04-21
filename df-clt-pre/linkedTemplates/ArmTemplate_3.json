@@ -13,72 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_CATEGORIA_ESP')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DM"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "DIB_DM",
-					"table": "DM_DIB_DIM_CATEGORIA_ESP"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_DICC_LLOCS_TREBALL')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DM"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "DIB_DM",
-					"table": "DM_DIB_DIM_DICC_LLOCS_TREBALL"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_DICC_TRACTAMENTS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DM"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "DIB_DM",
-					"table": "DM_DIB_DIM_DICC_TRACTAMENTS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_ROLS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -911,6 +845,133 @@
 				"typeProperties": {
 					"schema": "BEG_ODS",
 					"table": "ODS_BEG_DIM_BIBLIOTEQUES"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_LOCATIONS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TERMINAL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LOCATION",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_ODS",
+					"table": "ODS_BEG_DIM_LOCATIONS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_REL_P_TYPE_INDICADOR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "DESC_CONSULTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "P_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_INDICADOR",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_ODS",
+					"table": "ODS_BEG_DIM_REL_P_TYPE_INDICADOR"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_BEG_FACT_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_AGENCY",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_BIBLIOTECA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IND_VALOR",
+						"type": "decimal",
+						"precision": 17,
+						"scale": 6
+					},
+					{
+						"name": "DATA_INSERCIO",
+						"type": "date"
+					},
+					{
+						"name": "DATA_PERIODE",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_ODS",
+					"table": "ODS_BEG_FACT_INDICADORS"
 				}
 			},
 			"dependsOn": []

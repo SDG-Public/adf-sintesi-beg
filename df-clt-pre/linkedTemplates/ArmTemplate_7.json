@@ -13,1695 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/DF_BEG_DIM_REL_P_TYPE_INDICADOR')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "STG_BEG_DIM_REL_P_TYPE_INDICADOR",
-								"type": "DatasetReference"
-							},
-							"name": "STGDimRelPTypeIndicador"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ODS_BEG_DIM_REL_P_TYPE_INDICADOR",
-								"type": "DatasetReference"
-							},
-							"name": "ODSDimRelPTypeIndicador"
-						}
-					],
-					"transformations": [],
-					"script": "source(output(\n\t\tDESC_CONSULTA as string,\n\t\tP_TYPE as string,\n\t\tCODI_INDICADOR as string,\n\t\tID_INDICADOR as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimRelPTypeIndicador\nSTGDimRelPTypeIndicador sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDESC_CONSULTA as string,\n\t\tP_TYPE as string,\n\t\tCODI_INDICADOR as string,\n\t\tID_INDICADOR as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimRelPTypeIndicador"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_BEG_DM_INTER_INTRA')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Maping parametrizado para calcular la mayoria de indicadores intraanuales y interanuales de BEG. Se calculan todos a nivel de Biblioteca, distrito, municipio, comarca, ambito territorial y nacional.",
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_FACT_INDICADORS",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegFACTindicadors"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegDIMbiblioteques"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_TERRITORIAL_COMARCA",
-								"type": "DatasetReference"
-							},
-							"name": "DMterDIMcomarca"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_TERRITORIAL_MUNICIPI",
-								"type": "DatasetReference"
-							},
-							"name": "DMterDIMmunicipi"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_FACT_INDICADORS_INTER_INTRA",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegFACTindicadors2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "DCcalculINDbib"
-						},
-						{
-							"name": "selectBIBLIOTEQUESlocalitats"
-						},
-						{
-							"name": "aggVALORbib"
-						},
-						{
-							"name": "fltINDICADORnumerador"
-						},
-						{
-							"name": "numBIBLIOTECA"
-						},
-						{
-							"name": "aggVALORdist"
-						},
-						{
-							"name": "aggVALORmuni"
-						},
-						{
-							"name": "IJbiblioteques4"
-						},
-						{
-							"name": "IJmunicipi4"
-						},
-						{
-							"name": "IJcomarca4"
-						},
-						{
-							"name": "aggVALORcomarca"
-						},
-						{
-							"name": "aggVALORambit"
-						},
-						{
-							"name": "aggVALORnacional"
-						},
-						{
-							"name": "fltINDICADORdenominador"
-						},
-						{
-							"name": "denBIBLIOTECA"
-						},
-						{
-							"name": "fltDATES"
-						},
-						{
-							"name": "dcPERIODE"
-						},
-						{
-							"name": "DCcalculINDdist"
-						},
-						{
-							"name": "DCcalculINDmuni"
-						},
-						{
-							"name": "DCcalculINDcom"
-						},
-						{
-							"name": "DCcalculINDambitTERR"
-						},
-						{
-							"name": "DCcalculINDnacion"
-						},
-						{
-							"name": "joinNUMERAdenominaBIB"
-						},
-						{
-							"name": "unionDENbibliotecas"
-						},
-						{
-							"name": "joinNUMERAdenominaNACIONAL"
-						},
-						{
-							"name": "joinNUMERAdenominaMUNI"
-						},
-						{
-							"name": "joinNUMERAdenominaDIST"
-						},
-						{
-							"name": "joinNUMERAdenominaCOMARCA"
-						},
-						{
-							"name": "joinNUMERAdenominaAMBIT"
-						},
-						{
-							"name": "NACIONAL"
-						},
-						{
-							"name": "BIBLIOTECA"
-						},
-						{
-							"name": "MUNICIPI"
-						},
-						{
-							"name": "DISTRICTE"
-						},
-						{
-							"name": "COMARCA"
-						},
-						{
-							"name": "AMBITterritorial"
-						},
-						{
-							"name": "LJnan"
-						},
-						{
-							"name": "LJmun"
-						},
-						{
-							"name": "LJdis"
-						},
-						{
-							"name": "LJcom"
-						},
-						{
-							"name": "LJamb"
-						},
-						{
-							"name": "selectCOLUMNAS"
-						},
-						{
-							"name": "dcFLAGinterINTRA"
-						},
-						{
-							"name": "dcINDICADORnumerador"
-						},
-						{
-							"name": "dcINDICADORdenominador"
-						},
-						{
-							"name": "sNACIONALnum"
-						},
-						{
-							"name": "sNACIONALden"
-						},
-						{
-							"name": "sBIBden"
-						},
-						{
-							"name": "sBIBnum"
-						},
-						{
-							"name": "sMUNInum"
-						},
-						{
-							"name": "sMUNIden"
-						},
-						{
-							"name": "sDISTnum"
-						},
-						{
-							"name": "sDISTden"
-						},
-						{
-							"name": "sCOMARCAnum"
-						},
-						{
-							"name": "sCOMARCAden"
-						},
-						{
-							"name": "sAMBITnum"
-						},
-						{
-							"name": "sAMBITden"
-						},
-						{
-							"name": "NACIONALden"
-						},
-						{
-							"name": "BIBnum"
-						},
-						{
-							"name": "MUNIden"
-						},
-						{
-							"name": "DISTden"
-						},
-						{
-							"name": "COMARCAden"
-						},
-						{
-							"name": "AMBITden"
-						},
-						{
-							"name": "IJbibliotequesDIM"
-						},
-						{
-							"name": "IJmunicipiDIM"
-						},
-						{
-							"name": "IJcomarcaDIM"
-						},
-						{
-							"name": "fltPOBLACION"
-						},
-						{
-							"name": "aggPOBLACION"
-						},
-						{
-							"name": "dcDESCtramPOBLACIO"
-						},
-						{
-							"name": "ijDESCtramPOBLACIO"
-						},
-						{
-							"name": "AlterRow1"
-						}
-					],
-					"scriptLines": [
-						"parameters{",
-						"     P_DATA_INI as integer (20220101),",
-						"     P_DATA_FI as integer (20220101),",
-						"     P_FLAG_INTER as integer (1),",
-						"     P_NOM_IND_CALC as string (\"IND_X_X\"),",
-						"     P_CIEN_MIL as integer (1000),",
-						"     P_IND_ORIGEN_NUMERADOR as string[] ([\"IND_X_X\",\"IND_Y_Y\"]),",
-						"     P_IND_ORIGEN_DENOMINADOR as string[] ([\"IND_X_X\",\"IND_Y_Y\"])",
-						"}",
-						"source(output(",
-						"          ID_AGENCY as string,",
-						"          CODI_BIBLIOTECA as string,",
-						"          CODI_INDICADOR as string,",
-						"          IND_VALOR as decimal(17,6),",
-						"          DATA_INSERCIO as date,",
-						"          DATA_PERIODE as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMbegFACTindicadors",
-						"source(output(",
-						"          ID_BIBLIOTECA as integer,",
-						"          ID_AGENCY as string,",
-						"          ID_USUARI as integer,",
-						"          CODI_BIBLIOTECA as string,",
-						"          ID_TIPUS as integer,",
-						"          ID_MODUL as integer,",
-						"          CODI_NIDEN as string,",
-						"          ID_ESTAT as integer,",
-						"          DESC_BIBLIOTECA as string,",
-						"          DATA_ALTA_BIBLIO as timestamp,",
-						"          DATA_BAIXA_BIBLIO as timestamp,",
-						"          ID_TIPUS_VIA as integer,",
-						"          DESC_VIA as string,",
-						"          NUM_VIA as string,",
-						"          INE_MUNICIPI as string,",
-						"          ID_DISTRICTE as integer,",
-						"          CP as string,",
-						"          UTMX as double,",
-						"          UTMY as double,",
-						"          NUM_LONGITUD as double,",
-						"          NUM_LATITUD as double,",
-						"          NUM_TELEFON as string,",
-						"          NUM_EXTENSIO as string,",
-						"          NUM_FAX as string,",
-						"          DESC_EMAIL as string,",
-						"          DESC_WEB as string,",
-						"          FLAG_BEG as boolean,",
-						"          FLAG_SLPC as boolean,",
-						"          ID_MAPA as integer,",
-						"          ID_CATEGORIA as integer,",
-						"          ID_TITULARITAT as integer,",
-						"          ID_FORMA_ACCES as integer,",
-						"          ES_CATALEG_COLECTIU_CCLP as boolean,",
-						"          WEB_CATALEG_COLECTIU_CCLP as string,",
-						"          ES_CATALEG_COLECTIU_DIP_BCN as boolean,",
-						"          WEB_CATALEG_COLECTIU_DIP_BCN as string,",
-						"          ES_CATALEG_COLECTIU_CCUC as boolean,",
-						"          WEB_CATALEG_COLECTIU_CCUC as string,",
-						"          ES_CATALEG_COLECTIU_BEG as boolean,",
-						"          WEB_CATALEG_COLECTIU_BEG as string,",
-						"          ES_CATALEG_COLECTIU_ALTRES as boolean,",
-						"          WEB_CATALEG_COLECTIU_ALTRES as string,",
-						"          ID_DIRECTOR_TRACTAMENT as integer,",
-						"          DESC_DIRECTOR_NOMB as string,",
-						"          DESC_DIRECTOR_PRIMER_COGNOM as string,",
-						"          DESC_DIRECTOR_SEGON_COGNOM as string,",
-						"          FLAG_ADAPTADA as boolean,",
-						"          DESC_OBSERVACIONS as string,",
-						"          OBS_ITINERARIS as string,",
-						"          DATA_ALTA as timestamp,",
-						"          ID_USUARI_ALTA as integer,",
-						"          DATA_MODIF as timestamp,",
-						"          ID_USUARI_MODIF as integer,",
-						"          DATA_BAIXA as timestamp,",
-						"          ID_USUARI_BAIXA as integer,",
-						"          ID_ADSCRIPCIO as integer,",
-						"          ID_CATEGORIA_ESP as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMbegDIMbiblioteques",
-						"source(output(",
-						"          INE_COMARCA as string,",
-						"          ID_AMBIT_TERRITORIAL as string,",
-						"          DESC_COMARCA as string,",
-						"          DESC_COMARCA_CAT as string,",
-						"          CODI_SSTT as integer,",
-						"          DATA_BAIXA as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMterDIMcomarca",
-						"source(output(",
-						"          INE_MUNICIPI as string,",
-						"          INE_COMARCA as string,",
-						"          INE_PROVINCIA as string,",
-						"          DESC_MUNICIPI as string,",
-						"          DESC_MUNICIPI_CAT as string,",
-						"          CP as string,",
-						"          NUM_ALTITUD as integer,",
-						"          NUM_SUPERFICIE as decimal(6,2),",
-						"          FLAG_CAPITAL_PAIS as boolean,",
-						"          FLAG_CAPITAL_COMUNIDAD_AUTONOMA as boolean,",
-						"          FLAG_CAPITAL_PROVINCIA as boolean,",
-						"          FLAG_CAPITAL_COMARCA as boolean,",
-						"          ID_AMBIT_TERRITORIAL as string,",
-						"          CODI_SSTT as integer,",
-						"          DATA_BAIXA as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMterDIMmunicipi",
-						"joinNUMERAdenominaBIB derive(ID_INDICADOR = $P_NOM_IND_CALC,",
-						"          VALOR_BIB = iif(isNull($P_CIEN_MIL * VALOR / VALOR_den),      \r",
-						"    toFloat(0),     \r",
-						"    toFloat($P_CIEN_MIL * VALOR / VALOR_den)      \r",
-						"    )) ~> DCcalculINDbib",
-						"DMbegDIMbiblioteques select(mapColumn(",
-						"          ID_BIBLIOTECA,",
-						"          CODI_BIBLIOTECA,",
-						"          INE_MUNICIPI,",
-						"          ID_DISTRICTE",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> selectBIBLIOTEQUESlocalitats",
-						"unionDENbibliotecas aggregate(groupBy(CODI_BIBLIOTECA,",
-						"          FLAG_NUM_DEM,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORbib",
-						"dcPERIODE filter(contains($P_IND_ORIGEN_NUMERADOR, #item == CODI_INDICADOR)) ~> fltINDICADORnumerador",
-						"dcINDICADORnumerador select(mapColumn(",
-						"          CODI_BIBLIOTECA,",
-						"          FLAG_NUM_DEM,",
-						"          IND_VALOR,",
-						"          DATA_PERIODE",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> numBIBLIOTECA",
-						"IJbiblioteques4 aggregate(groupBy(ID_DISTRICTE,",
-						"          FLAG_NUM_DEM,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORdist",
-						"IJbiblioteques4 aggregate(groupBy(INE_MUNICIPI,",
-						"          FLAG_NUM_DEM,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORmuni",
-						"unionDENbibliotecas, selectBIBLIOTEQUESlocalitats join(unionDENbibliotecas@CODI_BIBLIOTECA == selectBIBLIOTEQUESlocalitats@CODI_BIBLIOTECA,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJbiblioteques4",
-						"IJbiblioteques4, DMterDIMmunicipi join(selectBIBLIOTEQUESlocalitats@INE_MUNICIPI == DMterDIMmunicipi@INE_MUNICIPI,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJmunicipi4",
-						"IJmunicipi4, DMterDIMcomarca join(DMterDIMmunicipi@INE_COMARCA == DMterDIMcomarca@INE_COMARCA,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJcomarca4",
-						"IJmunicipi4 aggregate(groupBy(INE_COMARCA,",
-						"          FLAG_NUM_DEM,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORcomarca",
-						"IJcomarca4 aggregate(groupBy(DMterDIMcomarca@ID_AMBIT_TERRITORIAL,",
-						"          FLAG_NUM_DEM,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORambit",
-						"unionDENbibliotecas aggregate(groupBy(FLAG_NUM_DEM,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORnacional",
-						"dcPERIODE filter(contains($P_IND_ORIGEN_DENOMINADOR, #item == CODI_INDICADOR)) ~> fltINDICADORdenominador",
-						"dcINDICADORdenominador select(mapColumn(",
-						"          CODI_BIBLIOTECA,",
-						"          FLAG_NUM_DEM,",
-						"          IND_VALOR,",
-						"          DATA_PERIODE",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> denBIBLIOTECA",
-						"DMbegFACTindicadors filter(iif($P_FLAG_INTER == 1,",
-						"    year(DATA_PERIODE) <= year(toDate(toString($P_DATA_FI),\"yyyyMMdd\"))",
-						"    &&",
-						"    year(DATA_PERIODE) >= year(toDate(toString($P_DATA_INI),\"yyyyMMdd\"))",
-						"    ,",
-						"    DATA_PERIODE < addDays(toDate(toString($P_DATA_FI),\"yyyyMMdd\"),1)",
-						"    &&",
-						"    DATA_PERIODE >= toDate(toString($P_DATA_INI),\"yyyyMMdd\")",
-						")) ~> fltDATES",
-						"fltDATES derive(DATA_PERIODE = iif($P_FLAG_INTER == 1,\r",
-						"    toDate(concat(toString(year(DATA_PERIODE)),\"-12-01\"),\"yyyy-MM-dd\"),\r",
-						"    DATA_PERIODE\r",
-						")) ~> dcPERIODE",
-						"joinNUMERAdenominaDIST derive(ID_INDICADOR = $P_NOM_IND_CALC,",
-						"          VALOR_DIS = iif(isNull($P_CIEN_MIL * VALOR / VALOR_den), \r",
-						"    toFloat(0), \r",
-						"    toFloat($P_CIEN_MIL * VALOR / VALOR_den) \r",
-						"    )) ~> DCcalculINDdist",
-						"joinNUMERAdenominaMUNI derive(ID_INDICADOR = $P_NOM_IND_CALC,",
-						"          VALOR_MUN = iif(isNull($P_CIEN_MIL * VALOR / VALOR_den),      \r",
-						"    toFloat(0),      \r",
-						"    toFloat($P_CIEN_MIL * VALOR / VALOR_den)      \r",
-						"    )) ~> DCcalculINDmuni",
-						"joinNUMERAdenominaCOMARCA derive(ID_INDICADOR = $P_NOM_IND_CALC,",
-						"          VALOR_COM = iif(isNull($P_CIEN_MIL * VALOR / VALOR_den), \r",
-						"    toFloat(0), \r",
-						"    toFloat($P_CIEN_MIL * VALOR / VALOR_den) \r",
-						"    )) ~> DCcalculINDcom",
-						"joinNUMERAdenominaAMBIT derive(ID_INDICADOR = $P_NOM_IND_CALC,",
-						"          VALOR_AMB = iif(isNull($P_CIEN_MIL * VALOR / VALOR_den), \r",
-						"    toFloat(0), \r",
-						"    toFloat($P_CIEN_MIL * VALOR / VALOR_den) \r",
-						"    )) ~> DCcalculINDambitTERR",
-						"joinNUMERAdenominaNACIONAL derive(ID_INDICADOR = $P_NOM_IND_CALC,",
-						"          VALOR_NAN = iif(isNull($P_CIEN_MIL * VALOR / VALOR_den),      \r",
-						"    toFloat(0),      \r",
-						"    toFloat($P_CIEN_MIL * VALOR / VALOR_den)      \r",
-						"    )) ~> DCcalculINDnacion",
-						"sBIBden, BIBnum join(CODI_BIBLIOTECA == CODI_BIBLIOTECA_den",
-						"     && DATA_PERIODE == DATA_PERIODE_den,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaBIB",
-						"numBIBLIOTECA, denBIBLIOTECA union(byName: true)~> unionDENbibliotecas",
-						"sNACIONALnum, NACIONALden join(DATA_PERIODE == DATA_PERIODE_den,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaNACIONAL",
-						"sMUNInum, MUNIden join(INE_MUNICIPI == INE_MUNICIPI_den",
-						"     && DATA_PERIODE == DATA_PERIODE_den,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaMUNI",
-						"sDISTnum, DISTden join(ID_DISTRICTE == ID_DISTRICTE_den",
-						"     && DATA_PERIODE == DATA_PERIODE_den,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaDIST",
-						"sCOMARCAnum, COMARCAden join(INE_COMARCA == INE_COMARCA_den",
-						"     && DATA_PERIODE == DATA_PERIODE_den,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaCOMARCA",
-						"sAMBITnum, AMBITden join(ID_AMBIT_TERRITORIAL == ID_AMBIT_TERRITORIAL_den",
-						"     && DATA_PERIODE == DATA_PERIODE_den,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaAMBIT",
-						"DCcalculINDnacion select(mapColumn(",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_NAN",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NACIONAL",
-						"DCcalculINDbib select(mapColumn(",
-						"          CODI_BIBLIOTECA,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_BIB",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> BIBLIOTECA",
-						"DCcalculINDmuni select(mapColumn(",
-						"          INE_MUNICIPI,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_MUN",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> MUNICIPI",
-						"DCcalculINDdist select(mapColumn(",
-						"          ID_DISTRICTE,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_DIS",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> DISTRICTE",
-						"DCcalculINDcom select(mapColumn(",
-						"          INE_COMARCA,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_COM",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> COMARCA",
-						"DCcalculINDambitTERR select(mapColumn(",
-						"          ID_AMBIT_TERRITORIAL,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_AMB",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> AMBITterritorial",
-						"BIBLIOTECA, NACIONAL join(BIBLIOTECA@DATA_PERIODE == NACIONAL@DATA_PERIODE,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJnan",
-						"IJbibliotequesDIM, MUNICIPI join(BIBLIOTECA@DATA_PERIODE == MUNICIPI@DATA_PERIODE",
-						"     && DMbegDIMbiblioteques@INE_MUNICIPI == MUNICIPI@INE_MUNICIPI,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJmun",
-						"LJmun, DISTRICTE join(BIBLIOTECA@DATA_PERIODE == DISTRICTE@DATA_PERIODE",
-						"     && DMbegDIMbiblioteques@ID_DISTRICTE == DISTRICTE@ID_DISTRICTE,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJdis",
-						"IJmunicipiDIM, COMARCA join(BIBLIOTECA@DATA_PERIODE == COMARCA@DATA_PERIODE",
-						"     && DMterDIMmunicipi@INE_COMARCA == COMARCA@INE_COMARCA,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJcom",
-						"IJcomarcaDIM, AMBITterritorial join(BIBLIOTECA@DATA_PERIODE == AMBITterritorial@DATA_PERIODE",
-						"     && DMterDIMcomarca@ID_AMBIT_TERRITORIAL == AMBITterritorial@ID_AMBIT_TERRITORIAL,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJamb",
-						"dcFLAGinterINTRA select(mapColumn(",
-						"          CODI_BIBLIOTECA = BIBLIOTECA@CODI_BIBLIOTECA,",
-						"          DATA_PERIODE = BIBLIOTECA@DATA_PERIODE,",
-						"          CODI_INDICADOR = BIBLIOTECA@ID_INDICADOR,",
-						"          FLAG_INTER_INTRA,",
-						"          IND_VALOR_BIB = VALOR_BIB,",
-						"          IND_VALOR_DIS = VALOR_DIS,",
-						"          IND_VALOR_MUN = VALOR_MUN,",
-						"          IND_VALOR_COM = VALOR_COM,",
-						"          IND_VALOR_AMB = VALOR_AMB,",
-						"          IND_VALOR_NAN = VALOR_NAN,",
-						"          DESC_TRAM_POBLACIO,",
-						"          DATA_CARREGA",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> selectCOLUMNAS",
-						"ijDESCtramPOBLACIO derive(FLAG_INTER_INTRA = iif($P_FLAG_INTER == 1, 'Interanual', 'Intraanual'),",
-						"          DATA_CARREGA = currentDate()) ~> dcFLAGinterINTRA",
-						"fltINDICADORnumerador derive(FLAG_NUM_DEM = 'NUMERADOR') ~> dcINDICADORnumerador",
-						"fltINDICADORdenominador derive(FLAG_NUM_DEM = 'DENOMINADOR') ~> dcINDICADORdenominador",
-						"aggVALORnacional filter(FLAG_NUM_DEM == 'NUMERADOR') ~> sNACIONALnum",
-						"aggVALORnacional filter(FLAG_NUM_DEM == 'DENOMINADOR') ~> sNACIONALden",
-						"aggVALORbib filter(FLAG_NUM_DEM == 'NUMERADOR') ~> sBIBden",
-						"aggVALORbib filter(FLAG_NUM_DEM == 'DENOMINADOR') ~> sBIBnum",
-						"aggVALORmuni filter(FLAG_NUM_DEM == 'NUMERADOR') ~> sMUNInum",
-						"aggVALORmuni filter(FLAG_NUM_DEM == 'DENOMINADOR') ~> sMUNIden",
-						"aggVALORdist filter(FLAG_NUM_DEM == 'NUMERADOR') ~> sDISTnum",
-						"aggVALORdist filter(FLAG_NUM_DEM == 'DENOMINADOR') ~> sDISTden",
-						"aggVALORcomarca filter(FLAG_NUM_DEM == 'NUMERADOR') ~> sCOMARCAnum",
-						"aggVALORcomarca filter(FLAG_NUM_DEM == 'DENOMINADOR') ~> sCOMARCAden",
-						"aggVALORambit filter(FLAG_NUM_DEM == 'NUMERADOR') ~> sAMBITnum",
-						"aggVALORambit filter(FLAG_NUM_DEM == 'DENOMINADOR') ~> sAMBITden",
-						"sNACIONALden select(mapColumn(",
-						"          FLAG_NUM_DEM_den = FLAG_NUM_DEM,",
-						"          DATA_PERIODE_den = DATA_PERIODE,",
-						"          VALOR_den = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NACIONALden",
-						"sBIBnum select(mapColumn(",
-						"          CODI_BIBLIOTECA_den = CODI_BIBLIOTECA,",
-						"          FLAG_NUM_DEM_den = FLAG_NUM_DEM,",
-						"          DATA_PERIODE_den = DATA_PERIODE,",
-						"          VALOR_den = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> BIBnum",
-						"sMUNIden select(mapColumn(",
-						"          INE_MUNICIPI_den = INE_MUNICIPI,",
-						"          FLAG_NUM_DEM_den = FLAG_NUM_DEM,",
-						"          DATA_PERIODE_den = DATA_PERIODE,",
-						"          VALOR_den = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> MUNIden",
-						"sDISTden select(mapColumn(",
-						"          ID_DISTRICTE_den = ID_DISTRICTE,",
-						"          FLAG_NUM_DEM_den = FLAG_NUM_DEM,",
-						"          DATA_PERIODE_den = DATA_PERIODE,",
-						"          VALOR_den = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> DISTden",
-						"sCOMARCAden select(mapColumn(",
-						"          INE_COMARCA_den = INE_COMARCA,",
-						"          FLAG_NUM_DEM_den = FLAG_NUM_DEM,",
-						"          DATA_PERIODE_den = DATA_PERIODE,",
-						"          VALOR_den = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> COMARCAden",
-						"sAMBITden select(mapColumn(",
-						"          ID_AMBIT_TERRITORIAL_den = ID_AMBIT_TERRITORIAL,",
-						"          FLAG_NUM_DEM_den = FLAG_NUM_DEM,",
-						"          DATA_PERIODE_den = DATA_PERIODE,",
-						"          VALOR_den = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> AMBITden",
-						"LJnan, DMbegDIMbiblioteques join(BIBLIOTECA@CODI_BIBLIOTECA == DMbegDIMbiblioteques@CODI_BIBLIOTECA,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJbibliotequesDIM",
-						"LJdis, DMterDIMmunicipi join(DMbegDIMbiblioteques@INE_MUNICIPI == DMterDIMmunicipi@INE_MUNICIPI,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJmunicipiDIM",
-						"LJcom, DMterDIMcomarca join(DMterDIMmunicipi@INE_COMARCA == DMterDIMcomarca@INE_COMARCA,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJcomarcaDIM",
-						"dcPERIODE filter(CODI_INDICADOR == 'IND_6_4') ~> fltPOBLACION",
-						"fltPOBLACION aggregate(groupBy(CODI_BIBLIOTECA,",
-						"          DATA_PERIODE),",
-						"     VALOR_POBLACIO = sum(IND_VALOR)) ~> aggPOBLACION",
-						"aggPOBLACION derive(DESC_TRAM_POBLACIO = iif(VALOR_POBLACIO < 3000, \"Menys de 3.000 hab.\",\r",
-						"    iif(VALOR_POBLACIO >= 3000 && VALOR_POBLACIO < 5000, \"3.000-5.000 hab.\",\r",
-						"        iif(VALOR_POBLACIO >= 5000 && VALOR_POBLACIO < 10000, \"5.000-10.000 hab.\",\r",
-						"            iif(VALOR_POBLACIO >= 10000 && VALOR_POBLACIO < 20000, \"10.000-20.000 hab.\",\r",
-						"                iif(VALOR_POBLACIO >= 20000 && VALOR_POBLACIO < 30000, \"20.000-30.000 hab.\",\r",
-						"                    iif(VALOR_POBLACIO >= 30000 && VALOR_POBLACIO < 50000, \"30.000-50.000 hab.\",\r",
-						"                        iif(VALOR_POBLACIO >= 50000 && VALOR_POBLACIO < 100000, \"50.000-100.000 hab.\",\r",
-						"                            iif(VALOR_POBLACIO >= 100000 && VALOR_POBLACIO < 200000, \"100.000-200.000 hab.\",\r",
-						"                                iif(VALOR_POBLACIO >= 100000 && VALOR_POBLACIO < 200000, \"Més de 200.000 hab.\",\r",
-						"                                     \"ND\"\r",
-						"                                )\r",
-						"                            )\r",
-						"                        )\r",
-						"                    )\r",
-						"                )\r",
-						"            )\r",
-						"        )\r",
-						"    )\r",
-						")) ~> dcDESCtramPOBLACIO",
-						"LJamb, dcDESCtramPOBLACIO join(BIBLIOTECA@CODI_BIBLIOTECA == aggPOBLACION@CODI_BIBLIOTECA",
-						"     && BIBLIOTECA@DATA_PERIODE == aggPOBLACION@DATA_PERIODE,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> ijDESCtramPOBLACIO",
-						"selectCOLUMNAS alterRow(upsertIf(1==1)) ~> AlterRow1",
-						"AlterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          CODI_BIBLIOTECA as string,",
-						"          DATA_PERIODE as date,",
-						"          CODI_INDICADOR as string,",
-						"          FLAG_INTER_INTRA as string,",
-						"          IND_VALOR_BIB as float,",
-						"          IND_VALOR_DIS as float,",
-						"          IND_VALOR_MUN as float,",
-						"          IND_VALOR_COM as float,",
-						"          IND_VALOR_AMB as float,",
-						"          IND_VALOR_NAN as float,",
-						"          DESC_TRAM_POBLACIO as string,",
-						"          DATA_CARREGA as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:true,",
-						"     keys:['CODI_BIBLIOTECA','DATA_PERIODE','CODI_INDICADOR','FLAG_INTER_INTRA'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> DMbegFACTindicadors2"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_BEG_DM_INTER_INTRA_ANY_ANT')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Maping parametrizado para calcular la mayoria de indicadores intraanuales y interanuales de BEG. Se calculan todos a nivel de Biblioteca, distrito, municipio, comarca, ambito territorial y nacional.\n\nEn este en concreto se calculan los indicadores IND_12_4011, IND_12_4012 y IND_6_6.",
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_FACT_INDICADORS",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegFACTindicadors"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_BIBLIOTEQUES",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegDIMbiblioteques"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_TERRITORIAL_COMARCA",
-								"type": "DatasetReference"
-							},
-							"name": "DMterDIMcomarca"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_DIM_TERRITORIAL_MUNICIPI",
-								"type": "DatasetReference"
-							},
-							"name": "DMterDIMmunicipi"
-						},
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_FACT_INDICADORS",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegFACTindicadorsANT"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DM_BEG_FACT_INDICADORS_INTER_INTRA",
-								"type": "DatasetReference"
-							},
-							"name": "DMbegFACTindicadors2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "DCcalculINDbib"
-						},
-						{
-							"name": "selectBIBLIOTEQUESlocalitats"
-						},
-						{
-							"name": "aggVALORbib"
-						},
-						{
-							"name": "fltINDICADORnumerador"
-						},
-						{
-							"name": "numBIBLIOTECA"
-						},
-						{
-							"name": "aggVALORdist"
-						},
-						{
-							"name": "aggVALORmuni"
-						},
-						{
-							"name": "IJbiblioteques4"
-						},
-						{
-							"name": "IJmunicipi4"
-						},
-						{
-							"name": "IJcomarca4"
-						},
-						{
-							"name": "aggVALORcomarca"
-						},
-						{
-							"name": "aggVALORambit"
-						},
-						{
-							"name": "aggVALORnacional"
-						},
-						{
-							"name": "fltINDICADORdenominador"
-						},
-						{
-							"name": "denBIBLIOTECA"
-						},
-						{
-							"name": "fltDATES"
-						},
-						{
-							"name": "dcPERIODE"
-						},
-						{
-							"name": "DCcalculINDdist"
-						},
-						{
-							"name": "DCcalculINDmuni"
-						},
-						{
-							"name": "DCcalculINDcom"
-						},
-						{
-							"name": "DCcalculINDambitTERR"
-						},
-						{
-							"name": "DCcalculINDnacion"
-						},
-						{
-							"name": "joinNUMERAdenominaBIB"
-						},
-						{
-							"name": "unionDENbibliotecas"
-						},
-						{
-							"name": "joinNUMERAdenominaNACIONAL"
-						},
-						{
-							"name": "joinNUMERAdenominaMUNI"
-						},
-						{
-							"name": "joinNUMERAdenominaDIST"
-						},
-						{
-							"name": "joinNUMERAdenominaCOMARCA"
-						},
-						{
-							"name": "joinNUMERAdenominaAMBIT"
-						},
-						{
-							"name": "NACIONAL"
-						},
-						{
-							"name": "BIBLIOTECA"
-						},
-						{
-							"name": "MUNICIPI"
-						},
-						{
-							"name": "DISTRICTE"
-						},
-						{
-							"name": "COMARCA"
-						},
-						{
-							"name": "AMBITterritorial"
-						},
-						{
-							"name": "LJnan"
-						},
-						{
-							"name": "LJmun"
-						},
-						{
-							"name": "LJdis"
-						},
-						{
-							"name": "LJcom"
-						},
-						{
-							"name": "LJamb"
-						},
-						{
-							"name": "selectCOLUMNAS"
-						},
-						{
-							"name": "dcFLAGinterINTRA"
-						},
-						{
-							"name": "dcINDICADORactual"
-						},
-						{
-							"name": "dcINDICADORanterior"
-						},
-						{
-							"name": "sNACIONALnum"
-						},
-						{
-							"name": "sNACIONALden"
-						},
-						{
-							"name": "sBIBden"
-						},
-						{
-							"name": "sBIBnum"
-						},
-						{
-							"name": "sMUNInum"
-						},
-						{
-							"name": "sMUNIden"
-						},
-						{
-							"name": "sDISTnum"
-						},
-						{
-							"name": "sDISTden"
-						},
-						{
-							"name": "sCOMARCAnum"
-						},
-						{
-							"name": "sCOMARCAden"
-						},
-						{
-							"name": "sAMBITnum"
-						},
-						{
-							"name": "sAMBITden"
-						},
-						{
-							"name": "NACIONALden"
-						},
-						{
-							"name": "BIBnum"
-						},
-						{
-							"name": "MUNIden"
-						},
-						{
-							"name": "DISTden"
-						},
-						{
-							"name": "COMARCAden"
-						},
-						{
-							"name": "AMBITden"
-						},
-						{
-							"name": "IJbibliotequesDIM"
-						},
-						{
-							"name": "IJmunicipiDIM"
-						},
-						{
-							"name": "IJcomarcaDIM"
-						},
-						{
-							"name": "fltPOBLACION"
-						},
-						{
-							"name": "aggPOBLACION"
-						},
-						{
-							"name": "dcDESCtramPOBLACIO"
-						},
-						{
-							"name": "ijDESCtramPOBLACIO"
-						},
-						{
-							"name": "AlterRow1"
-						},
-						{
-							"name": "fltDATESant"
-						},
-						{
-							"name": "dcPERIODEant"
-						},
-						{
-							"name": "DCcalculINDnacion2"
-						},
-						{
-							"name": "filter2"
-						},
-						{
-							"name": "UNIONcalculINDnacion"
-						},
-						{
-							"name": "filter3"
-						},
-						{
-							"name": "DCcalculINDcom2"
-						},
-						{
-							"name": "filter4"
-						},
-						{
-							"name": "union1"
-						},
-						{
-							"name": "DCcalculINDambitTERR2"
-						},
-						{
-							"name": "union2"
-						},
-						{
-							"name": "filter5"
-						},
-						{
-							"name": "DCcalculINDmuni2"
-						},
-						{
-							"name": "union3"
-						},
-						{
-							"name": "filter6"
-						},
-						{
-							"name": "DCcalculINDdist2"
-						},
-						{
-							"name": "union4"
-						},
-						{
-							"name": "filter7"
-						},
-						{
-							"name": "DCcalculINDbib2"
-						},
-						{
-							"name": "union5"
-						}
-					],
-					"scriptLines": [
-						"parameters{",
-						"     P_DATA_INI as integer (20220101),",
-						"     P_DATA_FI as integer (20220101),",
-						"     P_FLAG_INTER as integer (1),",
-						"     P_CIEN_MIL as integer (100)",
-						"}",
-						"source(output(",
-						"          ID_AGENCY as string,",
-						"          CODI_BIBLIOTECA as string,",
-						"          CODI_INDICADOR as string,",
-						"          IND_VALOR as decimal(17,6),",
-						"          DATA_INSERCIO as date,",
-						"          DATA_PERIODE as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMbegFACTindicadors",
-						"source(output(",
-						"          ID_BIBLIOTECA as integer,",
-						"          ID_AGENCY as string,",
-						"          ID_USUARI as integer,",
-						"          CODI_BIBLIOTECA as string,",
-						"          ID_TIPUS as integer,",
-						"          ID_MODUL as integer,",
-						"          CODI_NIDEN as string,",
-						"          ID_ESTAT as integer,",
-						"          DESC_BIBLIOTECA as string,",
-						"          DATA_ALTA_BIBLIO as timestamp,",
-						"          DATA_BAIXA_BIBLIO as timestamp,",
-						"          ID_TIPUS_VIA as integer,",
-						"          DESC_VIA as string,",
-						"          NUM_VIA as string,",
-						"          INE_MUNICIPI as string,",
-						"          ID_DISTRICTE as integer,",
-						"          CP as string,",
-						"          UTMX as double,",
-						"          UTMY as double,",
-						"          NUM_LONGITUD as double,",
-						"          NUM_LATITUD as double,",
-						"          NUM_TELEFON as string,",
-						"          NUM_EXTENSIO as string,",
-						"          NUM_FAX as string,",
-						"          DESC_EMAIL as string,",
-						"          DESC_WEB as string,",
-						"          FLAG_BEG as boolean,",
-						"          FLAG_SLPC as boolean,",
-						"          ID_MAPA as integer,",
-						"          ID_CATEGORIA as integer,",
-						"          ID_TITULARITAT as integer,",
-						"          ID_FORMA_ACCES as integer,",
-						"          ES_CATALEG_COLECTIU_CCLP as boolean,",
-						"          WEB_CATALEG_COLECTIU_CCLP as string,",
-						"          ES_CATALEG_COLECTIU_DIP_BCN as boolean,",
-						"          WEB_CATALEG_COLECTIU_DIP_BCN as string,",
-						"          ES_CATALEG_COLECTIU_CCUC as boolean,",
-						"          WEB_CATALEG_COLECTIU_CCUC as string,",
-						"          ES_CATALEG_COLECTIU_BEG as boolean,",
-						"          WEB_CATALEG_COLECTIU_BEG as string,",
-						"          ES_CATALEG_COLECTIU_ALTRES as boolean,",
-						"          WEB_CATALEG_COLECTIU_ALTRES as string,",
-						"          ID_DIRECTOR_TRACTAMENT as integer,",
-						"          DESC_DIRECTOR_NOMB as string,",
-						"          DESC_DIRECTOR_PRIMER_COGNOM as string,",
-						"          DESC_DIRECTOR_SEGON_COGNOM as string,",
-						"          FLAG_ADAPTADA as boolean,",
-						"          DESC_OBSERVACIONS as string,",
-						"          OBS_ITINERARIS as string,",
-						"          DATA_ALTA as timestamp,",
-						"          ID_USUARI_ALTA as integer,",
-						"          DATA_MODIF as timestamp,",
-						"          ID_USUARI_MODIF as integer,",
-						"          DATA_BAIXA as timestamp,",
-						"          ID_USUARI_BAIXA as integer,",
-						"          ID_ADSCRIPCIO as integer,",
-						"          ID_CATEGORIA_ESP as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMbegDIMbiblioteques",
-						"source(output(",
-						"          INE_COMARCA as string,",
-						"          ID_AMBIT_TERRITORIAL as string,",
-						"          DESC_COMARCA as string,",
-						"          DESC_COMARCA_CAT as string,",
-						"          CODI_SSTT as integer,",
-						"          DATA_BAIXA as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMterDIMcomarca",
-						"source(output(",
-						"          INE_MUNICIPI as string,",
-						"          INE_COMARCA as string,",
-						"          INE_PROVINCIA as string,",
-						"          DESC_MUNICIPI as string,",
-						"          DESC_MUNICIPI_CAT as string,",
-						"          CP as string,",
-						"          NUM_ALTITUD as integer,",
-						"          NUM_SUPERFICIE as decimal(6,2),",
-						"          FLAG_CAPITAL_PAIS as boolean,",
-						"          FLAG_CAPITAL_COMUNIDAD_AUTONOMA as boolean,",
-						"          FLAG_CAPITAL_PROVINCIA as boolean,",
-						"          FLAG_CAPITAL_COMARCA as boolean,",
-						"          ID_AMBIT_TERRITORIAL as string,",
-						"          CODI_SSTT as integer,",
-						"          DATA_BAIXA as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMterDIMmunicipi",
-						"source(output(",
-						"          ID_AGENCY as string,",
-						"          CODI_BIBLIOTECA as string,",
-						"          CODI_INDICADOR as string,",
-						"          IND_VALOR as decimal(17,6),",
-						"          DATA_INSERCIO as date,",
-						"          DATA_PERIODE as date",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> DMbegFACTindicadorsANT",
-						"joinNUMERAdenominaBIB derive(ID_INDICADOR = iif(CODI_INDICADOR == \"IND_12_1\", \"IND_12_4011\",\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", \"IND_6_6\",\r",
-						"        \"ND\"\r",
-						"    )\r",
-						"),",
-						"          VALOR_BIB = iif(CODI_INDICADOR == \"IND_12_1\", VALOR - VALOR_ant,\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", VALOR * $P_CIEN_MIL / VALOR_ant,\r",
-						"        toDecimal(0)\r",
-						"    )\r",
-						")) ~> DCcalculINDbib",
-						"DMbegDIMbiblioteques select(mapColumn(",
-						"          ID_BIBLIOTECA,",
-						"          CODI_BIBLIOTECA,",
-						"          INE_MUNICIPI,",
-						"          ID_DISTRICTE",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> selectBIBLIOTEQUESlocalitats",
-						"unionDENbibliotecas aggregate(groupBy(CODI_BIBLIOTECA,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORbib",
-						"dcPERIODE filter(contains([\"IND_12_1\",\"IND_6_1\"], #item == CODI_INDICADOR)) ~> fltINDICADORnumerador",
-						"dcINDICADORactual select(mapColumn(",
-						"          CODI_BIBLIOTECA,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          IND_VALOR,",
-						"          DATA_PERIODE",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> numBIBLIOTECA",
-						"IJbiblioteques4 aggregate(groupBy(ID_DISTRICTE,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORdist",
-						"IJbiblioteques4 aggregate(groupBy(INE_MUNICIPI,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORmuni",
-						"unionDENbibliotecas, selectBIBLIOTEQUESlocalitats join(unionDENbibliotecas@CODI_BIBLIOTECA == selectBIBLIOTEQUESlocalitats@CODI_BIBLIOTECA,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJbiblioteques4",
-						"IJbiblioteques4, DMterDIMmunicipi join(selectBIBLIOTEQUESlocalitats@INE_MUNICIPI == DMterDIMmunicipi@INE_MUNICIPI,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJmunicipi4",
-						"IJmunicipi4, DMterDIMcomarca join(DMterDIMmunicipi@INE_COMARCA == DMterDIMcomarca@INE_COMARCA,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJcomarca4",
-						"IJmunicipi4 aggregate(groupBy(INE_COMARCA,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORcomarca",
-						"IJcomarca4 aggregate(groupBy(DMterDIMcomarca@ID_AMBIT_TERRITORIAL,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORambit",
-						"unionDENbibliotecas aggregate(groupBy(FLAG_ACT_ANT,",
-						"          CODI_INDICADOR,",
-						"          DATA_PERIODE),",
-						"     VALOR = sum(IND_VALOR)) ~> aggVALORnacional",
-						"dcPERIODEant filter(contains([\"IND_12_1\",\"IND_6_1\"], #item == CODI_INDICADOR)) ~> fltINDICADORdenominador",
-						"dcINDICADORanterior select(mapColumn(",
-						"          CODI_BIBLIOTECA,",
-						"          CODI_INDICADOR,",
-						"          FLAG_ACT_ANT,",
-						"          IND_VALOR,",
-						"          DATA_PERIODE",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> denBIBLIOTECA",
-						"DMbegFACTindicadors filter(iif($P_FLAG_INTER == 1,",
-						"    year(DATA_PERIODE) <= year(toDate(toString($P_DATA_FI),\"yyyyMMdd\"))",
-						"    &&",
-						"    year(DATA_PERIODE) >= year(toDate(toString($P_DATA_INI),\"yyyyMMdd\"))",
-						"    ,",
-						"    DATA_PERIODE < addDays(toDate(toString($P_DATA_FI),\"yyyyMMdd\"),1)",
-						"    &&",
-						"    DATA_PERIODE >= toDate(toString($P_DATA_INI),\"yyyyMMdd\")",
-						")) ~> fltDATES",
-						"fltDATES derive(DATA_PERIODE = iif($P_FLAG_INTER == 1,\r",
-						"    toDate(concat(toString(year(DATA_PERIODE)),\"-12-01\"),\"yyyy-MM-dd\"),\r",
-						"    DATA_PERIODE\r",
-						")) ~> dcPERIODE",
-						"joinNUMERAdenominaDIST derive(ID_INDICADOR = iif(CODI_INDICADOR == \"IND_12_1\", \"IND_12_4011\",\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", \"IND_6_6\",\r",
-						"        \"ND\"\r",
-						"    )\r",
-						"),",
-						"          VALOR_DIS = iif(CODI_INDICADOR == \"IND_12_1\", VALOR - VALOR_ant,\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", VALOR * $P_CIEN_MIL / VALOR_ant,\r",
-						"        toDecimal(0)\r",
-						"    )\r",
-						")) ~> DCcalculINDdist",
-						"joinNUMERAdenominaMUNI derive(ID_INDICADOR = iif(CODI_INDICADOR == \"IND_12_1\", \"IND_12_4011\",\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", \"IND_6_6\",\r",
-						"        \"ND\"\r",
-						"    )\r",
-						"),",
-						"          VALOR_MUN = iif(CODI_INDICADOR == \"IND_12_1\", VALOR - VALOR_ant,\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", VALOR * $P_CIEN_MIL / VALOR_ant,\r",
-						"        toDecimal(0)\r",
-						"    )\r",
-						")) ~> DCcalculINDmuni",
-						"joinNUMERAdenominaCOMARCA derive(ID_INDICADOR = iif(CODI_INDICADOR == \"IND_12_1\", \"IND_12_4011\",\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", \"IND_6_6\",\r",
-						"        \"ND\"\r",
-						"    )\r",
-						"),",
-						"          VALOR_COM = iif(CODI_INDICADOR == \"IND_12_1\", VALOR - VALOR_ant,\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", VALOR * $P_CIEN_MIL / VALOR_ant,\r",
-						"        toDecimal(0)\r",
-						"    )\r",
-						")) ~> DCcalculINDcom",
-						"joinNUMERAdenominaAMBIT derive(ID_INDICADOR = iif(CODI_INDICADOR == \"IND_12_1\", \"IND_12_4011\",\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", \"IND_6_6\",\r",
-						"        \"ND\"\r",
-						"    )\r",
-						"),",
-						"          VALOR_AMB = iif(CODI_INDICADOR == \"IND_12_1\", VALOR - VALOR_ant,\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", VALOR * $P_CIEN_MIL / VALOR_ant,\r",
-						"        toDecimal(0)\r",
-						"    )\r",
-						")) ~> DCcalculINDambitTERR",
-						"joinNUMERAdenominaNACIONAL derive(ID_INDICADOR = iif(CODI_INDICADOR == \"IND_12_1\", \"IND_12_4011\",\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", \"IND_6_6\",\r",
-						"        \"ND\"\r",
-						"    )\r",
-						"),",
-						"          VALOR_NAN = iif(CODI_INDICADOR == \"IND_12_1\", VALOR - VALOR_ant,\r",
-						"    iif(CODI_INDICADOR == \"IND_6_1\", VALOR * $P_CIEN_MIL / VALOR_ant,\r",
-						"        toDecimal(0)\r",
-						"    )\r",
-						")) ~> DCcalculINDnacion",
-						"sBIBden, BIBnum join(CODI_BIBLIOTECA == CODI_BIBLIOTECA_ant",
-						"     && DATA_PERIODE == DATA_PERIODE_ant,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaBIB",
-						"numBIBLIOTECA, denBIBLIOTECA union(byName: true)~> unionDENbibliotecas",
-						"sNACIONALnum, NACIONALden join(DATA_PERIODE == DATA_PERIODE_ant",
-						"     && CODI_INDICADOR == CODI_INDICADOR_ant,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaNACIONAL",
-						"sMUNInum, MUNIden join(INE_MUNICIPI == INE_MUNICIPI_ant",
-						"     && DATA_PERIODE == DATA_PERIODE_ant,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaMUNI",
-						"sDISTnum, DISTden join(ID_DISTRICTE == ID_DISTRICTE_ant",
-						"     && DATA_PERIODE == DATA_PERIODE_ant,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaDIST",
-						"sCOMARCAnum, COMARCAden join(INE_COMARCA == INE_COMARCA_ant",
-						"     && DATA_PERIODE == DATA_PERIODE_ant,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaCOMARCA",
-						"sAMBITnum, AMBITden join(ID_AMBIT_TERRITORIAL == ID_AMBIT_TERRITORIAL_ant",
-						"     && DATA_PERIODE == DATA_PERIODE_ant,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> joinNUMERAdenominaAMBIT",
-						"UNIONcalculINDnacion select(mapColumn(",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_NAN",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NACIONAL",
-						"union5 select(mapColumn(",
-						"          CODI_BIBLIOTECA,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_BIB",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> BIBLIOTECA",
-						"union3 select(mapColumn(",
-						"          INE_MUNICIPI,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_MUN",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> MUNICIPI",
-						"union4 select(mapColumn(",
-						"          ID_DISTRICTE,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_DIS",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> DISTRICTE",
-						"union1 select(mapColumn(",
-						"          INE_COMARCA,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_COM",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> COMARCA",
-						"union2 select(mapColumn(",
-						"          ID_AMBIT_TERRITORIAL,",
-						"          DATA_PERIODE,",
-						"          ID_INDICADOR,",
-						"          VALOR_AMB",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> AMBITterritorial",
-						"BIBLIOTECA, NACIONAL join(BIBLIOTECA@DATA_PERIODE == NACIONAL@DATA_PERIODE,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJnan",
-						"IJbibliotequesDIM, MUNICIPI join(BIBLIOTECA@DATA_PERIODE == MUNICIPI@DATA_PERIODE",
-						"     && DMbegDIMbiblioteques@INE_MUNICIPI == MUNICIPI@INE_MUNICIPI,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJmun",
-						"LJmun, DISTRICTE join(BIBLIOTECA@DATA_PERIODE == DISTRICTE@DATA_PERIODE",
-						"     && DMbegDIMbiblioteques@ID_DISTRICTE == DISTRICTE@ID_DISTRICTE,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJdis",
-						"IJmunicipiDIM, COMARCA join(BIBLIOTECA@DATA_PERIODE == COMARCA@DATA_PERIODE",
-						"     && DMterDIMmunicipi@INE_COMARCA == COMARCA@INE_COMARCA,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJcom",
-						"IJcomarcaDIM, AMBITterritorial join(BIBLIOTECA@DATA_PERIODE == AMBITterritorial@DATA_PERIODE",
-						"     && DMterDIMcomarca@ID_AMBIT_TERRITORIAL == AMBITterritorial@ID_AMBIT_TERRITORIAL,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> LJamb",
-						"dcFLAGinterINTRA select(mapColumn(",
-						"          CODI_BIBLIOTECA = BIBLIOTECA@CODI_BIBLIOTECA,",
-						"          DATA_PERIODE = BIBLIOTECA@DATA_PERIODE,",
-						"          CODI_INDICADOR = BIBLIOTECA@ID_INDICADOR,",
-						"          FLAG_INTER_INTRA,",
-						"          IND_VALOR_BIB = VALOR_BIB,",
-						"          IND_VALOR_DIS = VALOR_DIS,",
-						"          IND_VALOR_MUN = VALOR_MUN,",
-						"          IND_VALOR_COM = VALOR_COM,",
-						"          IND_VALOR_AMB = VALOR_AMB,",
-						"          IND_VALOR_NAN = VALOR_NAN,",
-						"          DESC_TRAM_POBLACIO,",
-						"          DATA_CARREGA",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> selectCOLUMNAS",
-						"ijDESCtramPOBLACIO derive(FLAG_INTER_INTRA = iif($P_FLAG_INTER == 1, 'Interanual', 'Intraanual'),",
-						"          DATA_CARREGA = currentDate()) ~> dcFLAGinterINTRA",
-						"fltINDICADORnumerador derive(FLAG_ACT_ANT = 'ACTUAL') ~> dcINDICADORactual",
-						"fltINDICADORdenominador derive(FLAG_ACT_ANT = 'ANTERIOR') ~> dcINDICADORanterior",
-						"aggVALORnacional filter(FLAG_ACT_ANT == 'ACTUAL') ~> sNACIONALnum",
-						"aggVALORnacional filter(FLAG_ACT_ANT == 'ANTERIOR') ~> sNACIONALden",
-						"aggVALORbib filter(FLAG_ACT_ANT == 'ACTUAL') ~> sBIBden",
-						"aggVALORbib filter(FLAG_ACT_ANT == 'ANTERIOR') ~> sBIBnum",
-						"aggVALORmuni filter(FLAG_ACT_ANT == 'ACTUAL') ~> sMUNInum",
-						"aggVALORmuni filter(FLAG_ACT_ANT == 'ANTERIOR') ~> sMUNIden",
-						"aggVALORdist filter(FLAG_ACT_ANT == 'ACTUAL') ~> sDISTnum",
-						"aggVALORdist filter(FLAG_ACT_ANT == 'ANTERIOR') ~> sDISTden",
-						"aggVALORcomarca filter(FLAG_ACT_ANT == 'ACTUAL') ~> sCOMARCAnum",
-						"aggVALORcomarca filter(FLAG_ACT_ANT == 'ANTERIOR') ~> sCOMARCAden",
-						"aggVALORambit filter(FLAG_ACT_ANT == 'ACTUAL') ~> sAMBITnum",
-						"aggVALORambit filter(FLAG_ACT_ANT == 'ANTERIOR') ~> sAMBITden",
-						"sNACIONALden select(mapColumn(",
-						"          FLAG_NUM_DEM_ant = FLAG_ACT_ANT,",
-						"          CODI_INDICADOR_ant = CODI_INDICADOR,",
-						"          DATA_PERIODE_ant = DATA_PERIODE,",
-						"          VALOR_ant = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> NACIONALden",
-						"sBIBnum select(mapColumn(",
-						"          CODI_BIBLIOTECA_ant = CODI_BIBLIOTECA,",
-						"          CODI_INDICADOR_ant = CODI_INDICADOR,",
-						"          FLAG_NUM_DEM_ant = FLAG_ACT_ANT,",
-						"          DATA_PERIODE_ant = DATA_PERIODE,",
-						"          VALOR_ant = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> BIBnum",
-						"sMUNIden select(mapColumn(",
-						"          INE_MUNICIPI_ant = INE_MUNICIPI,",
-						"          CODI_INDICADOR_ant = CODI_INDICADOR,",
-						"          FLAG_NUM_DEM_ant = FLAG_ACT_ANT,",
-						"          DATA_PERIODE_ant = DATA_PERIODE,",
-						"          VALOR_ant = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> MUNIden",
-						"sDISTden select(mapColumn(",
-						"          ID_DISTRICTE_ant = ID_DISTRICTE,",
-						"          CODI_INDICADOR_ant = CODI_INDICADOR,",
-						"          FLAG_NUM_DEM_ant = FLAG_ACT_ANT,",
-						"          DATA_PERIODE_ant = DATA_PERIODE,",
-						"          VALOR_ant = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> DISTden",
-						"sCOMARCAden select(mapColumn(",
-						"          INE_COMARCA_ant = INE_COMARCA,",
-						"          CODI_INDICADOR_ant = CODI_INDICADOR,",
-						"          FLAG_NUM_DEM_ant = FLAG_ACT_ANT,",
-						"          DATA_PERIODE_ant = DATA_PERIODE,",
-						"          VALOR_ant = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> COMARCAden",
-						"sAMBITden select(mapColumn(",
-						"          ID_AMBIT_TERRITORIAL_ant = ID_AMBIT_TERRITORIAL,",
-						"          CODI_INDICADOR_ant = CODI_INDICADOR,",
-						"          FLAG_NUM_DEM_ant = FLAG_ACT_ANT,",
-						"          DATA_PERIODE_ant = DATA_PERIODE,",
-						"          VALOR_ant = VALOR",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> AMBITden",
-						"LJnan, DMbegDIMbiblioteques join(BIBLIOTECA@CODI_BIBLIOTECA == DMbegDIMbiblioteques@CODI_BIBLIOTECA,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJbibliotequesDIM",
-						"LJdis, DMterDIMmunicipi join(DMbegDIMbiblioteques@INE_MUNICIPI == DMterDIMmunicipi@INE_MUNICIPI,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJmunicipiDIM",
-						"LJcom, DMterDIMcomarca join(DMterDIMmunicipi@INE_COMARCA == DMterDIMcomarca@INE_COMARCA,",
-						"     joinType:'left',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> IJcomarcaDIM",
-						"dcPERIODE filter(CODI_INDICADOR == 'IND_6_4') ~> fltPOBLACION",
-						"fltPOBLACION aggregate(groupBy(CODI_BIBLIOTECA,",
-						"          DATA_PERIODE),",
-						"     VALOR_POBLACIO = sum(IND_VALOR)) ~> aggPOBLACION",
-						"aggPOBLACION derive(DESC_TRAM_POBLACIO = iif(VALOR_POBLACIO < 3000, \"Menys de 3.000 hab.\",\r",
-						"    iif(VALOR_POBLACIO >= 3000 && VALOR_POBLACIO < 5000, \"3.000-5.000 hab.\",\r",
-						"        iif(VALOR_POBLACIO >= 5000 && VALOR_POBLACIO < 10000, \"5.000-10.000 hab.\",\r",
-						"            iif(VALOR_POBLACIO >= 10000 && VALOR_POBLACIO < 20000, \"10.000-20.000 hab.\",\r",
-						"                iif(VALOR_POBLACIO >= 20000 && VALOR_POBLACIO < 30000, \"20.000-30.000 hab.\",\r",
-						"                    iif(VALOR_POBLACIO >= 30000 && VALOR_POBLACIO < 50000, \"30.000-50.000 hab.\",\r",
-						"                        iif(VALOR_POBLACIO >= 50000 && VALOR_POBLACIO < 100000, \"50.000-100.000 hab.\",\r",
-						"                            iif(VALOR_POBLACIO >= 100000 && VALOR_POBLACIO < 200000, \"100.000-200.000 hab.\",\r",
-						"                                iif(VALOR_POBLACIO >= 100000 && VALOR_POBLACIO < 200000, \"Més de 200.000 hab.\",\r",
-						"                                     \"ND\"\r",
-						"                                )\r",
-						"                            )\r",
-						"                        )\r",
-						"                    )\r",
-						"                )\r",
-						"            )\r",
-						"        )\r",
-						"    )\r",
-						")) ~> dcDESCtramPOBLACIO",
-						"LJamb, dcDESCtramPOBLACIO join(BIBLIOTECA@CODI_BIBLIOTECA == aggPOBLACION@CODI_BIBLIOTECA",
-						"     && BIBLIOTECA@DATA_PERIODE == aggPOBLACION@DATA_PERIODE,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> ijDESCtramPOBLACIO",
-						"selectCOLUMNAS alterRow(upsertIf(1==1)) ~> AlterRow1",
-						"DMbegFACTindicadorsANT filter(iif($P_FLAG_INTER == 1,",
-						"    year(addMonths(DATA_PERIODE, 12)) <= year(toDate(toString($P_DATA_FI),\"yyyyMMdd\"))",
-						"    &&",
-						"    year(addMonths(DATA_PERIODE, 12)) >= year(toDate(toString($P_DATA_INI),\"yyyyMMdd\"))",
-						"    ,",
-						"    addMonths(DATA_PERIODE, 12) < addDays(toDate(toString($P_DATA_FI),\"yyyyMMdd\"),1)",
-						"    &&",
-						"    addMonths(DATA_PERIODE, 12) >= toDate(toString($P_DATA_INI),\"yyyyMMdd\")",
-						")) ~> fltDATESant",
-						"fltDATESant derive(DATA_PERIODE = iif($P_FLAG_INTER == 1,\r",
-						"    addMonths(toDate(concat(toString(year(DATA_PERIODE)),\"-12-01\"),\"yyyy-MM-dd\"),12),\r",
-						"    addMonths(DATA_PERIODE ,12)\r",
-						"    )) ~> dcPERIODEant",
-						"filter2 derive(ID_INDICADOR = \"IND_12_4012\",",
-						"          VALOR_NAN = (VALOR - VALOR_ant )* $P_CIEN_MIL /  VALOR_ant) ~> DCcalculINDnacion2",
-						"joinNUMERAdenominaNACIONAL filter(CODI_INDICADOR == \"IND_12_1\") ~> filter2",
-						"DCcalculINDnacion, DCcalculINDnacion2 union(byName: true)~> UNIONcalculINDnacion",
-						"joinNUMERAdenominaCOMARCA filter(CODI_INDICADOR == \"IND_12_1\") ~> filter3",
-						"filter3 derive(ID_INDICADOR = \"IND_12_4012\",",
-						"          VALOR_COM = (VALOR - VALOR_ant )* $P_CIEN_MIL /  VALOR_ant) ~> DCcalculINDcom2",
-						"joinNUMERAdenominaAMBIT filter(CODI_INDICADOR == \"IND_12_1\") ~> filter4",
-						"DCcalculINDcom, DCcalculINDcom2 union(byName: true)~> union1",
-						"filter4 derive(ID_INDICADOR = \"IND_12_4012\",",
-						"          VALOR_AMB = (VALOR - VALOR_ant )* $P_CIEN_MIL /  VALOR_ant) ~> DCcalculINDambitTERR2",
-						"DCcalculINDambitTERR, DCcalculINDambitTERR2 union(byName: true)~> union2",
-						"joinNUMERAdenominaMUNI filter(CODI_INDICADOR == \"IND_12_1\") ~> filter5",
-						"filter5 derive(ID_INDICADOR = \"IND_12_4012\",",
-						"          VALOR_MUN = (VALOR - VALOR_ant )* $P_CIEN_MIL /  VALOR_ant) ~> DCcalculINDmuni2",
-						"DCcalculINDmuni, DCcalculINDmuni2 union(byName: true)~> union3",
-						"joinNUMERAdenominaDIST filter(CODI_INDICADOR == \"IND_12_1\") ~> filter6",
-						"filter6 derive(ID_INDICADOR = \"IND_12_4012\",",
-						"          VALOR_DIS = (VALOR - VALOR_ant )* $P_CIEN_MIL /  VALOR_ant) ~> DCcalculINDdist2",
-						"DCcalculINDdist, DCcalculINDdist2 union(byName: true)~> union4",
-						"joinNUMERAdenominaBIB filter(CODI_INDICADOR == \"IND_12_1\") ~> filter7",
-						"filter7 derive(ID_INDICADOR = \"IND_12_4012\",",
-						"          VALOR_BIB = (VALOR - VALOR_ant )* $P_CIEN_MIL /  VALOR_ant) ~> DCcalculINDbib2",
-						"DCcalculINDbib, DCcalculINDbib2 union(byName: true)~> union5",
-						"AlterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          CODI_BIBLIOTECA as string,",
-						"          DATA_PERIODE as date,",
-						"          CODI_INDICADOR as string,",
-						"          FLAG_INTER_INTRA as string,",
-						"          IND_VALOR_BIB as float,",
-						"          IND_VALOR_DIS as float,",
-						"          IND_VALOR_MUN as float,",
-						"          IND_VALOR_COM as float,",
-						"          IND_VALOR_AMB as float,",
-						"          IND_VALOR_NAN as float,",
-						"          DESC_TRAM_POBLACIO as string,",
-						"          DATA_CARREGA as date",
-						"     ),",
-						"     deletable:false,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:true,",
-						"     keys:['CODI_BIBLIOTECA','DATA_PERIODE','CODI_INDICADOR','FLAG_INTER_INTRA'],",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> DMbegFACTindicadors2"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DF_BEG_DM_INTER_INTRA_IND_9_029')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -5229,6 +3540,203 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> DMFactIndicadors"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_DM_BEG_FACT_INDICADORS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "ODSFactIndicadors"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_FACT_INDICADORS",
+								"type": "DatasetReference"
+							},
+							"name": "DMFactIndicadors"
+						}
+					],
+					"transformations": [],
+					"script": "source(output(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tVALOR as integer,\n\t\tDATA_INSERCIO as date,\n\t\tPERIODE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactIndicadors\nODSFactIndicadors sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_AGENCY as string,\n\t\tCODI_BIBLIOTECA as string,\n\t\tCODI_INDICADOR as string,\n\t\tIND_VALOR as double,\n\t\tDATA_PERIODE as date,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactIndicadors"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_DM_BEG_MUNICIPI')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_DIM_TERRITORIAL_MUNICIPI",
+								"type": "DatasetReference"
+							},
+							"name": "STGMunicipi"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TERRITORIAL_MUNICIPI",
+								"type": "DatasetReference"
+							},
+							"name": "DMMunicipi"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          INE_Municipi as string,",
+						"          INE_Comarca as string,",
+						"          INE_Provincia as string,",
+						"          Nom_Municipi as string,",
+						"          Nom_Municipi_cat as string,",
+						"          CP as string,",
+						"          Altitud as integer,",
+						"          Superficie as decimal(6,2),",
+						"          Cap_Pais as boolean,",
+						"          Cap_Comunitat_Autonoma as boolean,",
+						"          Cap_Provincia as boolean,",
+						"          Cap_Comarca as boolean,",
+						"          IDAmbit as string,",
+						"          cod_sstt as integer,",
+						"          Data_baixa as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> STGMunicipi",
+						"STGMunicipi sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          INE_MUNICIPI as string,",
+						"          INE_COMARCA as string,",
+						"          INE_PROVINCIA as string,",
+						"          DESC_MUNICIPI as string,",
+						"          DESC_MUNICIPI_CAT as string,",
+						"          CP as string,",
+						"          NUM_ALTITUD as integer,",
+						"          NUM_SUPERFICIE as decimal(6,2),",
+						"          FLAG_CAPITAL_PAIS as boolean,",
+						"          FLAG_CAPITAL_COMUNIDAD_AUTONOMA as boolean,",
+						"          FLAG_CAPITAL_PROVINCIA as boolean,",
+						"          FLAG_CAPITAL_COMARCA as boolean,",
+						"          ID_AMBIT_TERRITORIAL as string,",
+						"          CODI_SSTT as integer,",
+						"          DATA_BAIXA as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          INE_MUNICIPI = INE_Municipi,",
+						"          INE_COMARCA = INE_Comarca,",
+						"          INE_PROVINCIA = INE_Provincia,",
+						"          DESC_MUNICIPI = Nom_Municipi,",
+						"          DESC_MUNICIPI_CAT = Nom_Municipi_cat,",
+						"          CP,",
+						"          NUM_ALTITUD = Altitud,",
+						"          NUM_SUPERFICIE = Superficie,",
+						"          FLAG_CAPITAL_PAIS = Cap_Pais,",
+						"          FLAG_CAPITAL_COMUNIDAD_AUTONOMA = Cap_Comunitat_Autonoma,",
+						"          FLAG_CAPITAL_PROVINCIA = Cap_Provincia,",
+						"          FLAG_CAPITAL_COMARCA = Cap_Comarca,",
+						"          ID_AMBIT_TERRITORIAL = IDAmbit,",
+						"          CODI_SSTT = cod_sstt,",
+						"          DATA_BAIXA = Data_baixa",
+						"     )) ~> DMMunicipi"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_DM_BEG_PROVINCIA')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "STG_BEG_DIM_TERRITORIAL_PROVINCIA",
+								"type": "DatasetReference"
+							},
+							"name": "STGProvincia"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DM_BEG_DIM_TERRITORIAL_PROVINCIA",
+								"type": "DatasetReference"
+							},
+							"name": "DMProvincia"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          INE_Provincia as string,",
+						"          INE_Comunitat_Autonoma as string,",
+						"          Nom_Provincia as string,",
+						"          Nom_Provincia_cat as string,",
+						"          Data_baixa as date",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> STGProvincia",
+						"STGProvincia sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          INE_PROVINCIA as string,",
+						"          INE_COMUNITAT_AUTONOMA as string,",
+						"          DESC_PROVINCIA as string,",
+						"          DESC_PROVINCIA_CAT as string,",
+						"          DATA_BAIXA as date",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          INE_PROVINCIA = INE_Provincia,",
+						"          INE_COMUNITAT_AUTONOMA = INE_Comunitat_Autonoma,",
+						"          DESC_PROVINCIA = Nom_Provincia,",
+						"          DESC_PROVINCIA_CAT = Nom_Provincia_cat,",
+						"          DATA_BAIXA = Data_baixa",
+						"     )) ~> DMProvincia"
 					]
 				}
 			},

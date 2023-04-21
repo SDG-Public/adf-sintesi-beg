@@ -13,155 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/CSV_INDICADORS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_INDICADORS.csv",
-						"container": "cltsintesibeg"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CSV_TIME')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "FITXERS"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "BEG_DIM_TIME.csv",
-						"container": "cltsintesibeg"
-					},
-					"columnDelimiter": "|",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "DATA",
-						"type": "String"
-					},
-					{
-						"name": "FLAG_ES_LABORABLE",
-						"type": "String"
-					},
-					{
-						"name": "DATA_ANY",
-						"type": "String"
-					},
-					{
-						"name": "NUM_SEMESTRE",
-						"type": "String"
-					},
-					{
-						"name": "NUM_TRIMESTRE",
-						"type": "String"
-					},
-					{
-						"name": "DATA_ANY_TRIMESTRE",
-						"type": "String"
-					},
-					{
-						"name": "DATA_MES",
-						"type": "String"
-					},
-					{
-						"name": "DATA_MES_NN",
-						"type": "String"
-					},
-					{
-						"name": "DATA_ANY_MES",
-						"type": "String"
-					},
-					{
-						"name": "NUM_DIA",
-						"type": "String"
-					},
-					{
-						"name": "NUM_DIA_DD",
-						"type": "String"
-					},
-					{
-						"name": "NUM_DIA_SEMANA",
-						"type": "String"
-					},
-					{
-						"name": "DESC_MES",
-						"type": "String"
-					},
-					{
-						"name": "DESC_MES_CAT",
-						"type": "String"
-					},
-					{
-						"name": "DESC_DIA",
-						"type": "String"
-					},
-					{
-						"name": "DESC_DIA_CAT",
-						"type": "String"
-					},
-					{
-						"name": "NUM_SEMANA",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_AUTOPRESTECS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DM"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "BEG_DM",
-					"table": "DM_BEG_DIM_AUTOPRESTECS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/DM_BEG_DIM_BIBLIOTEQUES')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2464,6 +2315,72 @@
 				"typeProperties": {
 					"schema": "BEG_DM",
 					"table": "DM_BEG_FACT_PRESTECS_ANUALS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_CATEGORIA_ESP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "DIB_DM",
+					"table": "DM_DIB_DIM_CATEGORIA_ESP"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_DICC_LLOCS_TREBALL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "DIB_DM",
+					"table": "DM_DIB_DIM_DICC_LLOCS_TREBALL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DM_DIB_DIM_DICC_TRACTAMENTS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DM"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "DIB_DM",
+					"table": "DM_DIB_DIM_DICC_TRACTAMENTS"
 				}
 			},
 			"dependsOn": []

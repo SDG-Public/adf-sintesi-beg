@@ -60,78 +60,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Trigger DIBICA Test')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2022-07-27T00:51:00Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"minutes": [
-								0
-							],
-							"hours": [
-								10
-							]
-						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Trigger_beq')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"type": "TumblingWindowTrigger",
-				"typeProperties": {
-					"frequency": "Hour",
-					"interval": 1,
-					"startTime": "2021-11-22T09:25:00Z",
-					"delay": "00:00:00",
-					"maxConcurrency": 50,
-					"retryPolicy": {
-						"intervalInSeconds": 30
-					},
-					"dependsOn": []
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Trigger_xah')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"type": "TumblingWindowTrigger",
-				"typeProperties": {
-					"frequency": "Hour",
-					"interval": 1,
-					"startTime": "2021-11-22T10:44:00Z",
-					"delay": "00:00:00",
-					"maxConcurrency": 50,
-					"retryPolicy": {
-						"intervalInSeconds": 30
-					},
-					"dependsOn": []
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/IntegrationRuntime')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -630,6 +558,418 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TOTAL_USUARIS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Total_Usuaris.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSV_TRANSACCIONS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SFTP_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Año": {
+						"type": "string"
+					},
+					"Mes": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "FITXERS"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "SftpLocation",
+						"fileName": {
+							"value": "@concat(\n\ndataset().Año,\n'_',\ndataset().Mes,\n\n'_Transaccions.csv'\n)",
+							"type": "Expression"
+						},
+						"folderPath": "/iPCBI_x_sharebdd1/SERVEIS/sFTP/CLT/BEG"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SFTP_CLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DIBICA_DIM_BIBLIOTEQUES')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_DIBICA",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DIBICA"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "id_biblioteca",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_usuari",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "codi",
+						"type": "char"
+					},
+					{
+						"name": "id_tipus",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_modul",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "niden",
+						"type": "char"
+					},
+					{
+						"name": "id_estat",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "denominacio",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta_biblio",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "data_baixa_biblio",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_tipus_via",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nom_via",
+						"type": "varchar"
+					},
+					{
+						"name": "numero_via",
+						"type": "varchar"
+					},
+					{
+						"name": "ine_municipi",
+						"type": "varchar"
+					},
+					{
+						"name": "id_districte",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "cp",
+						"type": "varchar"
+					},
+					{
+						"name": "utmx",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "utmy",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "longitud",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "latitud",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "telefon",
+						"type": "varchar"
+					},
+					{
+						"name": "extensio",
+						"type": "varchar"
+					},
+					{
+						"name": "fax",
+						"type": "varchar"
+					},
+					{
+						"name": "email",
+						"type": "varchar"
+					},
+					{
+						"name": "web",
+						"type": "varchar"
+					},
+					{
+						"name": "beg",
+						"type": "bit"
+					},
+					{
+						"name": "slpc",
+						"type": "bit"
+					},
+					{
+						"name": "id_mapa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_categoria",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_titularitat",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "finan_adm_central",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_generalitat",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_diputacio",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_con_comarcal",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_ajuntament",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_universitat",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_privada",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "finan_altres",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "id_forma_acces",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "es_cataleg_colectiu_cclp",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_cclp",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_dip_bcn",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_dip_bcn",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_ccuc",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_ccuc",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_beg",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_beg",
+						"type": "varchar"
+					},
+					{
+						"name": "es_cataleg_colectiu_altres",
+						"type": "bit"
+					},
+					{
+						"name": "web_cataleg_colectiu_altres",
+						"type": "varchar"
+					},
+					{
+						"name": "id_director_tractament",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "director_nom",
+						"type": "varchar"
+					},
+					{
+						"name": "director_primer_cognom",
+						"type": "varchar"
+					},
+					{
+						"name": "director_segon_cognom",
+						"type": "varchar"
+					},
+					{
+						"name": "adaptada",
+						"type": "bit"
+					},
+					{
+						"name": "observacions",
+						"type": "varchar"
+					},
+					{
+						"name": "obs_itineraris",
+						"type": "varchar"
+					},
+					{
+						"name": "data_alta",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_alta",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_modif",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_modif",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "data_baixa",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "id_usuari_baixa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_adscripcio",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_categoria_esp",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "BIBLIOTEQUES"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DB_DIBICA')]"
 			]
 		}
 	]

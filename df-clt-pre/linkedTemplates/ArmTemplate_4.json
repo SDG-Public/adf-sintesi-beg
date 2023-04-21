@@ -13,133 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_LOCATIONS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "CODI_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ID_AGENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TERMINAL",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LOCATION",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "BEG_ODS",
-					"table": "ODS_BEG_DIM_LOCATIONS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ODS_BEG_DIM_REL_P_TYPE_INDICADOR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "DESC_CONSULTA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "P_TYPE",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CODI_INDICADOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ID_INDICADOR",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "BEG_ODS",
-					"table": "ODS_BEG_DIM_REL_P_TYPE_INDICADOR"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ODS_BEG_FACT_INDICADORS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DB_CLT",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "ID_AGENCY",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CODI_BIBLIOTECA",
-						"type": "nvarchar"
-					},
-					{
-						"name": "CODI_INDICADOR",
-						"type": "nvarchar"
-					},
-					{
-						"name": "IND_VALOR",
-						"type": "decimal",
-						"precision": 17,
-						"scale": 6
-					},
-					{
-						"name": "DATA_INSERCIO",
-						"type": "date"
-					},
-					{
-						"name": "DATA_PERIODE",
-						"type": "date"
-					}
-				],
-				"typeProperties": {
-					"schema": "BEG_ODS",
-					"table": "ODS_BEG_FACT_INDICADORS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ODS_BEG_FACT_PRESTECS_INDICADORS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1218,6 +1091,128 @@
 				"typeProperties": {
 					"schema": "BEG_STG",
 					"table": "STG_BEG_DIM_LOCATIONS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_DIM_REL_P_TYPE_INDICADOR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "DESC_CONSULTA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "P_TYPE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CODI_INDICADOR",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_INDICADOR",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "BEG_STG",
+					"table": "STG_BEG_DIM_REL_P_TYPE_INDICADOR"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_DIM_TERRITORIAL_AMBIT_TERRITORIAL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "IDAmbit",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Ambit",
+						"type": "varchar"
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "TER_STG",
+					"table": "STG_TER_DIM_AMBIT_TERRITORIAL"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/STG_BEG_DIM_TERRITORIAL_COMARCA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DB_CLT",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "STG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "INE_Comarca",
+						"type": "varchar"
+					},
+					{
+						"name": "IDAmbit",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Comarca",
+						"type": "varchar"
+					},
+					{
+						"name": "Nom_Comarca_cat",
+						"type": "varchar"
+					},
+					{
+						"name": "cod_sstt",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Data_baixa",
+						"type": "date"
+					}
+				],
+				"typeProperties": {
+					"schema": "TER_STG",
+					"table": "STG_TER_DIM_COMARCA"
 				}
 			},
 			"dependsOn": []
