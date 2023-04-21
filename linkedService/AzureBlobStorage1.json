@@ -15,7 +15,7 @@
 			}
 		},
 		"connectVia": {
-			"referenceName": "IntegrationRuntimeTimeToLive",
+			"referenceName": "IntegrationRuntimeAzure",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
