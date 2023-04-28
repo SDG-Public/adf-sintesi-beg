@@ -4,7 +4,7 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Nombre de instancia de Data Factory",
+			"metadata": "Data Factory name",
 			"defaultValue": "df-clt-pre"
 		},
 		"AKV_properties_typeProperties_baseUrl": {
@@ -51,11 +51,11 @@
 		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
+			"metadata": "URI to storage account containing linked ARM templates"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Token de SAS para la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas"
+			"metadata": "Sas token to storage account containing linked ARM templates"
 		}
 	},
 	"variables": {
