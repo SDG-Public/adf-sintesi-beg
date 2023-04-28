@@ -93,7 +93,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DimDIBICA",
 				"DimDIBICA filter(in([",
-				"'E0018','E0076',",
+				"'E0018',",
 				"  'E0090',",
 				"'E0298',",
 				"'E0308',",
