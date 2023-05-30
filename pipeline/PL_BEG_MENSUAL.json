@@ -97,7 +97,7 @@
 				}
 			},
 			{
-				"name": "PL_BEG_CREA_DATA_ENTRY",
+				"name": "PL_BEG_CREA_DATA_ENTRI",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
